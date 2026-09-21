@@ -1,0 +1,9 @@
+store/
+*.log
+*.out
+*.txt
+articles.json
+harvest_run.out
+test_fetch.py
+debug_store.py
+__pycache__/
