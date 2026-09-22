@@ -20,7 +20,8 @@ import requests
 from bs4 import BeautifulSoup
 from markdownify import markdownify as md
 
-HERE = os.path.dirname(os.path.abspath(__file__))
+TOOLS = os.path.dirname(os.path.abspath(__file__))
+HERE = os.path.dirname(TOOLS)              # 仓库根
 ART_JSON = os.path.join(HERE, 'articles.json')
 STORE = os.path.join(HERE, 'store')
 IMG_DIR = os.path.join(HERE, 'images')

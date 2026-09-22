@@ -13,7 +13,8 @@ sync.py —— 增量同步「无语子点点」的全部文章到 GitHub
 """
 import os, sys, json, time, subprocess, shutil
 
-HERE = os.path.dirname(os.path.abspath(__file__))
+TOOLS = os.path.dirname(os.path.abspath(__file__))
+HERE = os.path.dirname(TOOLS)              # 仓库根
 PY = sys.executable
 
 GIT = r'C:\Users\zhico\.workbuddy\binaries\PortableGit\versions\1.2.0\mingw64\bin\git.exe'
@@ -33,7 +34,7 @@ def run(script, extra_env=None, timeout=3600):
     if extra_env: env.update(extra_env)
     log('-> %s %s' % (script, extra_env or ''))
     t0 = time.time()
-    p = subprocess.run([PY, os.path.join(HERE, script)], cwd=HERE, env=env,
+    p = subprocess.run([PY, os.path.join(TOOLS, script)], cwd=HERE, env=env,
                        capture_output=True, text=True, errors='replace', timeout=timeout)
     dt = time.time() - t0
     tail = (p.stdout or '')[-3000:]

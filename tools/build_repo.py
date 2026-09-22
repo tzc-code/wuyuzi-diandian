@@ -11,8 +11,9 @@ build_repo.py —— 把 store/ 里的已抓正文构建成 GitHub 仓库内容
 import os, re, sys, json, time, hashlib, datetime
 import requests
 
-HERE = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, HERE)
+TOOLS = os.path.dirname(os.path.abspath(__file__))
+HERE = os.path.dirname(TOOLS)              # 仓库根
+sys.path.insert(0, TOOLS)
 import fetch_articles as F
 
 ART_JSON = os.path.join(HERE, 'articles.json')

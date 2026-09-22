@@ -28,7 +28,8 @@ from collections import defaultdict, Counter
 import win32gui, win32con, win32api, win32process
 import uiautomation as auto
 
-HERE = os.path.dirname(os.path.abspath(__file__))
+TOOLS = os.path.dirname(os.path.abspath(__file__))
+HERE = os.path.dirname(TOOLS)              # 仓库根
 LOG = os.path.join(HERE, 'harvest.log')
 OUT = os.path.join(HERE, 'articles.json')
 
