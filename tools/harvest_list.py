@@ -141,6 +141,52 @@ def find_wechat_main():
     return best[0]
 
 
+def weixin_exe():
+    """找 Weixin.exe。可用环境变量 WYZ_WEIXIN_EXE 覆盖"""
+    cands = [os.environ.get('WYZ_WEIXIN_EXE', '')]
+    pf = os.environ.get('ProgramFiles', r'C:\Program Files')
+    pf86 = os.environ.get('ProgramFiles(x86)', r'C:\Program Files (x86)')
+    la = os.environ.get('LOCALAPPDATA', '')
+    cands += [os.path.join(pf, 'Tencent', 'Weixin', 'Weixin.exe'),
+              os.path.join(pf86, 'Tencent', 'Weixin', 'Weixin.exe'),
+              os.path.join(pf, 'Tencent', 'WeChat', 'WeChat.exe')]
+    if la:
+        cands.append(os.path.join(la, 'Tencent', 'Weixin', 'Weixin.exe'))
+    for c in cands:
+        if c and os.path.exists(c):
+            return c
+    return ''
+
+
+def launch_weixin():
+    """微信没在运行时把它拉起来(不杀进程、不碰登录态)。
+    用 os.startfile(ShellExecute) 完全脱离本进程, 避免被父进程回收。
+    注意: 本函数**不能**解决「未登录」——那需要扫码, 只能报告出来。"""
+    exe = weixin_exe()
+    if not exe:
+        return False, '找不到 Weixin.exe (可用 WYZ_WEIXIN_EXE 指定)'
+    if os.environ.get('WYZ_DRY_LAUNCH') == '1':
+        return True, 'DRY-RUN 未真正启动: %s' % exe
+    try:
+        os.startfile(exe)
+        return True, exe
+    except Exception as e:
+        return False, '%s (%s)' % (exe, e)
+
+
+def is_logged_in(main_hwnd):
+    """已登录的微信主窗口有导航栏 ToolBarControl '导航'; 登录窗口没有"""
+    if not main_hwnd: return False
+    try:
+        c = auto.ControlFromHandle(main_hwnd)
+        for d, k in walk(c, maxdepth=8):
+            if _type(k) == 'ToolBarControl' and (k.Name or '').strip() == '导航':
+                return True
+    except Exception:
+        pass
+    return False
+
+
 def wake_main(h, settle=2.0):
     """托盘/最小化 -> 唤醒。
     坑: SW_SHOWNOACTIVATE 对最小化窗口**不生效**, 窗口仍是 iconic, WebView 不渲染,
@@ -190,11 +236,25 @@ class Browser:
         self.pids = set()
 
     def find(self):
-        # 1) 唤醒微信主窗口(最小化时 WebView 不渲染, UIA 里没有 DocumentControl)
+        # 0) 微信没在运行 -> 自己拉起来(注意: 解决不了「未登录」, 那必须扫码)
         self.main = find_wechat_main()
-        self.woke = bool(wake_main(self.main))
-        if self.woke:
-            log('已唤醒微信主窗口 hwnd=%s (SW_RESTORE, 结束时会还原)' % self.main)
+        if not self.main:
+            ok, info = launch_weixin()
+            log('未发现微信主窗口 -> %s' % ('尝试启动 %s' % info if ok else '启动失败: %s' % info))
+            t0 = time.time()
+            while time.time() - t0 < 90:
+                time.sleep(3)
+                self.main = find_wechat_main()
+                if self.main: break
+            if not self.main:
+                log('!! 拉起微信后 90s 内仍未见主窗口, 放弃'); return False
+            log('微信已启动 hwnd=%s' % self.main)
+            self.woke = True                     # 结束时还原为最小化
+        # 1) 唤醒微信主窗口(最小化时 WebView 不渲染, UIA 里没有 DocumentControl)
+        if not self.woke:
+            self.woke = bool(wake_main(self.main))
+            if self.woke:
+                log('已唤醒微信主窗口 hwnd=%s (SW_RESTORE, 结束时会还原)' % self.main)
         # 2) 全桌面扫 DocumentControl(子窗口内的 WebView 也能命中)
         #    唤醒后 WebView 需要几秒重建渲染, 所以轮询等待
         hits, t0 = [], time.time()
@@ -204,6 +264,8 @@ class Browser:
             time.sleep(1.5)
         if not hits:
             log('扫描 25s 未发现 WeChatAppEx 渲染的页面')
+            log('  微信登录态: %s' % ('已登录' if is_logged_in(self.main)
+                                     else '**未登录(或仍在登录窗口)** -> 需要人工扫码'))
         # 主页优先, 其次是文章页(文章页能点名片回主页)
         hits.sort(key=lambda t: 0 if PROFILE_MARK in t[1] else 1)
         if hits:
@@ -478,8 +540,9 @@ def main():
         log('=== harvest start %s ===' % time.strftime('%Y-%m-%d %H:%M:%S'))
         b = Browser()
         if not b.find():
-            log('!! 找不到微信内置浏览器 WebView。前置条件: Weixin.exe 已登录, '
-                '且本机打开过该号主页或任意一篇文章(WebView 才会被创建)')
+            log('!! 找不到该号的 WebView。检查顺序:')
+            log('   ① 微信未登录 -> 需人工扫码(脚本只能启动微信, 没法登录)')
+            log('   ② 已登录但没有该号 WebView -> 需人工在微信里打开一次该号主页/任意文章')
             return
         log('browser hwnd=%s pid=%s rect=%s' % (b.hwnd, sorted(b.pids), b.rect()))
         b.focus()
