@@ -17,13 +17,17 @@
   2. 唤醒后 WebView 需数秒重建渲染 → 必须轮询等待（脚本上限 25s）。
   3. 同机存在**别家客户端的微信文章窗口**（Wind 的 `wmain.exe`）→ 必须按渲染进程 `WeChatAppEx.exe` 过滤。
 - 另修：内嵌 WebView 上 `WindowFromPoint` 常命中 Chromium 的 `Intermediate D3D Window`，`PostMessage` 被丢弃
-  → 旧 click 必然 MISS。改为 real(真实鼠标) → host(直投渲染窗口) → point 三策略 + URL 校验。
+  → 旧 click 必然 MISS。改为 real(真实鼠标) → host(直投渲染窗口) → point 三策略 + 页面校验。
   并放宽 `goto_profile`（名片在文章页不一定暴露成 HyperlinkControl，账号名只是 TextControl）。
-- **改后实测（最小化状态起测）**：唤醒 → 命中 WebView(hwnd=31396902/8851090, pid 5428, 类 Chrome_RenderWidgetHostHWND)
-  → 读到 `weixin://resourceid/SubscriptionProfile/profile.html?...&userName=gh_63f74aa734f8` → 停在主页
-  → `articles()` 解析出列表（10 项，行距 331px，最新「石油和粮食」y=818）✓
-- 待验证：点击打开文章 / 名片回主页（测试中途该号 WebView 面板被关闭，微信里已无该面板，无法继续实测）。
-- 09:35 复跑 sync：面板已关闭 → 0 新文章；commit `b60fc6d`（含脚本修复）已 push，origin/main 一致。
+- **第 6 个坑（最隐蔽）**：微信**每跳一次页就新建一个 WebView 实例**（hwnd 每次都不同，
+  实测 8851090 → 18418420 → 24511464 → 86573558）。因此**旧 doc 的 URL 永远不变**，
+  所有「跳转是否成功」的校验都必须**重扫全部 WeChatAppEx 页面并重绑**（`_rebind()` / `wait_page()`），
+  否则会把成功的点击误判成失败。这一条是最后卡住的点。
+- **改后全链路实测通过**（最小化状态起测，2026-09-23 09:40:55）：
+  唤醒 → 命中 WebView → 读 profile URL → `articles()` 解析列表（10 项，行距 331px，最新「石油和粮食」y=818）
+  → 点击（生效方式 real/host 都出现过）→ 重绑新实例 → 取到 `mid=2247484330`（已知）→ **增量结束** ✓
+- 结论：**今天确实没有新文章**（最新仍是 2026-09-18 的「石油和粮食」，已在库里），0 新增是正确结果而非失败。
+- 09:42 复跑 sync：harvest 9s / fetch 76 篇 92s / build 76 → commit `5fd2844`（含脚本修复）已 push，origin/main 一致。
 
 ### 2026-09-23 08:00-08:04
 - Weixin.exe 运行中（PID 31284）→ 未跳过。harvest 失败（报「找不到微信内置浏览器窗口」），0 新文章。
