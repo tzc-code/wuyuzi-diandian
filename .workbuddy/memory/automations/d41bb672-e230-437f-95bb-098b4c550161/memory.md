@@ -60,3 +60,17 @@
 - 快速判别：全桌面扫 `DocumentControl`，看 Value 是否含 `SubscriptionProfile/profile.html` / `mp.weixin.qq.com/s`。
 - 残留依赖：该号 WebView 面板必须存在；若微信重启后面板丢失，需人工打开一次（脚本会明确报错）。
   要彻底无人值守，下一步需加「截图 + OCR 视觉驱动点开公众号」（UIA 做不到）。
+
+## 2026-09-23 11:45 追加：降低微信依赖 + 端到端验证收官
+- 新增「微信没开就自己拉起来」：`weixin_exe()` / `launch_weixin()`（`os.startfile` 完全脱离本进程）/ `is_logged_in()`。
+  找不到主窗口 → 启动 Weixin.exe → 等最多 90s；抓不到 WebView 时日志**区分「未登录」与「面板没开」**。
+  可用 `WYZ_WEIXIN_EXE` 指定路径、`WYZ_DRY_LAUNCH=1` 空跑。
+  **边界：脚本能启动微信但没法登录（需扫码）。**
+- **全链路端到端验证通过**（11:43:25 起跑，含此前唯一未验证的「名片回主页」）：
+  命中时页面在**独立窗口形态**(rect=(0,42,1079,883)) → 点名片 → 重绑新实例 hwnd=2033582 → 回主页
+  → 点击(real) → 重绑 hwnd=2888510 → mid=2247484330(已知) → 增量结束 → 自动还原最小化 ✓
+- commit `4bcf547`（tools/harvest_list.py +75/-7）已 push，origin/main 一致。
+- 免微信最终裁定（应大王之问）：**正文 ✅**（最简 6 参 `biz+mid+idx+sn+chksm+scene`）；
+  **发现 ❌**（`chksm` 每次打开都变=服务端会话凭据，`sn`+`chksm` 均每篇独有 → mid 探测废；
+  新增封死：文章页只有作者旧文内链、`getprofilebizrecommend`/`getbizbanner` 验证页、`homepage` 错误页、搜索引擎未收录）。
+  ⇒ 「不依赖微信 PC 客户端」可行（第三方持 cookie 服务，需一次扫码）；「不依赖微信登录」不可能。
