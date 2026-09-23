@@ -17,6 +17,16 @@
 - git：仅有 README 时间戳变更 → commit `a420798`，push 成功，origin/main 一致。
 - 结论：新增文章 0 篇；链路本身健康，唯一断点在 harvest（缺微信文章窗口）。
 
+## ⚠️ 2026-09-23 更正（重要，勿再按旧结论诊断）
+上面「失败原因 = 微信里没打开该号文章窗口」是**误判**。真正的根因（已实测确认）：
+1. 微信 4.0 内置浏览器是**主窗口的子窗口**（`Chrome_WidgetWin_0`，渲染进程 `WeChatAppEx.exe`），
+   而旧 `find()` 只 `EnumWindows` 顶层窗口 → **即使窗口存在也找不到**；
+2. 微信**最小化到托盘时 WebView 不渲染**，UIA 里没有 DocumentControl → 必须先 `SW_RESTORE` 唤醒
+   （`SW_SHOWNOACTIVATE` 无效），抓完还原最小化；
+3. 必须按渲染进程 `WeChatAppEx.exe` 过滤，否则会误抓 Wind(`wmain.exe`) 的微信文章窗口。
+已改 `tools/harvest_list.py`（commit `b60fc6d`）。完整记录见
+`automations/d41bb672-e230-437f-95bb-098b4c550161/memory.md`。
+
 ## 关键经验
 - 判定「微信未启动」只看 Weixin.exe；但**进程在 ≠ 可抓取**。真正前置条件是
   「微信里已打开过该号任意一篇文章」（内置浏览器窗口存在）。二者需分开判断。

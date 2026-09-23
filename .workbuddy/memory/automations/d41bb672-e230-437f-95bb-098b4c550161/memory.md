@@ -7,26 +7,52 @@
 
 ## 执行历史
 
+### 2026-09-23 09:18-09:35（根因定位 + 修复）
+- **07:59 结论修正**：08:00 那次判定的「前置条件缺失」是**误判**。真正根因是脚本找窗口的方式失效——
+  微信 4.0 的内置浏览器**是主窗口的子窗口**（`Chrome_WidgetWin_0` / `Chrome_RenderWidgetHostHWND`，
+  渲染进程 `WeChatAppEx.exe`，PID ≠ 微信主进程），而原 `find()` 只 `EnumWindows` **顶层**窗口。
+- 另外两条致命细节：
+  1. **主窗口最小化到托盘时 WebView 不渲染**，UIA 树里没有 `DocumentControl` → 必须先唤醒主窗口。
+     坑：`SW_SHOWNOACTIVATE` 对最小化窗口**不生效**（窗口仍 iconic），必须 `SW_RESTORE`；脚本结束时还原为最小化。
+  2. 唤醒后 WebView 需数秒重建渲染 → 必须轮询等待（脚本上限 25s）。
+  3. 同机存在**别家客户端的微信文章窗口**（Wind 的 `wmain.exe`）→ 必须按渲染进程 `WeChatAppEx.exe` 过滤。
+- 另修：内嵌 WebView 上 `WindowFromPoint` 常命中 Chromium 的 `Intermediate D3D Window`，`PostMessage` 被丢弃
+  → 旧 click 必然 MISS。改为 real(真实鼠标) → host(直投渲染窗口) → point 三策略 + URL 校验。
+  并放宽 `goto_profile`（名片在文章页不一定暴露成 HyperlinkControl，账号名只是 TextControl）。
+- **改后实测（最小化状态起测）**：唤醒 → 命中 WebView(hwnd=31396902/8851090, pid 5428, 类 Chrome_RenderWidgetHostHWND)
+  → 读到 `weixin://resourceid/SubscriptionProfile/profile.html?...&userName=gh_63f74aa734f8` → 停在主页
+  → `articles()` 解析出列表（10 项，行距 331px，最新「石油和粮食」y=818）✓
+- 待验证：点击打开文章 / 名片回主页（测试中途该号 WebView 面板被关闭，微信里已无该面板，无法继续实测）。
+- 09:35 复跑 sync：面板已关闭 → 0 新文章；commit `b60fc6d`（含脚本修复）已 push，origin/main 一致。
+
 ### 2026-09-23 08:00-08:04
-- Weixin.exe 运行中（PID 31284，标题「微信X」）→ 未跳过。
-- **harvest_list.py 失败**：`找不到微信内置浏览器窗口 (请先在微信里打开该号任意一篇文章)`，08:02:26。
-- 独立探测复核：枚举全部 Chrome_WidgetWin 窗口共 56 个，**无任何属于 PID 31284 的窗口**，
-  也无 mp.weixin.qq.com / weixin://resourceid 文档 → 前置条件确凿缺失，非偶发。
-  未重试（失败为瞬时返回，条件未变，重试无意义；规程上限 2 次）。
-- fetch_articles.py：76/76 全 OK（imgs=0）。build_repo.py：built=76 / skipped=0，index 未变。
-- git：commit `1dabaac`（3 files changed，全部是 .workbuddy/memory 文件 + README 时间戳），push 成功，origin/main 一致。
-- 结论：新增文章 0 篇。
+- Weixin.exe 运行中（PID 31284）→ 未跳过。harvest 失败（报「找不到微信内置浏览器窗口」），0 新文章。
+- commit `1dabaac` 已 push，origin/main 一致。
 
 ### 2026-09-22 22:00-22:04
-- 同样在 harvest 环节失败（缺微信文章窗口），重试 1 次结果一致。commit `a420798`，push 成功。新增 0 篇。
+- 同样在 harvest 环节失败，重试 1 次结果一致。commit `a420798`，push 成功。新增 0 篇。
+
+## 已实测封死「不依赖微信」的所有路径（2026-09-23）
+结论：**列表发现必须持有微信会话凭据，没有免登录的第二条路。**
+| 路径 | 结果 |
+|---|---|
+| 无会话 `profile_ext?action=home` | ❌ 返回「验证」页 |
+| `action=getmsg` + 旧 key | ❌ `ret:-3 no session` |
+| 裸 HTTP 取单篇正文 | ✅ 可行 |
+| 去掉 `chksm` | ❌ 17KB 空壳页（chksm 硬门槛，无法本地推算 → mid 递增探测不可行） |
+| 移动 UA(`MicroMessenger`) + 完整参数 | ❌ 「请在微信客户端打开链接」 |
+| 合集 `appmsgalbum` / `album_id` | ❌ 该号未开合集（只在 JS 模板里出现） |
+| 搜狗微信 | ❌ 「暂无与该号相关的官方认证订阅号」 |
+| 普通浏览器(无微信 cookie) | ❌ 同 profile_ext |
 
 ## 关键经验
 - 判定「微信未启动」只看 Weixin.exe；但**进程在 ≠ 可抓取**。真正前置条件是
-  「微信里已打开过该号任意一篇文章」（内置浏览器窗口存在）。二者需分开判断。
-- harvest 失败时脚本 rc=0，不会中断 sync 流程；不能用退出码判断成败，**必须读 harvest.log 末行**。
-  sync.py 末尾的 git 步骤仍会照常执行（只改 README 时间戳 + memory 文件）。
-- 无新增文章的正常输出是「无变更, 跳过 commit/push」；若出现 commit 但只有 README/memory 变更，
-  说明 harvest 静默失败了，不是真有新内容。
-- 快速判别命令（不跑全流程）：枚举 Chrome_WidgetWin 窗口并比对 PID 31284 与文档 URL。
-- 连续两天同一断点 → 属结构性缺陷，需大王决策：① 同步前保持一篇该号文章窗口打开；
-  或 ② 改造 harvest_list.py 使其自身能打开文章窗口（当前脚本无此能力）。
+  **微信里该号的 WebView(主页或文章页)存在**。三者分开判断。
+- harvest 失败时脚本 rc=0，不中断 sync；不能用退出码判断成败，**必须读 harvest.log 末行**。
+- 无新增文章的**正常**输出是「无变更, 跳过 commit/push」；若出现 commit 但只有 README/memory 变更，
+  说明 harvest 静默失败了。
+- 微信 4.0 = Qt 自绘主界面（UIA 只暴露导航栏/标题栏按钮，**聊天列表与搜索框完全不可读**），
+  但**内置 WebView 的 DOM 完全可读**（能拿 URL + 全部文本节点，含 阅读N 赞N）。
+- 快速判别：全桌面扫 `DocumentControl`，看 Value 是否含 `SubscriptionProfile/profile.html` / `mp.weixin.qq.com/s`。
+- 残留依赖：该号 WebView 面板必须存在；若微信重启后面板丢失，需人工打开一次（脚本会明确报错）。
+  要彻底无人值守，下一步需加「截图 + OCR 视觉驱动点开公众号」（UIA 做不到）。

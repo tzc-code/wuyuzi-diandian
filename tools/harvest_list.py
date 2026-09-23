@@ -309,17 +309,37 @@ class Browser:
         win32gui.PostMessage(target, win32con.WM_LBUTTONUP, 0, lp)
         return True, method
 
-    def open_item(self, x, y, timeout=8.0):
-        """点开一篇列表文章: 三种投递方式依次试, 每次用 URL 是否变成文章页来验证。
-        返回 (ok, 生效方式, url)"""
+    def _rebind(self, mark):
+        """重扫所有 WeChatAppEx 页面, 发现含 mark 的页面就把 self 绑过去。
+        实测: 微信**每跳一次页就新建一个 WebView 实例**(hwnd 每次都不同),
+        旧 doc 的 URL 永远不变 -> 任何「跳转校验」都必须靠重扫, 否则必然误判。"""
+        for d, u, h in scan_wechat_docs():
+            if mark in u:
+                if h != self.hwnd:
+                    log('    (重绑到新 WebView 实例 hwnd=%s)' % h)
+                self.doc, self.hwnd, self.win = d, h, d
+                return u
+        return ''
+
+    def wait_page(self, mark, timeout=18.0, step=1.0):
+        """等待页面切到含 mark 的 URL(原地导航 或 新实例都算)"""
+        t0 = time.time()
+        while time.time() - t0 < timeout:
+            u = self.url()
+            if mark in u: return u
+            u = self._rebind(mark)
+            if u: return u
+            time.sleep(step)
+        return ''
+
+    def open_item(self, x, y, timeout=10.0):
+        """点开一篇列表文章。三种投递方式依次试, 用「是否出现文章页」验证
+        (含新实例重扫)。返回 (ok, 生效方式, url)"""
         for method in ('real', 'host', 'point'):
             self.click(x, y, method)
-            t0 = time.time()
-            while time.time() - t0 < timeout:
-                time.sleep(0.4)
-                u = self.url()
-                if ARTICLE_MARK in u and 'index.html' not in u:
-                    return True, method, u
+            u = self.wait_page(ARTICLE_MARK, timeout)
+            if u and 'index.html' not in u:
+                return True, method, u
         return False, 'all-failed', self.url()
 
     # ---- 列表 ----
@@ -378,7 +398,8 @@ class Browser:
                 except Exception:
                     r = c.BoundingRectangle
                     self.click((r.left + r.right) // 2, (r.top + r.bottom) // 2, 'real')
-                if self.wait_url(lambda u: PROFILE_MARK in u, 8): return True
+                # 回主页同样是新实例 -> 用重扫式等待
+                if self.wait_page(PROFILE_MARK, 18): return True
             time.sleep(0.5)
         return self.on_profile()
 
