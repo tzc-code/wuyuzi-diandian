@@ -23,7 +23,7 @@ harvest_list.py —— 抓取「无语子点点」公众号全部文章链接
 
 输出: articles.json  [ {idx,title,page_title,date,url} ]
 """
-import os, sys, time, json, re, traceback
+import os, sys, time, json, re, traceback, ctypes
 from collections import defaultdict, Counter
 import win32gui, win32con, win32api, win32process
 import uiautomation as auto
@@ -82,14 +82,140 @@ def doc_of(h):
             except Exception: return c, None
     return None, None
 
+# ================================================================ 微信内置浏览器定位
+# 2026-09-23 重写。原实现(只 EnumWindows 顶层 + 类名 Chrome_WidgetWin)在微信 4.0
+# 上必然失败, 实测三条:
+#   1) 内置浏览器(WebView)是**主窗口的子窗口**(WS_CHILD), EnumWindows 看不见;
+#   2) 主窗口最小化到托盘时 WebView 不渲染, UIA 树里根本没有 DocumentControl
+#      -> 必须先唤醒主窗口(SW_RESTORE, 结束时还原);
+#   3) 同机还有别的"微信文章"窗口(如 Wind 的 wmain.exe), 必须按渲染进程
+#      WeChatAppEx.exe 过滤, 否则会误抓别人家的页面。
+WEIXIN_BROWSER_EXE = 'wechatappex.exe'      # RadiumWMPF 运行时, 微信内置浏览器专属
+MAIN_TITLES = ('微信', 'Weixin')
+
+
+def _exe_name(pid):
+    """进程可执行文件名。注意: create_unicode_buffer 在 ctypes 下, 不在 ctypes.wintypes"""
+    try:
+        h = ctypes.windll.kernel32.OpenProcess(0x1000, False, pid)   # PROCESS_QUERY_LIMITED_INFORMATION
+        if not h: return ''
+        buf = ctypes.create_unicode_buffer(1024)
+        n = ctypes.c_uint32(1024)
+        ok = ctypes.windll.kernel32.QueryFullProcessImageNameW(h, 0, buf, ctypes.byref(n))
+        ctypes.windll.kernel32.CloseHandle(h)
+        return os.path.basename(buf.value) if ok else ''
+    except Exception:
+        return ''
+
+
+def _doc_value(ctrl):
+    try: return ctrl.GetValuePattern().Value or ''
+    except Exception: return ''
+
+
+def _nearest_hwnd(ctrl, maxup=16):
+    """沿父链找到第一个带真实窗口句柄的控件 = WebView 渲染窗口"""
+    p = ctrl
+    for _ in range(maxup):
+        try: p = p.GetParentControl()
+        except Exception: return 0
+        if p is None: return 0
+        try:
+            if p.NativeWindowHandle: return p.NativeWindowHandle
+        except Exception: pass
+    return 0
+
+
+def find_wechat_main():
+    """定位微信主窗口。用 GetWindowPlacement 的还原尺寸评分, 最小化也不会误判小弹窗"""
+    best = [None, 0]
+    def cb(h, _):
+        try:
+            if win32gui.GetWindowText(h) not in MAIN_TITLES: return
+            if not win32gui.GetClassName(h).startswith('Qt'): return
+            r = win32gui.GetWindowPlacement(h)[4]
+            area = (r[2] - r[0]) * (r[3] - r[1])
+            if area > best[1]: best[0], best[1] = h, area
+        except Exception: pass
+    win32gui.EnumWindows(cb, None)
+    return best[0]
+
+
+def wake_main(h, settle=2.0):
+    """托盘/最小化 -> 唤醒。
+    坑: SW_SHOWNOACTIVATE 对最小化窗口**不生效**, 窗口仍是 iconic, WebView 不渲染,
+    UIA 树里就没有 DocumentControl。必须用 SW_RESTORE。"""
+    if not h: return False
+    try:
+        if win32gui.IsIconic(h) or not win32gui.IsWindowVisible(h):
+            win32gui.ShowWindow(h, win32con.SW_RESTORE)
+            time.sleep(settle)
+            return True
+    except Exception: pass
+    return False
+
+
+def scan_wechat_docs(maxdepth=15):
+    """全桌面 UIA 扫描, 返回 [(doc, url, hwnd)]; 只认 WeChatAppEx.exe 渲染的页面"""
+    root = auto.GetRootControl()
+    stack, out = [(root, 0)], []
+    while stack:
+        x, d = stack.pop()
+        if d > maxdepth: continue
+        try: kids = x.GetChildren()
+        except Exception: continue
+        for k in kids:
+            try:
+                if k.ControlTypeName == 'DocumentControl':
+                    u = _doc_value(k)
+                    if u and ('weixin://resourceid' in u or 'mp.weixin.qq.com' in u):
+                        hw = _nearest_hwnd(k)
+                        if hw:
+                            pid = win32process.GetWindowThreadProcessId(hw)[1]
+                            if _exe_name(pid).lower() == WEIXIN_BROWSER_EXE:
+                                out.append((k, u, hw))
+            except Exception: pass
+            stack.append((k, d + 1))
+    return out
+
+
 class Browser:
     """定位并持有微信内置浏览器窗口"""
     def __init__(self):
         self.hwnd = None
         self.win = None
+        self.doc = None
+        self.main = None
+        self.woke = False
         self.pids = set()
 
     def find(self):
+        # 1) 唤醒微信主窗口(最小化时 WebView 不渲染, UIA 里没有 DocumentControl)
+        self.main = find_wechat_main()
+        self.woke = bool(wake_main(self.main))
+        if self.woke:
+            log('已唤醒微信主窗口 hwnd=%s (SW_RESTORE, 结束时会还原)' % self.main)
+        # 2) 全桌面扫 DocumentControl(子窗口内的 WebView 也能命中)
+        #    唤醒后 WebView 需要几秒重建渲染, 所以轮询等待
+        hits, t0 = [], time.time()
+        while time.time() - t0 < 25:
+            hits = scan_wechat_docs()
+            if hits: break
+            time.sleep(1.5)
+        if not hits:
+            log('扫描 25s 未发现 WeChatAppEx 渲染的页面')
+        # 主页优先, 其次是文章页(文章页能点名片回主页)
+        hits.sort(key=lambda t: 0 if PROFILE_MARK in t[1] else 1)
+        if hits:
+            self.doc, u, self.hwnd = hits[0]
+            self.win = self.doc
+            _, pid = win32process.GetWindowThreadProcessId(self.hwnd)
+            self.pids.add(pid)
+            log('命中 WebView: hwnd=%s pid=%s cls=%s' %
+                (self.hwnd, pid, win32gui.GetClassName(self.hwnd)))
+            log('  url = %r' % u[:140])
+            return True
+        # 3) 兼容: 独立窗口形态(顶层 Chrome_WidgetWin)
         cands = []
         win32gui.EnumWindows(
             lambda h, _: (cands.append(h)
@@ -100,29 +226,48 @@ class Browser:
             if not u: continue
             if 'weixin://resourceid' in u or 'mp.weixin.qq.com' in u:
                 _, pid = win32process.GetWindowThreadProcessId(h)
+                if _exe_name(pid).lower() != WEIXIN_BROWSER_EXE: continue
+                self.hwnd, self.win = h, auto.ControlFromHandle(h)
                 self.pids.add(pid)
-                if self.hwnd is None:
-                    self.hwnd, self.win = h, auto.ControlFromHandle(h)
-        return self.hwnd is not None
+                log('命中独立窗口 hwnd=%s pid=%s' % (h, pid))
+                return True
+        return False
 
     def url(self):
-        return doc_of(self.hwnd)[1] or ''
+        u = _doc_value(self.doc) if self.doc is not None else ''
+        if u: return u
+        try:
+            return doc_of(self.hwnd)[1] or ''
+        except Exception:
+            return ''
 
     def title(self):
-        return (doc_of(self.hwnd)[0].Name or '').strip() if doc_of(self.hwnd)[0] else ''
+        try:
+            if self.doc is not None:
+                return (self.doc.Name or '').strip()
+        except Exception: pass
+        try:
+            c = doc_of(self.hwnd)[0]
+            return (c.Name or '').strip() if c else ''
+        except Exception:
+            return ''
 
     def on_profile(self):
         return PROFILE_MARK in self.url()
 
     def focus(self):
-        h = self.hwnd
+        """把微信主窗口置前(WebView 才稳定吃滚动/点击)。self.hwnd 是子窗口,
+        SetForegroundWindow 对它无效, 要用主窗口"""
+        h = self.main
+        if not h:
+            try: h = win32gui.GetAncestor(self.hwnd, win32con.GA_ROOT)
+            except Exception: h = self.hwnd
         try:
             if win32gui.IsIconic(h): win32gui.ShowWindow(h, win32con.SW_RESTORE)
-            win32gui.ShowWindow(h, win32con.SW_RESTORE)
             win32gui.BringWindowToTop(h)
             win32gui.SetForegroundWindow(h)
         except Exception: pass
-        time.sleep(0.5)
+        time.sleep(0.6)
 
     def rect(self):
         return win32gui.GetWindowRect(self.hwnd)
@@ -142,23 +287,45 @@ class Browser:
             n -= k
             time.sleep(0.12)
 
-    def click(self, x, y):
-        """PostMessage 到命中窗口(渲染窗口)"""
+    def click(self, x, y, method='real'):
+        """点击 WebView。三种投递方式:
+          real  = 真实鼠标事件(SetCursorPos + mouse_event)。滚轮本来就是真实事件且有效
+          host  = PostMessage 直投渲染窗口 Chrome_RenderWidgetHostHWND
+          point = PostMessage 投给 WindowFromPoint 命中的窗口(旧逻辑)
+        2026-09-23: 内嵌 WebView 上 WindowFromPoint 常命中 Chromium 的
+        Intermediate D3D Window, 消息会被丢弃 -> 旧逻辑必然 MISS, 故以 real 优先。"""
         x, y = int(x), int(y)
-        h_at = win32gui.WindowFromPoint((x, y))
-        if not h_at: return False, 'no-window'
-        cls = win32gui.GetClassName(h_at)
-        cx, cy = win32gui.ScreenToClient(h_at, (x, y))
+        if method == 'real':
+            win32api.SetCursorPos((x, y)); time.sleep(0.25)
+            win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0); time.sleep(0.09)
+            win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP, 0, 0, 0, 0)
+            return True, 'real'
+        target = self.hwnd if method == 'host' else win32gui.WindowFromPoint((x, y))
+        if not target: return False, 'no-window'
+        cx, cy = win32gui.ScreenToClient(target, (x, y))
         lp = win32api.MAKELONG(cx, cy)
-        win32gui.PostMessage(h_at, win32con.WM_MOUSEMOVE, 0, lp); time.sleep(0.13)
-        win32gui.PostMessage(h_at, win32con.WM_LBUTTONDOWN, win32con.MK_LBUTTON, lp); time.sleep(0.10)
-        win32gui.PostMessage(h_at, win32con.WM_LBUTTONUP, 0, lp)
-        return True, cls
+        win32gui.PostMessage(target, win32con.WM_MOUSEMOVE, 0, lp); time.sleep(0.13)
+        win32gui.PostMessage(target, win32con.WM_LBUTTONDOWN, win32con.MK_LBUTTON, lp); time.sleep(0.10)
+        win32gui.PostMessage(target, win32con.WM_LBUTTONUP, 0, lp)
+        return True, method
+
+    def open_item(self, x, y, timeout=8.0):
+        """点开一篇列表文章: 三种投递方式依次试, 每次用 URL 是否变成文章页来验证。
+        返回 (ok, 生效方式, url)"""
+        for method in ('real', 'host', 'point'):
+            self.click(x, y, method)
+            t0 = time.time()
+            while time.time() - t0 < timeout:
+                time.sleep(0.4)
+                u = self.url()
+                if ARTICLE_MARK in u and 'index.html' not in u:
+                    return True, method, u
+        return False, 'all-failed', self.url()
 
     # ---- 列表 ----
     def articles(self):
         texts = []
-        for d, c in walk(self.win):
+        for d, c in walk(self.win, maxdepth=30):
             if _type(c) == 'TextControl': texts.append(c)
         res = []
         for j, c in enumerate(texts):
@@ -188,24 +355,30 @@ class Browser:
             time.sleep(step)
         return None
 
-    def goto_profile(self, timeout=14.0):
-        """唯一可靠的回主页方式: 点文章页顶部公众号名片"""
+    def goto_profile(self, timeout=20.0):
+        """唯一可靠的回主页方式: 点文章页顶部的公众号名片。
+        2026-09-23: 名片在 UIA 里不一定暴露成 HyperlinkControl(实测文章页只把
+        '全部/贴图/文章' 暴露成 Hyperlink, 账号名只是 TextControl), 所以两类都收。"""
         if self.on_profile(): return True
         t0 = time.time()
         while time.time() - t0 < timeout:
-            for d, c in walk(self.win):
-                if _type(c) != 'HyperlinkControl': continue
+            cands = []
+            for d, c in walk(self.win, maxdepth=30):
+                if _type(c) not in ('HyperlinkControl', 'TextControl'): continue
                 try:
-                    if (c.Name or '').strip() != ACCOUNT: continue
+                    if ACCOUNT not in (c.Name or '').strip(): continue
+                    r = c.BoundingRectangle
+                    if r and r.right > r.left and r.bottom > r.top:
+                        cands.append((r.top, c))
                 except Exception:
                     continue
+            for _, c in sorted(cands, key=lambda t: t[0]):
                 try:
                     c.GetInvokePattern().Invoke()
                 except Exception:
                     r = c.BoundingRectangle
-                    if r and r.right > r.left:
-                        self.click((r.left + r.right) // 2, (r.top + r.bottom) // 2)
-                if self.wait_url(lambda u: PROFILE_MARK in u, 10): return True
+                    self.click((r.left + r.right) // 2, (r.top + r.bottom) // 2, 'real')
+                if self.wait_url(lambda u: PROFILE_MARK in u, 8): return True
             time.sleep(0.5)
         return self.on_profile()
 
@@ -279,11 +452,14 @@ class Browser:
 
 # ---------------------------------------------------------------- 主流程
 def main():
+    b = None
     try:
         log('=== harvest start %s ===' % time.strftime('%Y-%m-%d %H:%M:%S'))
         b = Browser()
         if not b.find():
-            log('!! 找不到微信内置浏览器窗口 (请先在微信里打开该号任意一篇文章)'); return
+            log('!! 找不到微信内置浏览器 WebView。前置条件: Weixin.exe 已登录, '
+                '且本机打开过该号主页或任意一篇文章(WebView 才会被创建)')
+            return
         log('browser hwnd=%s pid=%s rect=%s' % (b.hwnd, sorted(b.pids), b.rect()))
         b.focus()
         log('url = %r' % b.url()[:130])
@@ -315,13 +491,13 @@ def main():
                 if r is None:
                     log('  列表到底 (idx=%d), 结束' % idx); break
                 log('>>> [idx %d] %r y=%d' % (idx, got_title, r.top))
-                ok, cls = b.click((r.left + r.right) // 2, (r.top + r.bottom) // 2)
+                t_click = time.time()
+                ok, how, u1 = b.open_item((r.left + r.right) // 2, (r.top + r.bottom) // 2)
+                dt = time.time() - t_click
                 if not ok:
-                    log('    click 失败(%s)' % cls); miss += 1; idx += 1; continue
-                dt = b.wait_url(lambda u: ARTICLE_MARK in u and 'index.html' not in u, 18)
-                u1 = b.url()
-                if dt is None or ARTICLE_MARK not in u1 or 'index.html' in u1:
-                    log('    MISS url=%r' % u1[:100]); miss += 1; idx += 1; continue
+                    log('    MISS(real/host/point 三种点击均无效) url=%r' % u1[:100])
+                    miss += 1; idx += 1; continue
+                log('    click生效方式 = %s' % how)
                 mm = re.search(r'[?&]mid=(\d+)', u1)
                 mid = mm.group(1) if mm else None
                 if mid and mid in known:
@@ -378,13 +554,13 @@ def main():
 
             log('>>> [%d/%d] %r  y=%d' % (n_ok + 1, total, got_title, r.top))
             u0 = b.url()
-            ok, cls = b.click((r.left + r.right) // 2, (r.top + r.bottom) // 2)
-            if not ok:
-                log('    click 失败(%s)' % cls); miss += 1; continue
-            dt = b.wait_url(lambda u: ARTICLE_MARK in u and 'index.html' not in u, 18)
-            u1 = b.url()
+            t_click = time.time()
+            ok, how, u1 = b.open_item((r.left + r.right) // 2, (r.top + r.bottom) // 2)
+            dt = time.time() - t_click
             pt = b.title()
-            if dt is not None and ARTICLE_MARK in u1 and 'index.html' not in u1:
+            if ok:
+                log('    click生效方式 = %s' % how)
+            if ok and ARTICLE_MARK in u1 and 'index.html' not in u1:
                 results.append({'idx': n_ok, 'title': got_title,
                                 'page_title': pt or None, 'date': None, 'url': u1})
                 n_ok += 1; miss = 0
@@ -398,6 +574,14 @@ def main():
         log('=== collected %d / %d ===' % (len(results), total))
     except Exception:
         log('FATAL\n' + traceback.format_exc())
+    finally:
+        # 若本次是我们唤醒的, 还原为最小化(不改变大王原来的桌面状态)
+        try:
+            if b is not None and getattr(b, 'woke', False) and b.main:
+                win32gui.ShowWindow(b.main, win32con.SW_MINIMIZE)
+                log('已把微信主窗口还原为最小化')
+        except Exception:
+            pass
 
 if __name__ == '__main__':
     main()
