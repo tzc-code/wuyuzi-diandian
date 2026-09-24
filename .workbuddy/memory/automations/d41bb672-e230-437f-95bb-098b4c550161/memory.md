@@ -7,6 +7,17 @@
 
 ## 执行历史
 
+### 2026-09-24 08:00-08:02（全链路正常，0 新增）
+- Weixin.exe 运行中（PID 31284）→ 未跳过。
+- harvest **成功**：唤醒主窗口 → 命中 WebView hwnd=2033582(pid 5428) → 已在 profile 主页
+  → 增量为 0 → 点首条「石油和粮食」→ 重绑 hwnd=2888510 → 命中已知 mid=2247484330 → 增量结束 ✓
+  （耗时 11s，无失败、无重试）
+- fetch 76/76 全 OK（92s）；build 76 篇。
+- 0 新文章 → commit `9b28b7d`（3 files：README 仅同步时间戳 + 2 个 memory 文件），push 成功，
+  `HEAD == origin/main == 9b28b7da`。
+- 注意：**只有在 harvest.log 显示「命中已知文章 mid → 增量结束」时**，README-only 的 commit 才算正常；
+  若 harvest.log 无此链而只有 README 变更，才是静默失败。
+
 ### 2026-09-23 09:18-09:35（根因定位 + 修复）
 - **07:59 结论修正**：08:00 那次判定的「前置条件缺失」是**误判**。真正根因是脚本找窗口的方式失效——
   微信 4.0 的内置浏览器**是主窗口的子窗口**（`Chrome_WidgetWin_0` / `Chrome_RenderWidgetHostHWND`，
