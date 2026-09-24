@@ -7,6 +7,23 @@
 
 ## 执行历史
 
+### 2026-09-24 13:36-14:00（大王报「已更新新文章」→ 手工排障 → 成功归档 1 篇）
+- **新增 1 篇**：`。。` — 2026-09-24 12:59（副标题「房地产回暖不等于公司盈利，消费医药或成新热点」）。
+  最终 commit `b2681aa`（+ `3eccfe6` 修 README 篇数），push 成功，`HEAD == origin/main == 3eccfe6`。
+- 第一次 sync（13:36）harvest 失败：日志 `MISS(real/host/point 三种点击均无效)` + 「列表到底 (idx=1)」。
+  根因不是点击技术，而是 **`find()` 命中了 2026-09-23 11:43 打开的陈旧 profile 页**（72 篇，不含新文）。
+  当时微信里同时存在两个 profile 实例：旧的（72 篇，屏幕内）+ 新的（73 篇，`localOpenTime`=今天 13:36，屏幕外）。
+- 13:42 重跑：命中了**新页面**且 idx0 标题正确为 `。。`，但取回 mid=`2247484330`（=旧文「石油和粮食」）
+  → 被判「已知」→ 0 新增。根因 = **`_rebind()` 命中了仍开着的旧文章页**（模式 B）。
+- 手工定位新文 mid=**2247484333**：因全屏的 WorkBuddy 窗口盖住微信页面窗口，`real` 合成点击静默失效，
+  改用 **`host`（PostMessage 直投 `Chrome_RenderWidgetHostHWND`）一次点中**。
+- 13:48 带 `| head -12` 跑 sync（**这是我犯的错**：管道提前关闭 → BrokenPipe → build 之后、commit 之前中断）；
+  同时 harvest 出现**模式 C 重复收集**：`incremental collected 78`，两条都是 mid=2247484333（标题错位）。
+- 收尾：从备份恢复 `articles.json` 76 条 + 追加 1 条正确记录（标题 `。。`、完整 URL 含 chksm）→ 77 条去重；
+  重跑 `build_repo.py`（77 篇，README 篇数由 78 修正为 77）→ commit + push。
+- `articles.json` / `store/` 均在 `.gitignore` 中（仓库只收 `articles/*.md`、`README.md`、`state/index.json`）。
+- 已把这 3 个失败模式写进 skill `wechat-mp-archive-github` 第 9 节。
+
 ### 2026-09-24 08:00-08:02（全链路正常，0 新增）
 - Weixin.exe 运行中（PID 31284）→ 未跳过。
 - harvest **成功**：唤醒主窗口 → 命中 WebView hwnd=2033582(pid 5428) → 已在 profile 主页
