@@ -35,3 +35,16 @@
 - 失败时不要超过 2 次重试（本任务规程上限）。
 - 无新增文章的正常输出是「无变更, 跳过 commit/push」；若出现了 commit 但只有
   README.md 1 项变更，说明 harvest 静默失败了，不是真有新内容。
+
+### 2026-09-23 22:00（修复后首次无人干预夜间实跑，成功）
+- 微信运行中；harvest **成功**（唤醒最小化微信 → 命中 WebView pid=5428 → 已在 profile 页）。
+- 增量模式已知 76 篇，idx0 即最新一篇 mid=2247484330（2026-09-18「石油和粮食」）→ 增量结束。
+- fetch 76/76 OK、build 76/76、commit `8b8eefa`（1 file changed: README.md）、**push 成功**，origin/main 一致。
+- 结果：**新增 0 篇**（内容侧最新仍是 2026-09-18 23:36），正常。
+
+### ⚠️ 上面「README 单变更 = harvest 静默失败」的判据已作废
+- harvest 修好后，0 新文章的正常跑批也会因 README 时间戳重写而 commit+push（只有 README 1 项变更）。
+- 正确自检方式：读 `harvest.log` 末几行，确认有 `browser hwnd=...` / `on profile` / `增量模式: 已知 N 篇`，
+  且 `[idx 0]` 的标题 == `state/index.json` **首键**对应标题（index.json 是 mid→文章 的 dict，首键即最新一篇）。
+- 出现 `命中已知文章 mid=... -> 增量结束` 于 idx 0 = 无新文章的正确路径，不是失败。
+- 只有 harvest.log 出现 `!! 找不到该号的 WebView` 或 `!! 无法进入公众号主页` 才算真失败。
