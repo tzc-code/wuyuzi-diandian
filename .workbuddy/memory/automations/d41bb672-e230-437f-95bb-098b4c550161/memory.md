@@ -7,6 +7,16 @@
 
 ## 执行历史
 
+### 2026-09-26 08:00-08:05（**失败：微信掉登录**，0 新增，同 09-25 模式）
+- Weixin.exe 在运行（PID 31284）→ 未走跳过分支。
+- `sync.py` rc=0，harvest 全废：`扫描 25s 未发现 WeChatAppEx 渲染的页面` + `未登录(或仍在登录窗口)`。
+- 独立诊断确认：主窗口 hwnd=13372594、380x388 **在屏外**(rect x 负)、`is_logged_in()=False`、
+  UI 文本含 **`你已退出微信`** / `我知道了` / `进入微信` / `切换账号` / `当前登录用户长风⁶ᯤ`
+  ⇒ 须人工扫码。全桌面 WebView doc = 0。
+- 未重试（根因需人工扫码，重跑无意义）。
+- fetch 77/77（全旧文）→ build 77 → commit `afd9c2f`（README 时间戳 + 另一 automation memory）push 成功，
+  `HEAD == origin/main == afd9c2f`。属**失败副产物**。
+
 ### 2026-09-25 08:00-08:10（**失败：微信掉登录**，0 新增）
 - Weixin.exe 在运行（PID 31284）→ 未走「微信未启动则跳过」分支。
 - `sync.py` rc=0，但 **harvest 全废**：`扫描 25s 未发现 WeChatAppEx 渲染的页面`
