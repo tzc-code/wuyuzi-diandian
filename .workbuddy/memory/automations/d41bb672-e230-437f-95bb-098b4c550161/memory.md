@@ -7,6 +7,19 @@
 
 ## 执行历史
 
+### 2026-09-28 08:00-08:04（**失败：微信掉登录，连续第 4 天同一签名**，0 新增）
+- Weixin.exe 在运行（PID 31284）→ 未走跳过分支。
+- **跑前先做确定性确诊**（省一次全链路）：`find_wechat_main()=13372594`、rect=`(-1108,325,-812,713)`
+  （屏外 296x388）、`is_logged_in(hwnd)=False` ⇒ 与 09-25/26/27 **hwnd、rect 完全一致**，
+  确认不自愈、须人工扫码。故只跑 1 次 sync，未重试。
+- `sync.py` rc=0（总耗时 2m3s），harvest 全废：`扫描 25s 未发现 WeChatAppEx 渲染的页面`
+  + `未登录(或仍在登录窗口)`。build = 77 / skipped = 0 / index 77（最新仍 09-24「。。」）。
+- commit `d1690f5`（1 项变更，README 时间戳），push 成功，`HEAD == origin/main == d1690f5`。属**失败副产物**。
+- **新坑（记录以免误判）**：`fetch_run.log` / `test_fetch.txt` 等是**陈旧文件**——
+  `fetch_articles.py` 不落盘日志，其输出只由 `sync.py` 的 `run()` 回显到 sync stdout（且被 tail 截断）。
+  本次误把 09-21 的 `articles.json 76 条 / ok=76/76` 当成今天的读数。**核对条数只认
+  `articles.json` / `state/index.json` / `ls articles/*.md` 三者，勿信 fetch_run.log。**
+
 ### 2026-09-27 08:02-08:04（**失败：微信掉登录，连续第 3 天同一签名**，0 新增）
 - Weixin.exe 在运行（PID 31284）→ 未走跳过分支。
 - `sync.py` rc=0（harvest 27s / fetch 93s / build 0s），harvest 全废：
