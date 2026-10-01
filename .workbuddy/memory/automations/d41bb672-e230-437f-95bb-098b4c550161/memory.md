@@ -7,6 +7,27 @@
 
 ## 执行历史
 
+### 2026-10-01 08:00-08:07（**失败：模式 D（微信掉登录）回归**，0 新增）
+- Weixin.exe 在运行（PID 31284，仅 1 个）→ 未走跳过分支。
+- **跑前预判**（沿用 09-30 做法，省掉盲跑）：`find_wechat_main()=4655272`（**与 09-30 22:00 同值**）→
+  唤醒后常态 rect=`(-1108,325,-812,713)`（**296x388，屏外**，与 09-25~28 掉登录签名**逐值相同**）、
+  `is_logged_in=False`、`scan_wechat_docs()=0`；`EnumWindows` 见 `WeChatAppEx.exe`(PID 32928) 仅 1 个
+  `Chrome_WidgetWin_0` 且 `IsWindowVisible=0`（隐藏空页）、`WeChatAppEx.exe` 共 3 个残留进程 ⇒ **模式 D 确诊**。
+- **新坑：UIA 文本判据今日失效**。唤醒主窗口后 `walk()` 返回 **0 条文本**（09-26 能读到「你已退出微信」），
+  即「`发现/朋友圈` vs `你已退出微信`」那套分辨法**本次空转**，改用「几何 + 扫页 + 进程数」三合一才定案。
+- 仍跑 1 次 sync 留证：rc=0（harvest 28s / fetch 94s / build 0s）。
+  harvest.log 末行 `扫描 25s 未发现 WeChatAppEx 渲染的页面` + `微信登录态: **未登录(或仍在登录窗口)** -> 需要人工扫码`。
+- fetch 77/77 全旧文 → build 77 / skipped 0 / index 77（三处一致，0 新增，max mid 仍 2247484333 = 09-24「。。」）。
+- commit `6c6e441`（5 files）push 成功，HEAD==origin/main。⚠️ **该 commit 误把 4 个临时诊断脚本
+  （`tools/_precheck.py`、`_diag_login.py`、`_diag_login2.py`、`_diag_windows.py`）推入公开仓库**——
+  因 `sync.py` 用 `git add -A`。已随即 commit `9ae3d8a` 全部撤除，**最终 HEAD==origin/main==9ae3d8a，工作树 clean**。
+  ⇒ 教训：**临时脚本一律不要落在工作副本（仓库）内**，预判脚本已改放 skill 目录
+  `~/.workbuddy/skills/wechat-mp-archive-github/precheck.py`（仓库外，可直接复用）。
+- **阻塞项待人工（连续第 2 天，且是 09-25~28 那类老问题回归）**：微信需**重新扫码登录**；
+  登录后还需在微信里手动打开一次「无语子点点」主页/任一文章页。脚本侧无解。
+- 已更新 skill：① 模式 D 补「UIA 判据失效时的三合一备用判据」+ 10-01 复发；
+  ② 跑前预判改用内置 `precheck.py` 并**高亮「脚本禁落仓库」**的教训。
+
 ### 2026-09-30 08:00-08:03（**失败：模式 E 第 3 次**，0 新增）
 - Weixin.exe 在运行（6 进程，主 31284）→ 未走跳过分支。**跑前预判**（本次新做法，省掉一次盲跑）：
   `find_wechat_main()=37555468`（同 09-29）、`iconic=1`；`wake_main` 后 `is_logged_in=False`
