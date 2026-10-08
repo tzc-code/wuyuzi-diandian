@@ -319,3 +319,12 @@
   **发现 ❌**（`chksm` 每次打开都变=服务端会话凭据，`sn`+`chksm` 均每篇独有 → mid 探测废；
   新增封死：文章页只有作者旧文内链、`getprofilebizrecommend`/`getbizbanner` 验证页、`homepage` 错误页、搜索引擎未收录）。
   ⇒ 「不依赖微信 PC 客户端」可行（第三方持 cookie 服务，需一次扫码）；「不依赖微信登录」不可能。
+
+## 2026-10-08 追加（第 4 轮，手工触发续做）
+- 主题：文内引用的外部链接补标题 + 修复 index.json 的 ext 跨文章污染。**本轮未跑微信同步**（纯本地构建）。
+- 关键结果：
+  - `ext_items` 变量残留 bug 修复（原只在 `if` 分支内初始化）→ 污染 67 → 0。
+  - 外部标题抓取上线（防封：缓存/延时/403即停/单轮上限/移动UA），11 链接得 9 标题。
+  - commit `5b2ff7c` 已 push；跑两次幂等（仅 README 时间戳变）。
+  - SKILL.md 新增 §12.1 / §12.2；`.gitignore` 加 `state/ext_titles.json`。
+- 下次执行同步时：正常走 harvest → fetch → build → push 流程即可；`build_repo.py` 已稳定。
