@@ -1,4 +1,5 @@
 store/
+state/ext_titles.json
 *.log
 *.out
 *.txt

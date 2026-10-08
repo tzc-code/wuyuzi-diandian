@@ -22,7 +22,10 @@
    }
   ],
   "ext": [
-   "https://zhuanlan.zhihu.com/p/26027538?share_code=1pi7TAG9sHf0R&utm_psn=2008541347523609486"
+   {
+    "url": "https://zhuanlan.zhihu.com/p/26027538?share_code=1pi7TAG9sHf0R&utm_psn=2008541347523609486",
+    "title": ""
+   }
   ],
   "unresolved": []
  },
@@ -72,7 +75,10 @@
    }
   ],
   "ext": [
-   "https://b23.tv/owzullu"
+   {
+    "url": "https://b23.tv/owzullu",
+    "title": "【打野默示录】捡垃圾吃访大神斗毒虫~德爷街头打野 流浪！曼彻斯特"
+   }
   ],
   "unresolved": []
  },
@@ -94,8 +100,14 @@
    }
   ],
   "ext": [
-   "https://xhslink.cn/o/2XKruTCjAF6",
-   "https://xhslink.cn/o/65JOTDhLXLA"
+   {
+    "url": "https://xhslink.cn/o/2XKruTCjAF6",
+    "title": "石油和粮食"
+   },
+   {
+    "url": "https://xhslink.cn/o/65JOTDhLXLA",
+    "title": "123"
+   }
   ],
   "unresolved": []
  },
@@ -121,11 +133,6 @@
     "file": "articles/2026-04-13 复苏.md"
    },
    {
-    "mid": "2247483933",
-    "title": "重资产再谈",
-    "file": "articles/2026-05-12 重资产再谈.md"
-   },
-   {
     "mid": "2247484220",
     "title": "123456789",
     "file": "articles/2026-09-04 123456789.md"
@@ -147,11 +154,26 @@
    }
   ],
   "ext": [
-   "https://xhslink.cn/o/9VIeznxXCd0",
-   "https://xhslink.cn/o/8O3i948vSau",
-   "https://xhslink.cn/o/64puvkQtSda",
-   "https://xhslink.cn/o/AywpL2Nqp3f",
-   "https://xhslink.cn/o/5Z2yWCDODOy"
+   {
+    "url": "https://xhslink.cn/o/9VIeznxXCd0",
+    "title": "看好航运，油运，干散，特种船，不看好集运，集运经历过超级周期，不看好，集运顶天了也就是过于低估，牛市带来的估值提升。 今"
+   },
+   {
+    "url": "https://xhslink.cn/o/8O3i948vSau",
+    "title": "不取名"
+   },
+   {
+    "url": "https://xhslink.cn/o/64puvkQtSda",
+    "title": "简单说俩句 首先谈谈btc，btc很明显是美国的工具，它的蓄水池用以承担之前美国连续加息后全世界回流的庞大资金 而中国很"
+   },
+   {
+    "url": "https://xhslink.cn/o/AywpL2Nqp3f",
+    "title": "铜目前看几乎和中国资产价格同步，所以有色是顺周期的 利率下降本质上是承诺资产拥有越来越久远的未来的财富的分配权，所以降息"
+   },
+   {
+    "url": "https://xhslink.cn/o/5Z2yWCDODOy",
+    "title": "为什么我现在不咋聊有色？很简单涨多了，未来能不能继续涨？能涨，原因分析写过很多了，自己翻 但现在出现了很多某某矿业是成长"
+   }
   ],
   "unresolved": []
  },
@@ -167,7 +189,10 @@
   "chars": 1192,
   "refs": [],
   "ext": [
-   "https://www.zhihu.com/question/661729537/answer/3580254496?share_code=19MG25Gd97mrJ&utm_psn=2081549039254892689"
+   {
+    "url": "https://www.zhihu.com/question/661729537/answer/3580254496?share_code=19MG25Gd97mrJ&utm_psn=2081549039254892689",
+    "title": ""
+   }
   ],
   "unresolved": []
  },
@@ -409,7 +434,10 @@
   "chars": 3965,
   "refs": [],
   "ext": [
-   "https://zhuanlan.zhihu.com/p/26027538?share_code=1pi7TAG9sHf0R&utm_psn=2008541347523609486"
+   {
+    "url": "https://zhuanlan.zhihu.com/p/26027538?share_code=1pi7TAG9sHf0R&utm_psn=2008541347523609486",
+    "title": ""
+   }
   ],
   "unresolved": []
  },
@@ -823,9 +851,18 @@
    }
   ],
   "ext": [
-   "http://xhslink.com/o/8GQtemIpBvb",
-   "https://www.zhihu.com/question/276471245/answer/2517484299?share_code=MGIQuyu2Vb0D&utm_psn=2033960818136584706",
-   "http://xhslink.com/o/2oye9VFDuSj"
+   {
+    "url": "http://xhslink.com/o/8GQtemIpBvb",
+    "title": ""
+   },
+   {
+    "url": "https://www.zhihu.com/question/276471245/answer/2517484299?share_code=MGIQuyu2Vb0D&utm_psn=2033960818136584706",
+    "title": ""
+   },
+   {
+    "url": "http://xhslink.com/o/2oye9VFDuSj",
+    "title": ""
+   }
   ],
   "unresolved": []
  },
@@ -911,7 +948,10 @@
   "chars": 8866,
   "refs": [],
   "ext": [
-   "https://zhuanlan.zhihu.com/p/26027538?share_code=1pi7TAG9sHf0R&utm_psn=2008541347523609486"
+   {
+    "url": "https://zhuanlan.zhihu.com/p/26027538?share_code=1pi7TAG9sHf0R&utm_psn=2008541347523609486",
+    "title": ""
+   }
   ],
   "unresolved": []
  },
@@ -1179,7 +1219,10 @@
   "chars": 2327,
   "refs": [],
   "ext": [
-   "https://xhslink.cn/o/96ZkZ61cX00"
+   {
+    "url": "https://xhslink.cn/o/96ZkZ61cX00",
+    "title": "复苏拐点？"
+   }
   ],
   "unresolved": []
  }

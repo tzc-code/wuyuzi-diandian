@@ -8,7 +8,7 @@ build_repo.py —— 把 store/ 里的已抓正文构建成 GitHub 仓库内容
   state/index.json                  mid -> {title, subtitle, date, url, file}
   README.md                         文章总览表
 """
-import os, re, sys, json, time, hashlib, datetime
+import os, re, sys, json, time, hashlib, datetime, random
 import requests
 
 TOOLS = os.path.dirname(os.path.abspath(__file__))
@@ -199,6 +199,119 @@ def platform_of(u):
             return name
     return '外部链接'
 
+# ---------------- 外部链接标题抓取(防封) ----------------
+# 设计原则(避免被小红书等封禁):
+#   1) 磁盘缓存: 抓过的永久存 state/ext_titles.json, 同一 URL 永不重复请求
+#   2) 串行 + 随机延时 3~6s: 远低于人工浏览频率, 不触发风控
+#   3) 失败即停: 遇 403/429/异常, 立即终止该平台本轮抓取, 不重试不硬撑
+#   4) 单轮总量上限 MAX_FETCH, 超出的留到下轮(缓存会逐步补齐)
+#   5) 不登录、不带 cookie, 只用公开 UA 拿页面自带的分享摘要
+#   6) 小红书用**移动端 UA** + 解析 __INITIAL_STATE__ 的 noteData.data.noteData.title
+#      (桌面 UA 会跳登录页; og:title 在笔记页是站点名「小红书」, 不可用)
+EXT_CACHE = os.path.join(STATE_DIR, 'ext_titles.json')
+MAX_FETCH = int(os.environ.get('WYZ_EXT_MAX', '12'))      # 单轮最多抓几个
+UA_MOBILE = ('Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) '
+             'AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1')
+NOISE = ('小红书', '小红书 - 你的生活兴趣社区', '你访问的页面不见了', '小红书 - 你访问的页面不见了',
+         '知乎', '哔哩哔哩', '你的生活兴趣社区')
+_ext_cache = None
+_fail_ban = set()                                          # 本轮已判定失败的平台
+
+def _load_ext_cache():
+    global _ext_cache
+    if _ext_cache is None:
+        try:
+            _ext_cache = json.load(open(EXT_CACHE, encoding='utf-8'))
+        except Exception:
+            _ext_cache = {}
+    return _ext_cache
+
+def _save_ext_cache():
+    try:
+        json.dump(_ext_cache or {}, open(EXT_CACHE, 'w', encoding='utf-8'),
+                  ensure_ascii=False, indent=1)
+    except Exception:
+        pass
+
+def _clean_title(t):
+    """清理抓来的标题: 去 emoji/特殊符号/多余空白, 让列表可读"""
+    if not t:
+        return ''
+    # 去 emoji 与各类符号(Misc Symbols/Emoticons/Transport/Supplemental 等)
+    t = re.sub(r'[\U0001F000-\U0001FAFF\U00002600-\U000027BF\U0001F1E6-\U0001F1FF'
+               r'\U00002190-\U000021FF\U00002B00-\U00002BFF\U0000FE0F\U0000200D]', '', t)
+    t = re.sub(r'\s+', ' ', t).strip()
+    return t
+
+def _extract_title(text):
+    """从 HTML 取页面标题(通用: og:title -> <title>)"""
+    m = (re.search(r'property=["\']og:title["\'][^>]*content=["\']([^"\']*)', text)
+         or re.search(r'content=["\']([^"\']*)["\'][^>]*property=["\']og:title["\']', text))
+    t = m.group(1) if m else None
+    if not t:
+        m2 = re.search(r'<title>(.*?)</title>', text, re.S)
+        t = m2.group(1) if m2 else ''
+    t = re.sub(r'\s+', ' ', (t or '')).strip()
+    for suf in (' - 小红书', ' - 知乎', '_哔哩哔哩_bilibili', ' - 哔哩哔哩'):
+        if t.endswith(suf):
+            t = t[:-len(suf)]
+    return _clean_title(t)
+
+def _xhs_title(text):
+    """小红书: 从 __INITIAL_STATE__ 的 noteData 里取笔记标题(og:title 不可用)"""
+    m = re.search(r'window\.__INITIAL_STATE__\s*=\s*(\{.*?\})\s*</script>', text, re.S)
+    if not m:
+        return ''
+    try:
+        d = json.loads(m.group(1).replace('undefined', 'null'))
+    except Exception:
+        return ''
+    nd = (d.get('noteData') or {})
+    for path in ((nd.get('data') or {}).get('noteData'),
+                 nd.get('normalNotePreloadData')):
+        if isinstance(path, dict):
+            t = (path.get('title') or '').strip()
+            if t and t not in NOISE:
+                return _clean_title(t)
+            if not t:                              # 无标题取正文首句
+                dsc = re.sub(r'\s+', ' ', (path.get('desc') or '')).strip()
+                if dsc:
+                    return _clean_title(dsc[:60])
+    return ''
+
+def fetch_ext_title(u, budget):
+    """抓单个外部链接标题。返回 (title|None, 是否触发了封禁)"""
+    plat = platform_of(u)
+    if plat in _fail_ban:
+        return None, False
+    if budget['n'] >= MAX_FETCH:
+        return None, False
+    cache = _load_ext_cache()
+    if u in cache:
+        return (cache[u] or None), False
+    budget['n'] += 1
+    try:
+        time.sleep(random.uniform(3.0, 6.0))       # 慢速: 防封核心
+        ua = UA_MOBILE if plat == '小红书' else UA
+        r = requests.get(u, headers={'User-Agent': ua, 'Accept-Language': 'zh-CN,zh;q=0.9'},
+                         timeout=25, allow_redirects=True)
+        if r.status_code in (403, 429):
+            print('    [防封] %s 返回 %d, 停止该平台抓取' % (plat, r.status_code))
+            _fail_ban.add(plat)
+            return None, True
+        t = _xhs_title(r.text) if plat == '小红书' else ''
+        if not t:
+            t = _extract_title(r.text)
+        if t in NOISE:                              # 站点名/登录页 -> 视为失败
+            t = ''
+        cache[u] = t or ''
+        _save_ext_cache()
+        return (t or None), False
+    except Exception as e:
+        print('    [防封] %s 请求异常 %r, 停止该平台抓取' % (plat, e))
+        _fail_ban.add(plat)
+        return None, True
+
 def refs_block(refs, ext=None, unresolved=None):
     """生成 md 末尾的「相关文章」区块
 
@@ -226,9 +339,21 @@ def refs_block(refs, ext=None, unresolved=None):
         lines.append('')
     if ext:
         lines += ['> 文中引用的外部平台内容（原文链接）：', '']
-        for u in ext:
+        for item in ext:
+            # 兼容旧格式(纯 url 字符串)与新格式({'url','title'})
+            u = item if isinstance(item, str) else item.get('url', '')
+            t = '' if isinstance(item, str) else (item.get('title') or '')
             uu = u.replace(')', '%29')
-            lines.append('- [%s](%s)' % (platform_of(u), uu))
+            plat = platform_of(u)
+            if t:
+                tt = t.replace(']', '\\]').replace('[', '\\[')
+                if len(tt) > 48:
+                    # 在标点处收尾, 避免截断在句子中间
+                    seg = re.split(r'[。！？；，,\n]', tt[:56])[0].strip()
+                    tt = (seg if 8 <= len(seg) <= 56 else tt[:48]) + '…'
+                lines.append('- [%s · %s](%s)' % (plat, tt, uu))
+            else:
+                lines.append('- [%s](%s)' % (plat, uu))
         lines.append('')
     if unresolved:
         lines += ['> 文中提到但**未归档到本仓库**的本号文章（原始链接）：', '']
@@ -306,6 +431,7 @@ def main():
         items.append({'s': s, 'cf': cf, 'it': it, 'url': url, 'mid': mid,
                       'title': title, 'date': date, 'dtime': dtime, 'fname': fname})
     mid2file = {x['mid']: x['fname'] for x in items}
+    ext_budget = {'n': 0}          # 本轮外部链接抓取计数(防封限流)
 
     # ---------- pass 2: 渲染 ----------
     for x in items:
@@ -347,8 +473,15 @@ def main():
                          'subtitle': rmeta.get('subtitle') or '',
                          'file_rel': 'articles/' + rf,
                          'github': GITHUB_BLOB + 'articles/' + rf.replace(' ', '%20')})
+        # 注意: ext_items 必须每轮无条件重置。之前只在 if 分支内初始化,
+        # 导致无引用的文章沿用上一轮的 ext_items(残留泄漏到 index.json)。
+        ext_items = []
         if refs or ext_urls or unresolved:
-            doc += refs_block(refs, ext_urls, unresolved)
+            # 外部链接补充标题(带缓存+限速, 防封)
+            for u in ext_urls:
+                t, _ = fetch_ext_title(u, ext_budget)
+                ext_items.append({'url': u, 'title': t or ''})
+            doc += refs_block(refs, ext_items, unresolved)
         with open(fpath, 'w', encoding='utf-8') as f:
             f.write(doc)
 
@@ -357,14 +490,14 @@ def main():
                     'imgs': len(s.get('imgs') or []), 'chars': len(body),
                     'refs': [{'mid': r['mid'], 'title': r['title'], 'file': r['file_rel']}
                              for r in refs],
-                    'ext': ext_urls,
+                    'ext': ext_items,
                     'unresolved': unresolved}
         rows.append(idx[mid])
         built += 1
-        n_ref = len(refs) + len(ext_urls) + len(unresolved)
+        n_ref = len(refs) + len(ext_items) + len(unresolved)
         print('  [%2d] %s  <- %r%s' % (built, fname, sub[:40],
                                        ('  [refs:%d ext:%d unk:%d]'
-                                        % (len(refs), len(ext_urls), len(unresolved))) if n_ref else ''))
+                                        % (len(refs), len(ext_items), len(unresolved))) if n_ref else ''))
 
     # 清理孤儿 md(改名/删文后残留)
     keep = {os.path.basename(r['file']) for r in rows}
