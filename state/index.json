@@ -8,7 +8,19 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247484330&idx=1&sn=69834d535e7314d2961fd63bd55074d1&chksm=f1f3cc67403ccee6d76b76bef9fa12ba006a34a5722965c780f97d95cf061699843735bcf4c4&scene=126",
   "file": "articles/2026-09-18 石油和粮食.md",
   "imgs": 0,
-  "chars": 10682
+  "chars": 10682,
+  "refs": [
+   {
+    "mid": "2247484044",
+    "title": "。。。。",
+    "file": "articles/2026-07-02 。。。。.md"
+   },
+   {
+    "mid": "2247484173",
+    "title": "。。。。",
+    "file": "articles/2026-08-26 。。。。.md"
+   }
+  ]
  },
  "2247484321": {
   "title": "。。。",
@@ -19,7 +31,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247484321&idx=1&sn=caade0ce30f9f88635e02ba4ab753eac&chksm=f1c73219c36ab3fcf89c26824c6ed26c409612beb4205ff8a6ea8d86a03aa86a76bc0da401c6&scene=126",
   "file": "articles/2026-09-18 。。。.md",
   "imgs": 0,
-  "chars": 1676
+  "chars": 1676,
+  "refs": []
  },
  "2247484317": {
   "title": "加息",
@@ -30,7 +43,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247484317&idx=1&sn=d59b277842cc97d2f61e83a7b1484cbb&chksm=f1b3a7f0e0262e3fb6893433cd640ef366fc6adcfefa6422cf7f8f837b1612d7907ed1de93db&scene=126",
   "file": "articles/2026-09-18 加息.md",
   "imgs": 0,
-  "chars": 989
+  "chars": 989,
+  "refs": []
  },
  "2247484313": {
   "title": "随手写",
@@ -41,7 +55,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247484313&idx=1&sn=136680af6b3b7063d85da0c62c5addd2&chksm=f1b0cc618f4bb414a9e757e6f792537b4ed45642cbaa478ff2eb932c1ebcd4fabb294c781a62&scene=126",
   "file": "articles/2026-09-16 随手写.md",
   "imgs": 1,
-  "chars": 3331
+  "chars": 3331,
+  "refs": []
  },
  "2247484307": {
   "title": "内陆运河，平陆运河建成",
@@ -52,7 +67,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247484307&idx=1&sn=04c9b3634144856f8b504a94b8d3c952&chksm=f1f28edeedb5a0e46615db3e91018cd53d820a576f5ec2b763639b3013f7dac84e9c8998e70a&scene=126",
   "file": "articles/2026-09-15 内陆运河，平陆运河建成.md",
   "imgs": 0,
-  "chars": 2166
+  "chars": 2166,
+  "refs": []
  },
  "2247484299": {
   "title": "给你们看看我的新银行卡",
@@ -63,7 +79,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247484299&idx=1&sn=fd3d78140d37594720d6efec684ae934&chksm=f1d71a5e9be92cb4c5ab06555046a4dee9e80377626122fbf09a2fb2e934b17face04700f56a&scene=126",
   "file": "articles/2026-09-15 给你们看看我的新银行卡.md",
   "imgs": 0,
-  "chars": 2613
+  "chars": 2613,
+  "refs": []
  },
  "2247484283": {
   "title": "胡赛武装",
@@ -74,7 +91,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247484283&idx=1&sn=0770a767eacce1ece64b1902f28533ec&chksm=f177b18103abcff3380cd7da1e8b9666fe0eb789ff11d955ed01d59600d017aae9ab066ec23c&scene=126",
   "file": "articles/2026-09-11 胡赛武装.md",
   "imgs": 1,
-  "chars": 1192
+  "chars": 1192,
+  "refs": []
  },
  "2247484251": {
   "title": "赌场时间到，给我o泡果奶嗷嗷嗷",
@@ -85,7 +103,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247484251&idx=1&sn=a12e8ac7a47fca0dff81f6aeea7a3d3d&chksm=f15c994c6f5d93ac08051ecd5022b901b39b06d0f07b6b4e8d402956140e28c7d8077d08579d&scene=126",
   "file": "articles/2026-09-10 赌场时间到，给我o泡果奶嗷嗷嗷.md",
   "imgs": 3,
-  "chars": 1176
+  "chars": 1176,
+  "refs": []
  },
  "2247484241": {
   "title": "复苏可能拐点",
@@ -96,7 +115,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247484241&idx=1&sn=9fa16157335fc718a257151374e49d80&chksm=f16d87cbcb5ea87aa8f21830daf7dc546fdf649db2aa568334c33b9e664fabf2180c529ddc0a&scene=126",
   "file": "articles/2026-09-09 复苏可能拐点.md",
   "imgs": 0,
-  "chars": 1349
+  "chars": 1349,
+  "refs": []
  },
  "2247484229": {
   "title": "碎碎念",
@@ -107,7 +127,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247484229&idx=1&sn=6247e2959ee011d8390fe6b65ad5a191&chksm=f1eba595995eedb3d27d8bebc814e528f95f102e046c18f12cd1ebdd2f813c196a49a70823c6&scene=126",
   "file": "articles/2026-09-08 碎碎念.md",
   "imgs": 0,
-  "chars": 1031
+  "chars": 1031,
+  "refs": []
  },
  "2247484225": {
   "title": "流动性利好",
@@ -118,7 +139,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247484225&idx=1&sn=6c3ed674c85e54ffa6a4c1093fd4dcd6&chksm=f13e5508bf18de1d79e0d3e0a6046b02793d256e974999ca2947c0e6574b37c7613184ee3a1e&scene=126",
   "file": "articles/2026-09-06 流动性利好.md",
   "imgs": 1,
-  "chars": 826
+  "chars": 826,
+  "refs": []
  },
  "2247484220": {
   "title": "123456789",
@@ -129,7 +151,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247484220&idx=1&sn=38950cdc633edbde0dcc99fd76fbac35&chksm=f1ca76a3193f27f98e1d881c7b2f8898ebb2bd5b32d67a51180cab87627b57a5da130fdeccf5&scene=126",
   "file": "articles/2026-09-04 123456789.md",
   "imgs": 0,
-  "chars": 1351
+  "chars": 1351,
+  "refs": []
  },
  "2247484212": {
   "title": "虾写",
@@ -140,7 +163,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247484212&idx=1&sn=4bed052dadfb7e2ee4f782a3e00e44a2&chksm=f138e7e36a5310d2172d1bc13c00a2713400e5f9873294c3527815226f4b8d601c249100e8ab&scene=126",
   "file": "articles/2026-09-04 虾写.md",
   "imgs": 0,
-  "chars": 1030
+  "chars": 1030,
+  "refs": []
  },
  "2247484203": {
   "title": "脑洞",
@@ -151,7 +175,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247484203&idx=1&sn=91568a344929b7feaefb87cad9cdaa9b&chksm=f1c2992fbda65f425317dcf52c933df4d909c635d58cbf039e20b19a223187270122db96a249&scene=126",
   "file": "articles/2026-08-29 脑洞.md",
   "imgs": 18,
-  "chars": 790
+  "chars": 790,
+  "refs": []
  },
  "2247484177": {
   "title": "沃什发言",
@@ -162,7 +187,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247484177&idx=1&sn=8f2fcf65a04a2bcade33bb4174219bf5&chksm=f19b8de55db3d7c0dda8a5fd3e2ede90e2dc5fda852b6f801330c9b7067bd707b6d2d2477edd&scene=126",
   "file": "articles/2026-08-29 沃什发言.md",
   "imgs": 0,
-  "chars": 2946
+  "chars": 2946,
+  "refs": []
  },
  "2247484173": {
   "title": "。。。。",
@@ -173,7 +199,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247484173&idx=1&sn=6080ab39f02fc58402d3bc6156ce08a5&chksm=f1192319bf586a987bcc9a31ac6512b8aded4829ee45b75f9536d824101ece0bc54af1548c12&scene=126",
   "file": "articles/2026-08-26 。。。。.md",
   "imgs": 15,
-  "chars": 658
+  "chars": 658,
+  "refs": []
  },
  "2247484142": {
   "title": "随笔",
@@ -184,7 +211,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247484142&idx=1&sn=fa94f60b9fabdbf154951c91d87db2fb&chksm=f1ecaa343826bc76babf6de6299f7b516094181fe1b78f2396fe5123c9e37a2516602f2bcf39&scene=126",
   "file": "articles/2026-08-21 随笔.md",
   "imgs": 1,
-  "chars": 1854
+  "chars": 1854,
+  "refs": []
  },
  "2247484137": {
   "title": "又水一篇",
@@ -195,7 +223,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247484137&idx=1&sn=b62d29df6a25d94e92854f04370aeb62&chksm=f152615d13507a6313434c919ab7aeb1397ce7a050ccd4f4b56ccf145e374e5cab4e0416acc5&scene=126",
   "file": "articles/2026-08-20 又水一篇.md",
   "imgs": 0,
-  "chars": 1225
+  "chars": 1225,
+  "refs": []
  },
  "2247484129": {
   "title": "。。。",
@@ -206,7 +235,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247484129&idx=1&sn=8817e1dea14cc6fdaf6a70724b71865d&chksm=f13332e30af7631320f29deb1abb5d247c30b1b37d72ab4adbe877a04815ab79a5203a6f8592&scene=126",
   "file": "articles/2026-08-18 。。。.md",
   "imgs": 4,
-  "chars": 4730
+  "chars": 4730,
+  "refs": []
  },
  "2247484117": {
   "title": "水一篇",
@@ -217,7 +247,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247484117&idx=1&sn=04b3505886abbc2240a87d796923f5e8&chksm=f1d873a6eeff80431234f9a8b65b500c99c1e6436c3e64158dab18d46864e45aeb30ac86b596&scene=126",
   "file": "articles/2026-08-14 水一篇.md",
   "imgs": 0,
-  "chars": 146
+  "chars": 146,
+  "refs": []
  },
  "2247484113": {
   "title": "789",
@@ -228,7 +259,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247484113&idx=1&sn=8af7d19ad68107717bd04af83baafda7&chksm=f16bb1262fe9bb8ac57eee463112b28bb9580e1b7fcfc9e3c29e1bbee0e553341738d05fbd4f&scene=126",
   "file": "articles/2026-08-12 789.md",
   "imgs": 0,
-  "chars": 1687
+  "chars": 1687,
+  "refs": []
  },
  "2247484109": {
   "title": "旅游中闲笔",
@@ -239,7 +271,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247484109&idx=1&sn=09a34ec7c2d1b9b340f7ee4e52c7f449&chksm=f12a174f28c128b4010aae80eaee33dc8509b231633130069f605085c52ad07fd378425adc51&scene=126",
   "file": "articles/2026-08-06 旅游中闲笔.md",
   "imgs": 0,
-  "chars": 1395
+  "chars": 1395,
+  "refs": []
  },
  "2247484105": {
   "title": "学习特朗普不内耗",
@@ -250,7 +283,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247484105&idx=1&sn=80de3ecab170ee41da30a1e914732428&chksm=f1c8f1db00a36549d455b8907200e4e5f3154de70fcabe5530ea16f5e6f229dd37e3d7f1dfbe&scene=126",
   "file": "articles/2026-08-02 学习特朗普不内耗.md",
   "imgs": 0,
-  "chars": 2130
+  "chars": 2130,
+  "refs": []
  },
  "2247484100": {
   "title": "l",
@@ -261,7 +295,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247484100&idx=1&sn=e2516df5eba0dfe84a44f63f1abc91d9&chksm=f19b59b0a56cc8bbe29b89709b288293004532b50d48571f60fc5223b1b35ccfa79563d702ab&scene=126",
   "file": "articles/2026-08-01 l.md",
   "imgs": 0,
-  "chars": 3965
+  "chars": 3965,
+  "refs": []
  },
  "2247484084": {
   "title": "韩国股市几乎腰斩",
@@ -272,7 +307,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247484084&idx=1&sn=4edbe56f4eb8746724abc0b7e0a71024&chksm=f14c64132a40385ceec3b59f0d8a9858cb4b5e0d6556b55546cb5fa3451e4800f9ec141c41c3&scene=126",
   "file": "articles/2026-07-29 韩国股市几乎腰斩.md",
   "imgs": 2,
-  "chars": 924
+  "chars": 924,
+  "refs": []
  },
  "2247484076": {
   "title": "闲谈",
@@ -283,7 +319,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247484076&idx=1&sn=0df2b4e1117e318130d1e5ecd6267cf8&chksm=f14827f6863af8c7ece967a1a1c675a521422c80c685aca6981e7e298518a35d44d0cc84da5c&scene=126",
   "file": "articles/2026-07-24 闲谈.md",
   "imgs": 3,
-  "chars": 475
+  "chars": 475,
+  "refs": []
  },
  "2247484069": {
   "title": "马杀鸡",
@@ -294,7 +331,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247484069&idx=1&sn=86b765238df9d463c31eb3a82adf6423&chksm=f1b9596d6f362ee016db832da105b2d2f4deb275a321b37b3d4a11e84550f3f533547452e79f&scene=126",
   "file": "articles/2026-07-18 马杀鸡.md",
   "imgs": 0,
-  "chars": 1491
+  "chars": 1491,
+  "refs": []
  },
  "2247484065": {
   "title": "n",
@@ -305,7 +343,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247484065&idx=1&sn=a4a9c64b5f8744fb9718030682b2741d&chksm=f1d94ab4646364500e0d38021f06706f58a97e3df2d3ca4945bfc197dbdd607482f168d7dee2&scene=126",
   "file": "articles/2026-07-17 n.md",
   "imgs": 0,
-  "chars": 508
+  "chars": 508,
+  "refs": []
  },
  "2247484061": {
   "title": "谁规定的非得取标题",
@@ -316,7 +355,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247484061&idx=1&sn=fbd77e4bdf67aaa1e149773c410fabbd&chksm=f183acf8eb4d85da88d2a09351a81c78ddfe816ad7201c3c8791a0e4ee26eb2b57f9932b6a5f&scene=126",
   "file": "articles/2026-07-14 谁规定的非得取标题.md",
   "imgs": 0,
-  "chars": 1142
+  "chars": 1142,
+  "refs": []
  },
  "2247484053": {
   "title": "abc",
@@ -327,7 +367,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247484053&idx=1&sn=c795d10c606de6ea810e1fa04a7184b5&chksm=f17032d5e2fbd7349414cd317939a45b554fa180cb100e30d261fa5063d5fd30d37259fe8ada&scene=126",
   "file": "articles/2026-07-12 abc.md",
   "imgs": 0,
-  "chars": 2660
+  "chars": 2660,
+  "refs": []
  },
  "2247484048": {
   "title": "预期管理",
@@ -338,7 +379,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247484048&idx=1&sn=c6ca6e75fe48e5b16ac27edf3c0e0708&chksm=f126a4636f85c8267cb427cb51f9120fc8b53febf86e8d690bd1ae4e607a1a5db03a098b8b4c&scene=126",
   "file": "articles/2026-07-04 预期管理.md",
   "imgs": 0,
-  "chars": 2743
+  "chars": 2743,
+  "refs": []
  },
  "2247484044": {
   "title": "。。。。",
@@ -349,7 +391,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247484044&idx=1&sn=85cecaf867c563d3f9db601929cc2cdb&chksm=f1c34960357b457b1cc6547d053ab47700902b4a58250cb20a6ea8eae605723f987b9d89e0fb&scene=126",
   "file": "articles/2026-07-02 。。。。.md",
   "imgs": 0,
-  "chars": 11326
+  "chars": 11326,
+  "refs": []
  },
  "2247484040": {
   "title": "随笔",
@@ -360,7 +403,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247484040&idx=1&sn=322a93cd932abc097a4a89a4608b78c7&chksm=f16a063a1c977b06ecb646c216c4b3e3cf4864dfbd9cfc009588d24a3c583d1358902842547c&scene=126",
   "file": "articles/2026-06-29 随笔.md",
   "imgs": 0,
-  "chars": 1899
+  "chars": 1899,
+  "refs": []
  },
  "2247484036": {
   "title": "按摩一下",
@@ -371,7 +415,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247484036&idx=1&sn=548d3ae6f2d8fc72e4aeca5e57daa413&chksm=f157253d48d9974082ae85a426cfdf7a9f91b43dff63f29de9dbf903ce7a756d6ab96288091c&scene=126",
   "file": "articles/2026-06-26 按摩一下.md",
   "imgs": 0,
-  "chars": 707
+  "chars": 707,
+  "refs": []
  },
  "2247484032": {
   "title": "不起标题",
@@ -382,7 +427,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247484032&idx=1&sn=44a377f183c0628b646243677307fab0&chksm=f1c8ff76bb388670e042d2293506a8aa4f29ce3991500c6d5596ebfc4a933feb27cc3defcee4&scene=126",
   "file": "articles/2026-06-22 不起标题.md",
   "imgs": 0,
-  "chars": 2838
+  "chars": 2838,
+  "refs": []
  },
  "2247484027": {
   "title": "美伊协议",
@@ -393,7 +439,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247484027&idx=1&sn=b3cab6d3f117a4567a8b87bf3d710e9e&chksm=f1366353e3be6bbfc489f4c77302429dd88c399291e54e8608b319e9d7a57bf4bca855bc0b18&scene=126",
   "file": "articles/2026-06-18 美伊协议.md",
   "imgs": 0,
-  "chars": 932
+  "chars": 932,
+  "refs": []
  },
  "2247484023": {
   "title": "日本加息",
@@ -404,7 +451,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247484023&idx=1&sn=be4b3be696ba37b0ac165b5fa8342020&chksm=f1f4c6d9ea26b15b7177486631dccfcaa81eb057b23e0167bb4eded59a79795115e83d187a59&scene=126",
   "file": "articles/2026-06-17 日本加息.md",
   "imgs": 0,
-  "chars": 1382
+  "chars": 1382,
+  "refs": []
  },
  "2247484019": {
   "title": "旧文重温",
@@ -415,7 +463,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247484019&idx=1&sn=84814ed052f1b4e91bbc1eb0b89c09a5&chksm=f184ca30f899c6e845ed5c9acbbeb938a122f88bf3af39db0e6b15bf7d3e05ffa953a6a2a3f7&scene=126",
   "file": "articles/2026-06-15 旧文重温.md",
   "imgs": 1,
-  "chars": 3072
+  "chars": 3072,
+  "refs": []
  },
  "2247484014": {
   "title": "懒人",
@@ -426,7 +475,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247484014&idx=1&sn=af2c82f4b07507ad11a28106f3917c9c&chksm=f1a250326421d75dd01d5991453530e88dcfbac3819fb6e0b074740fd0ace5478e1e145433cc&scene=126",
   "file": "articles/2026-06-15 懒人.md",
   "imgs": 2,
-  "chars": 540
+  "chars": 540,
+  "refs": []
  },
  "2247484002": {
   "title": "市场风格切换可能",
@@ -437,7 +487,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247484002&idx=1&sn=aef91b7837b0726f19149cbdbf5e27e9&chksm=f1276f96808f153aa64d9e29ae020434b184222b5302faa886450660368ece2b6de33caaf884&scene=126",
   "file": "articles/2026-06-05 市场风格切换可能.md",
   "imgs": 0,
-  "chars": 817
+  "chars": 817,
+  "refs": []
  },
  "2247483990": {
   "title": "水一篇",
@@ -448,7 +499,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247483990&idx=1&sn=fcf41f25dea9e14184fcb65db0c069dc&chksm=f1835cfb856166daa67c2857655924c5fc2f6bd986de6279c3c028cac46da8ea0f12daa1ebfa&scene=126",
   "file": "articles/2026-06-03 水一篇.md",
   "imgs": 0,
-  "chars": 207
+  "chars": 207,
+  "refs": []
  },
  "2247483986": {
   "title": "油运半场",
@@ -459,7 +511,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247483986&idx=1&sn=dcf9140e30299b508a9e0ceb63b924f6&chksm=f10af7eb8af3f44b055e9e0c9a7062256baf192a38b9d0c52e6364975aba662f92407c0aa0ce&scene=126",
   "file": "articles/2026-05-30 油运半场.md",
   "imgs": 0,
-  "chars": 1529
+  "chars": 1529,
+  "refs": []
  },
  "2247483973": {
   "title": "04091019",
@@ -470,7 +523,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247483973&idx=1&sn=75335b8b0f2a09b4f73d25587ccb7f4d&chksm=f1016a9519c5c443d8bf32357e86602658da948ae58992f470bfa37d2a7f72d807dac7d29267&scene=126",
   "file": "articles/2026-05-29 04091019.md",
   "imgs": 0,
-  "chars": 2592
+  "chars": 2592,
+  "refs": []
  },
  "2247483969": {
   "title": "韭菜管够",
@@ -481,7 +535,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247483969&idx=1&sn=764ad0a335e2aff07cc0b036f17e9493&chksm=f18da421cfe406bb9e6ecc517a133040377a124fb576f665cab42b838e26a939988f5e0e3dee&scene=126",
   "file": "articles/2026-05-27 韭菜管够.md",
   "imgs": 0,
-  "chars": 1201
+  "chars": 1201,
+  "refs": []
  },
  "2247483965": {
   "title": "韭菜管够",
@@ -492,7 +547,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247483965&idx=1&sn=6bd2a98e915ba102cb3e45f4b6c5f871&chksm=f1d1837f8ba276e255f59fc1e90387bc4f84a78cdcac923504b5d31fcfd5a331ca1327d08a36&scene=126",
   "file": "articles/2026-05-27 韭菜管够 (2).md",
   "imgs": 0,
-  "chars": 1093
+  "chars": 1093,
+  "refs": []
  },
  "2247483959": {
   "title": "智障也有春天",
@@ -503,7 +559,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247483959&idx=1&sn=b2b34b7466e374d6b8abc10a4b6b175e&chksm=f1998f94f6ee1678b312e9cd6d0ca11f1f373bdcae3cb31695e72b703082fd5ef850d494cdea&scene=126",
   "file": "articles/2026-05-21 智障也有春天.md",
   "imgs": 0,
-  "chars": 1199
+  "chars": 1199,
+  "refs": []
  },
  "2247483955": {
   "title": "无聊",
@@ -514,7 +571,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247483955&idx=1&sn=cf16a0d9b58ca71b79b57b46883a387a&chksm=f1250ec0482ad8c9266e9da66f9f5fe8b9ad452c15201a28bac73c8f610a49f92d39f2b35db7&scene=126",
   "file": "articles/2026-05-21 无聊.md",
   "imgs": 1,
-  "chars": 320
+  "chars": 320,
+  "refs": []
  },
  "2247483949": {
   "title": "降息缩表",
@@ -525,7 +583,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247483949&idx=1&sn=056859e3dd311b750a15c01c9f22ff28&chksm=f1dd02e543f56ff0c52603ea91bdb9f42cac11811adba6733fa91c1c95a15a0dde465dd30a6f&scene=126",
   "file": "articles/2026-05-17 降息缩表.md",
   "imgs": 1,
-  "chars": 3934
+  "chars": 3934,
+  "refs": []
  },
  "2247483937": {
   "title": "闲笔",
@@ -536,7 +595,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247483937&idx=1&sn=8f1df4dfc790efec8b88fffb12af4660&chksm=f1f13962b45e09036206fe158d0a66af6b906b63753c6276ab7bbca6fd08e34085632407c406&scene=126",
   "file": "articles/2026-05-15 闲笔.md",
   "imgs": 0,
-  "chars": 1361
+  "chars": 1361,
+  "refs": []
  },
  "2247483933": {
   "title": "重资产再谈",
@@ -547,7 +607,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247483933&idx=1&sn=0c53619842abe6d56e47e33d759e5515&chksm=f11c8c6641e17a19e6fb7b7b2c21a0b78de65b60315021112829e437b5484d2a854d1a1aeb0d&scene=126",
   "file": "articles/2026-05-12 重资产再谈.md",
   "imgs": 0,
-  "chars": 1059
+  "chars": 1059,
+  "refs": []
  },
  "2247483929": {
   "title": "股票博主和基金经理",
@@ -558,7 +619,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247483929&idx=1&sn=fc3dda928475454ec060e3a0fabd51d1&chksm=f11caae84877c75ccc3e2ff0373eda638d4645edea7cb180665e5065ae2280a22eb62880e506&scene=126",
   "file": "articles/2026-05-09 股票博主和基金经理.md",
   "imgs": 0,
-  "chars": 1150
+  "chars": 1150,
+  "refs": []
  },
  "2247483915": {
   "title": "波奇酱卡哇伊",
@@ -569,7 +631,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247483915&idx=1&sn=2877ceccc487342632a536c676d2071b&chksm=f143b0ce3038c997f0824beb5b2042e5959c4be25dc2216cd5b9e0020d5b0d0ed2b5d3c4e0fd&scene=126",
   "file": "articles/2026-05-06 波奇酱卡哇伊.md",
   "imgs": 0,
-  "chars": 696
+  "chars": 696,
+  "refs": []
  },
  "2247483911": {
   "title": "中美对比",
@@ -580,7 +643,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247483911&idx=1&sn=52bfd2ebd859f074f096b3e5abca84fb&chksm=f1bce9120648d4dedb20fbad09e5ecb9045cb6a059d421fc7abfc6c4e21c8b5bb3cb97dd1b61&scene=126",
   "file": "articles/2026-05-02 中美对比.md",
   "imgs": 1,
-  "chars": 4632
+  "chars": 4632,
+  "refs": []
  },
  "2247483897": {
   "title": "闲笔",
@@ -591,7 +655,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247483897&idx=1&sn=2c2b9dddbf97b289b4a39e67d6353001&chksm=f1b46f0a493e41e035eb5620745dbc8b24f0008ab6dfc0c4fa083b7366f2c6e9174b4cca0045&scene=126",
   "file": "articles/2026-05-01 闲笔.md",
   "imgs": 0,
-  "chars": 1216
+  "chars": 1216,
+  "refs": []
  },
  "2247483877": {
   "title": "证券行业公募基金仓位历史新低",
@@ -602,7 +667,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247483877&idx=1&sn=dfd1577789d3ffec493850dd353bc940&chksm=f11b76db05d778ba8eefcbe4370b6c3eebf46e67e876dc69b0213b130c17e1da75aec80c9a59&scene=126",
   "file": "articles/2026-04-27 证券行业公募基金仓位历史新低.md",
   "imgs": 0,
-  "chars": 1083
+  "chars": 1083,
+  "refs": []
  },
  "2247483873": {
   "title": "黄仁勋访谈",
@@ -613,7 +679,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247483873&idx=1&sn=b0f1778e3ffb12e83ed9450afa34c31f&chksm=f1b151ac6b5d4c62c2d4368b9c27008fea8c4031ad43c57baa10b79c2bfff6f0af42ba674c7a&scene=126",
   "file": "articles/2026-04-26 黄仁勋访谈.md",
   "imgs": 0,
-  "chars": 806
+  "chars": 806,
+  "refs": []
  },
  "2247483869": {
   "title": "deepseek最新版本发布",
@@ -624,7 +691,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247483869&idx=1&sn=24d2214c012f31612a9393ed703eb24e&chksm=f1c0f7f980021c999ac2bd724e9a6c52a770d956c3a2b291ad612cbb57703b6edc969c4e1dfa&scene=126",
   "file": "articles/2026-04-24 deepseek最新版本发布.md",
   "imgs": 0,
-  "chars": 1102
+  "chars": 1102,
+  "refs": []
  },
  "2247483864": {
   "title": "ai技术",
@@ -635,7 +703,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247483864&idx=1&sn=e13ab80e19744eaa1c58208ab1c081f4&chksm=f14a11449430dfbb4431fbee5bb822d4865859c036023f45a0231a596b6aef682057ad320c95&scene=126",
   "file": "articles/2026-04-22 ai技术.md",
   "imgs": 0,
-  "chars": 3682
+  "chars": 3682,
+  "refs": []
  },
  "2247483859": {
   "title": "石油和粮食",
@@ -646,7 +715,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247483859&idx=1&sn=a6c115138aca6ca989cd1e4e252d63aa&chksm=f1b2b1d84a8f2235b982e2a26064407e18d3ea782b03705c738f81349f97f0d7b30b411328be&scene=126",
   "file": "articles/2026-04-21 石油和粮食.md",
   "imgs": 0,
-  "chars": 8866
+  "chars": 8866,
+  "refs": []
  },
  "2247483843": {
   "title": "巴基斯坦中械军驻军沙特",
@@ -657,7 +727,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247483843&idx=1&sn=e77c31dfff75b5717df155e867d77a9c&chksm=f12a347915d7b8afbd00de05b49f58899d57a976972d5a05d81c26cb476161bf6b493e0ed262&scene=126",
   "file": "articles/2026-04-21 巴基斯坦中械军驻军沙特.md",
   "imgs": 0,
-  "chars": 1238
+  "chars": 1238,
+  "refs": []
  },
  "2247483829": {
   "title": "柯立芝",
@@ -668,7 +739,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247483829&idx=1&sn=e90acfe61cf6f07b18716132ae026e55&chksm=f107829cfdf0b8e040827fd549ce7fd2d15feeaf2983ab353e9fea5e98ff0d10a255bdcfc325&scene=126",
   "file": "articles/2026-04-20 柯立芝.md",
   "imgs": 15,
-  "chars": 6654
+  "chars": 6654,
+  "refs": []
  },
  "2247483808": {
   "title": "康波",
@@ -679,7 +751,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247483808&idx=1&sn=394dcb933165e888e0ba7550ddde8dc9&chksm=f17d0cea007c264280002f9fd43163db110adf3871fb3640058235ed4366a91835322cb7c8e0&scene=126",
   "file": "articles/2026-04-20 康波.md",
   "imgs": 0,
-  "chars": 2775
+  "chars": 2775,
+  "refs": []
  },
  "2247483799": {
   "title": "美债",
@@ -690,7 +763,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247483799&idx=1&sn=1397faad26235d25246ab8cb532cb549&chksm=f1ebaa333b8daa1e9638a888895c2f1e05239bb1a4bd412c8c839491368457925de2a9b4075e&scene=126",
   "file": "articles/2026-04-20 美债.md",
   "imgs": 0,
-  "chars": 2251
+  "chars": 2251,
+  "refs": []
  },
  "2247483795": {
   "title": "什么人适合投资？",
@@ -701,7 +775,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247483795&idx=1&sn=a98695c5f76c5938451ee2942d5259df&chksm=f1c86371e3e062670a98f6aa7ae704f968d49f74c2fc9551512bc5bb6535187b44aef638f788&scene=126",
   "file": "articles/2026-04-20 什么人适合投资？.md",
   "imgs": 0,
-  "chars": 1324
+  "chars": 1324,
+  "refs": []
  },
  "2247483783": {
   "title": "越南总书记访华",
@@ -712,7 +787,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247483783&idx=1&sn=bddca18555b44b60481eb3c5e6b612d4&chksm=f1e59ee925f1d9e3a3621479324da9e4f9e26d9ffec0615878e041326ccd7f2ef51be714cd74&scene=126",
   "file": "articles/2026-04-19 越南总书记访华.md",
   "imgs": 0,
-  "chars": 1874
+  "chars": 1874,
+  "refs": []
  },
  "2247483779": {
   "title": "中国人口排行榜第三城市易主",
@@ -723,7 +799,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247483779&idx=1&sn=9fb7959751f587fdd2436799a364992a&chksm=f1e7911af74afdf59efac14639e4608abb883c65c8518c527e2e1c13f4b3543e36b6d8f9e8f3&scene=126",
   "file": "articles/2026-04-18 中国人口排行榜第三城市易主.md",
   "imgs": 0,
-  "chars": 1126
+  "chars": 1126,
+  "refs": []
  },
  "2247483758": {
   "title": "重资产行业投资简要分析",
@@ -734,7 +811,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247483758&idx=1&sn=b097adde0fb29c456b644dda300f597d&chksm=f1a6d84680e37dfadacbd50ed08e236d59e6bf15fc66fb37823cd0d9d0069d3c0d6335dede1a&scene=126",
   "file": "articles/2026-04-14 重资产行业投资简要分析.md",
   "imgs": 0,
-  "chars": 3327
+  "chars": 3327,
+  "refs": []
  },
  "2247483727": {
   "title": "伊朗货币结算下",
@@ -745,7 +823,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247483727&idx=1&sn=dad24d426db48b9738fbcce7a7b09e95&chksm=f1c68b7482f3cd02715767aa4d26613428e1fbc5e5e55e761da14dba742bdab8e3d4e22bbf2c&scene=126",
   "file": "articles/2026-04-14 伊朗货币结算下.md",
   "imgs": 0,
-  "chars": 3055
+  "chars": 3055,
+  "refs": []
  },
  "2247483717": {
   "title": "伊朗货币结算上",
@@ -756,7 +835,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247483717&idx=1&sn=8cc3e7259c425391486f5d81e82cd710&chksm=f157f221fb4b00a60cf20b51e50c682ec16618d6cd393e95c94486929919ed59aecbcde92038&scene=126",
   "file": "articles/2026-04-14 伊朗货币结算上.md",
   "imgs": 0,
-  "chars": 4277
+  "chars": 4277,
+  "refs": []
  },
  "2247483699": {
   "title": "lll",
@@ -767,7 +847,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247483699&idx=1&sn=4f3e70099d69af0e4946dc58ec352f26&chksm=f1423ac11f1f7c4a0c880488f0820a41b022b36f4d270528324a1d54ebc49906bda2fd6057a2&scene=126",
   "file": "articles/2026-04-13 lll.md",
   "imgs": 0,
-  "chars": 4804
+  "chars": 4804,
+  "refs": []
  },
  "2247483689": {
   "title": "复苏",
@@ -778,7 +859,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247483689&idx=1&sn=0a2487e10f74b47bbb7db969d9d83a11&chksm=f1f227573bf175180d130a574dab940a4daedb2981190b645a512bab4152236610a70d314dac&scene=126",
   "file": "articles/2026-04-13 复苏.md",
   "imgs": 0,
-  "chars": 11161
+  "chars": 11161,
+  "refs": []
  },
  "2247483685": {
   "title": "消费预测",
@@ -789,7 +871,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247483685&idx=1&sn=c13f4ab15304c19682a4a8375d1afe2c&chksm=f144f249aefe9420e17a70678da411d00b0fed959e7a8953524d57ff57596d8a6c7f7a85a204&scene=126",
   "file": "articles/2026-04-13 消费预测.md",
   "imgs": 0,
-  "chars": 7203
+  "chars": 7203,
+  "refs": []
  },
  "2247483675": {
   "title": "。。。",
@@ -800,7 +883,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247483675&idx=1&sn=34d6d3e1ffa1ec0a464a8cc430f2b7cb&chksm=f1cc6aaac162347b80ffacbefea7f50222aeebe1c00f80669e35c2583167228fcf65fdb1ce54&scene=126",
   "file": "articles/2026-04-13 。。。.md",
   "imgs": 0,
-  "chars": 2056
+  "chars": 2056,
+  "refs": []
  },
  "2247483671": {
   "title": "安全成本",
@@ -811,7 +895,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247483671&idx=1&sn=8aa5ae9c6a2e5112fec6b3fe4516f3db&chksm=f11be4c814ac2ca5423c41d6f4ad95964f4be9b0e628b470969d6181e1fbab73455fd1baa81a&scene=126",
   "file": "articles/2026-04-13 安全成本.md",
   "imgs": 0,
-  "chars": 1131
+  "chars": 1131,
+  "refs": []
  },
  "2247483663": {
   "title": "美元周期",
@@ -822,7 +907,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247483663&idx=1&sn=46f6894cb4b2414753258821a4458e68&chksm=f184e88a2a289d38bf0867f50017f8cd4b4450ab1b7cc16f18881b45a57d7470b771bbe926c5&scene=126",
   "file": "articles/2026-04-13 美元周期.md",
   "imgs": 0,
-  "chars": 11234
+  "chars": 11234,
+  "refs": []
  },
  "2247483659": {
   "title": "美伊战争简单分析",
@@ -833,7 +919,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247483659&idx=1&sn=88cf1a8ddddd835dc1c1bd4408120873&chksm=f15f6da295b23fb037675b611e53b37907c626ffc77b6610441edcd446337acbd0487b172625&scene=126",
   "file": "articles/2026-04-13 美伊战争简单分析.md",
   "imgs": 1,
-  "chars": 5817
+  "chars": 5817,
+  "refs": []
  },
  "2247484333": {
   "title": "。。",
@@ -844,7 +931,8 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247484333&idx=1&sn=fbba02d27e7a1c2ef94db3c1e85e06e6&chksm=f1a8e1628c8d45dc29a3d9c8aa3db2a45666d9dc9d7d1b07f20647734df24bffea8e7e5ce5c4&scene=126",
   "file": "articles/2026-09-24 。。.md",
   "imgs": 0,
-  "chars": 415
+  "chars": 415,
+  "refs": []
  },
  "2247484343": {
   "title": "1",
@@ -855,6 +943,7 @@
   "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247484343&idx=1&sn=257d108e514231c8dcb0d5a9529b2a73&chksm=f12b2492e1da5622574830d60edd5a849aa0f0d0ae71ec5a3a72884b7ba74a137c43c3c3c5e3&scene=126",
   "file": "articles/2026-10-01 1.md",
   "imgs": 2,
-  "chars": 2327
+  "chars": 2327,
+  "refs": []
  }
 }

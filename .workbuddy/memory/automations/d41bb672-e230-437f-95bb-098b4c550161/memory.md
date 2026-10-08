@@ -7,6 +7,23 @@
 
 ## 执行历史
 
+### 2026-10-08 09:40-10:05（**成功：模式 D 解除，新增 1 篇**；伴随模式 C 污染已修复）
+- 大王确认后重跑。微信已**重启**：旧 PID 31284 降为残留，新增 35032/38360/50912 等；
+  `precheck.py` 报 `is_logged_in=True`、主窗 `1327x782` 在屏内 ⇒ **模式 D（连续 9 天）解除**。
+- 新变体 **模式 E′**：登录正常但 `scan_wechat_docs()=0`（重启后 WebView 面板丢失）。
+  人工在微信里打开该号主页后出现 `DocumentControl '无语子点点'` ⇒ 面板就位。
+- 跑 1 次 sync：**抓到 1 篇新文** mid=`2247484343`「1」— **2026-10-01 16:36**
+  （副标题「消费增速放缓，经济周期或现大萧条风险」），正文 7.2KB 真实、含 2 图。
+- 同时爆发**模式 C 重复污染**：列表项 10 次点击全部失效且都返回同一 mid ⇒ `articles.json` 77→87，
+  尾部 10 条重复、标题错位；**README 篇数被写成 87 且重复 10 行**（commit `f0e9a9b` 已推）。
+- 修复：备份 articles.json 到仓库外 → 按 URL 的 `mid` 去重（87→78）→ 重跑 `build_repo.py`
+  （README 87→78、去重）→ fix commit **`4b19561`** 已 push。
+- 最终：articles.json 78 == index.json 78 == articles/*.md 78（差集空），images 73，
+  `HEAD == origin/main == 4b19561`，工作树 clean。归档前进到 **2026-10-01**。
+- 教训已写 skill：`sync.py` rc=0 **≠ 成功**，跑完必须核对三处 mid 数一致；
+  `state/index.json`（mid 为键）天然去重是可信基准；`articles.json` 的 mid 藏在 **url 参数**里、无顶层 mid 字段。
+- **遗留提醒**：`articles.json.bak_20261008_1000` 已移到 `C:\Users\zhico\Desktop\_wuyuzi_backup\`（未污染仓库）。
+
 ### 2026-10-08 08:00-08:04（**失败：模式 D（微信掉登录）连续第 9 天**，0 新增）
 - Weixin.exe 在运行（PID 31284，1 个）→ 未走「微信未启动」跳过分支。
 - 跑前 `precheck.py <repo>` 10 秒定案：`hwnd=4655272`、唤醒后 rect `(-1108,325,-812,713)`（296x388 屏外）、
