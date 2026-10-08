@@ -104,65 +104,137 @@ def get_subtitle(store, title, body, cache_file):
         pass
     return sub, src
 
-# ---------------- 内链(相关文章) ----------------
+# ---------------- 文内链接(相关文章) ----------------
+# 该号有三种引用方式, 都要处理:
+#   ① <a href> 内链 (mp.weixin 带 mid)      -- 2026-10-08 前唯一处理的
+#   ② 裸贴 mp.weixin 长链 (带 mid)          -- 纯文本
+#   ③ 裸贴 mp.weixin 短链 (/s/<hash>)       -- 纯文本, 需 HTTP 解析出 mid
+#   ④ 外部平台裸链 (小红书 xhslink / 知乎 / B站 b23.tv ...) -- 只能给外链
 GITHUB_BLOB = 'https://github.com/tzc-code/wuyuzi-diandian/blob/main/'
 _HREF = re.compile(r'href=["\']([^"\']+)["\']', re.I)
 _HREF_ALL = re.compile(r'<a\b[^>]*>', re.I)
+_URL = re.compile(r'https?://[^\s<>"\'）)】\]，,。；;、]+', re.I)
+_MP_SHORT = re.compile(r'^https?://mp\.weixin\.qq\.com/s/([A-Za-z0-9_\-]+)$', re.I)
 
-def extract_ref_mids(inner, self_mid):
-    """从原始正文 HTML 提取内链的 mid 列表(保序去重, 排除自引用)
+UA = ('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 '
+      '(KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36')
+_short_cache = {}          # hash -> mid|None, 跨轮同进程复用
 
-    微信内链形态: https://mp.weixin.qq.com/s?__biz=...&mid=<mid>&idx=1&sn=...&scene=21
-    href 里 & 可能是 &amp;, 需 unescape; href 可能用单引号/无引号。
+def resolve_short(h):
+    """把 mp.weixin 短链 /s/<hash> 解析出 mid; 失败返回 None(空壳页/已删)"""
+    if h in _short_cache:
+        return _short_cache[h]
+    mid = None
+    try:
+        r = requests.get('https://mp.weixin.qq.com/s/' + h,
+                         headers={'User-Agent': UA}, timeout=30, allow_redirects=True)
+        m = (re.search(r'[?&]mid=(\d+)', r.url)
+             or re.search(r'var\s+mid\s*=\s*"?(\d+)', r.text)
+             or re.search(r'"mid"\s*:\s*"?(\d+)', r.text))
+        if m:
+            mid = m.group(1)
+    except Exception as e:
+        print('    (短链解析失败) %s %r' % (h, e))
+    _short_cache[h] = mid
+    return mid
+
+def extract_refs(inner, self_mid, resolve_shorts=True):
+    """提取文内引用。
+
+    返回 (mp_mids, ext_urls):
+      mp_mids  : 本号文章 mid(保序去重, 含 href 内链 + 裸贴长链 + 短链解析结果)
+      ext_urls : 外部平台链接(小红书/知乎/B站等)完整 URL(保序去重)
     """
     if not inner:
-        return []
+        return [], []
     import html as _h
-    seen, out = set(), []
+    mids, ext = [], []
+    seen_m, seen_e = set(), set()
+
+    def add_mid(m):
+        if m and m != str(self_mid) and m not in seen_m:
+            seen_m.add(m); mids.append(m)
+
+    def add_ext(u):
+        if u not in seen_e:
+            seen_e.add(u); ext.append(u)
+
+    # ① <a href> 内链: 里面可能有 mp 长链, 也可能有外部平台链接
     for raw in _HREF.findall(inner):
         u = _h.unescape(raw)
         m = re.search(r'[?&]mid=(\d+)', u)
-        if not m:
-            continue
-        mid = m.group(1)
-        if not mid or mid == str(self_mid):
-            continue                      # 排除自引用
-        if mid in seen:
-            continue
-        seen.add(mid)
-        out.append(mid)
-    # 兜底: 有些内链目标不含 mid 参数(如 /s/<短hash>), 记录数量供排查
-    anchors = len(_HREF_ALL.findall(inner))
-    if anchors and not out:
-        raw_empty = [u for u in _HREF.findall(inner)]
-        if raw_empty:
-            print('    (注意) 有 %d 个 <a> 但未解析出 mid, href 样本: %r'
-                  % (anchors, [x[:60] for x in raw_empty[:2]]))
-    return out
+        if m:
+            add_mid(m.group(1)); continue
+        ms = _MP_SHORT.match(u.split('#')[0])
+        if ms:
+            add_mid(resolve_short(ms.group(1)) if resolve_shorts else None); continue
+        if u.startswith('http'):
+            add_ext(u.split('#')[0])
+
+    # ② 纯文本里的裸链接(含 mp 长链/短链/外部平台)
+    text = _h.unescape(re.sub(r'<[^>]+>', ' ', inner))
+    for u in _URL.findall(text):
+        u = u.rstrip('，,。;；、')
+        m = re.search(r'[?&]mid=(\d+)', u)
+        if m:
+            add_mid(m.group(1)); continue
+        ms = _MP_SHORT.match(u)
+        if ms:
+            add_mid(resolve_short(ms.group(1)) if resolve_shorts else None); continue
+        add_ext(u)
+
+    return mids, ext
 
 def md_link(path):
     """md 相对链接: 空格等需转义, 否则 GitHub 上点不动(中文/全角可保留)"""
     return path.replace(' ', '%20')
 
-def refs_block(refs, self_file):
+PLATFORM = [('xhslink', '小红书'), ('xiaohongshu', '小红书'),
+            ('zhihu', '知乎'), ('b23.tv', 'B站'), ('bilibili', 'B站'),
+            ('weibo', '微博'), ('douyin', '抖音'), ('kuaishou', '快手')]
+
+def platform_of(u):
+    for k, name in PLATFORM:
+        if k in u.lower():
+            return name
+    return '外部链接'
+
+def refs_block(refs, ext=None, unresolved=None):
     """生成 md 末尾的「相关文章」区块
 
-    refs: [{'title','date','subtitle','file_rel','github'}]  目标在库内
+    refs       : [{'title','date','subtitle','file_rel','github'}] 本号往期文(已归档)
+    ext        : [url, ...] 外部平台链接(小红书/知乎/B站等)
+    unresolved : [url_or_mid, ...] 本号文章但未能解析/未归档, 列出原始链接供人工查看
     标题多为「。。」「1」这类无意义短串, 故附上日期 + 副标题便于辨认。
     """
-    if not refs:
+    refs = refs or []
+    ext = ext or []
+    unresolved = unresolved or []
+    if not (refs or ext or unresolved):
         return ''
-    lines = ['', '---', '', '## 相关文章', '',
-             '> 本文中提到的往期文章（已归档到本仓库）：', '']
-    for r in refs:
-        t = (r.get('title') or '未命名').replace(']', '\\]').replace('[', '\\[')
-        date = r.get('date') or ''
-        sub = (r.get('subtitle') or '').replace(']', '\\]').replace('[', '\\[')
-        if sub and sub not in ('纯图片 / 短帖，无正文',):
-            t += '（%s）' % sub
-        lines.append('- %s [%s](%s) · [GitHub](%s)' % (
-            (date + ' ') if date else '', t, md_link(r['file_rel']), r['github']))
-    lines.append('')
+    lines = ['', '---', '', '## 相关文章', '']
+    if refs:
+        lines += ['> 本文中提到的往期文章（已归档到本仓库）：', '']
+        for r in refs:
+            t = (r.get('title') or '未命名').replace(']', '\\]').replace('[', '\\[')
+            date = r.get('date') or ''
+            sub = (r.get('subtitle') or '').replace(']', '\\]').replace('[', '\\[')
+            if sub and sub not in ('纯图片 / 短帖，无正文',):
+                t += '（%s）' % sub
+            lines.append('- %s [%s](%s) · [GitHub](%s)' % (
+                (date + ' ') if date else '', t, md_link(r['file_rel']), r['github']))
+        lines.append('')
+    if ext:
+        lines += ['> 文中引用的外部平台内容（原文链接）：', '']
+        for u in ext:
+            uu = u.replace(')', '%29')
+            lines.append('- [%s](%s)' % (platform_of(u), uu))
+        lines.append('')
+    if unresolved:
+        lines += ['> 文中提到但**未归档到本仓库**的本号文章（原始链接）：', '']
+        for u in unresolved:
+            lines.append('- %s' % u)
+        lines.append('')
     return '\n'.join(lines)
 
 # ---------------- 文件命名 ----------------
@@ -259,13 +331,15 @@ def main():
         doc += '> **副标题**：%s  \n> **发表日期**：%s  \n> **原文**：%s\n\n---\n\n' % (sub, dtime, src_url)
         doc += body + '\n'
 
-        # 内链 -> 相关文章(仅取库内已有归档的目标)
-        ref_mids = extract_ref_mids(s.get('inner') or '', mid)
-        refs = []
+        # 文内引用 -> 相关文章区块(本号已归档 / 本号未归档 / 外部平台)
+        ref_mids, ext_urls = extract_refs(s.get('inner') or '', mid)
+        refs, unresolved = [], []
         for rm in ref_mids:
             rf = mid2file.get(rm)
             if not rf:
-                print('    (ref 不在库内, 跳过) %s -> mid=%s' % (fname, rm))
+                print('    (ref 不在库内) %s -> mid=%s' % (fname, rm))
+                unresolved.append('https://mp.weixin.qq.com/s?__biz=%s&mid=%s&idx=1'
+                                  % (s.get('biz') or 'MzYzMTIxMjk4NQ==', rm))
                 continue
             rmeta = idx.get(rm) or {}
             refs.append({'mid': rm, 'title': rmeta.get('title') or '',
@@ -273,8 +347,8 @@ def main():
                          'subtitle': rmeta.get('subtitle') or '',
                          'file_rel': 'articles/' + rf,
                          'github': GITHUB_BLOB + 'articles/' + rf.replace(' ', '%20')})
-        if refs:
-            doc += refs_block(refs, 'articles/' + fname)
+        if refs or ext_urls or unresolved:
+            doc += refs_block(refs, ext_urls, unresolved)
         with open(fpath, 'w', encoding='utf-8') as f:
             f.write(doc)
 
@@ -282,11 +356,15 @@ def main():
                     'datetime': dtime, 'url': src_url, 'file': 'articles/' + fname,
                     'imgs': len(s.get('imgs') or []), 'chars': len(body),
                     'refs': [{'mid': r['mid'], 'title': r['title'], 'file': r['file_rel']}
-                             for r in refs]}
+                             for r in refs],
+                    'ext': ext_urls,
+                    'unresolved': unresolved}
         rows.append(idx[mid])
         built += 1
+        n_ref = len(refs) + len(ext_urls) + len(unresolved)
         print('  [%2d] %s  <- %r%s' % (built, fname, sub[:40],
-                                       ('  [refs:%d]' % len(refs)) if refs else ''))
+                                       ('  [refs:%d ext:%d unk:%d]'
+                                        % (len(refs), len(ext_urls), len(unresolved))) if n_ref else ''))
 
     # 清理孤儿 md(改名/删文后残留)
     keep = {os.path.basename(r['file']) for r in rows}
@@ -313,8 +391,11 @@ def main():
             r['datetime'] or r['date'], r['title'].replace('|', '\\|'),
             r['file'].replace(' ', '%20'), r['subtitle'].replace('|', '\\|')))
     nref = sum(len(r.get('refs') or []) for r in rows)
-    if nref:
-        lines += ['', '> 共 %d 处文内引用已建立到本仓库的跳转。' % nref]
+    next_ = sum(len(r.get('ext') or []) for r in rows)
+    nunk = sum(len(r.get('unresolved') or []) for r in rows)
+    if nref or next_ or nunk:
+        lines += ['', '> 文内引用：**%d** 处链接到本仓库归档；**%d** 处外部平台内容（小红书/知乎等）；'
+                  '**%d** 处本号文章暂未归档。' % (nref, next_, nunk)]
     lines += ['', '---', '',
               '*最后同步：%s*' % time.strftime('%Y-%m-%d %H:%M:%S'),
               '', '*本仓库由自动化脚本生成：使用微信 PC 端内置浏览器取文章链接，再用 HTTP 直取正文。*']

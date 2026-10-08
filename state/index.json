@@ -20,7 +20,11 @@
     "title": "。。。。",
     "file": "articles/2026-08-26 。。。。.md"
    }
-  ]
+  ],
+  "ext": [
+   "https://zhuanlan.zhihu.com/p/26027538?share_code=1pi7TAG9sHf0R&utm_psn=2008541347523609486"
+  ],
+  "unresolved": []
  },
  "2247484321": {
   "title": "。。。",
@@ -32,7 +36,9 @@
   "file": "articles/2026-09-18 。。。.md",
   "imgs": 0,
   "chars": 1676,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247484317": {
   "title": "加息",
@@ -44,7 +50,9 @@
   "file": "articles/2026-09-18 加息.md",
   "imgs": 0,
   "chars": 989,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247484313": {
   "title": "随手写",
@@ -56,7 +64,17 @@
   "file": "articles/2026-09-16 随手写.md",
   "imgs": 1,
   "chars": 3331,
-  "refs": []
+  "refs": [
+   {
+    "mid": "2247484044",
+    "title": "。。。。",
+    "file": "articles/2026-07-02 。。。。.md"
+   }
+  ],
+  "ext": [
+   "https://b23.tv/owzullu"
+  ],
+  "unresolved": []
  },
  "2247484307": {
   "title": "内陆运河，平陆运河建成",
@@ -68,7 +86,18 @@
   "file": "articles/2026-09-15 内陆运河，平陆运河建成.md",
   "imgs": 0,
   "chars": 2166,
-  "refs": []
+  "refs": [
+   {
+    "mid": "2247484173",
+    "title": "。。。。",
+    "file": "articles/2026-08-26 。。。。.md"
+   }
+  ],
+  "ext": [
+   "https://xhslink.cn/o/2XKruTCjAF6",
+   "https://xhslink.cn/o/65JOTDhLXLA"
+  ],
+  "unresolved": []
  },
  "2247484299": {
   "title": "给你们看看我的新银行卡",
@@ -80,7 +109,51 @@
   "file": "articles/2026-09-15 给你们看看我的新银行卡.md",
   "imgs": 0,
   "chars": 2613,
-  "refs": []
+  "refs": [
+   {
+    "mid": "2247483986",
+    "title": "油运半场",
+    "file": "articles/2026-05-30 油运半场.md"
+   },
+   {
+    "mid": "2247483689",
+    "title": "复苏",
+    "file": "articles/2026-04-13 复苏.md"
+   },
+   {
+    "mid": "2247483933",
+    "title": "重资产再谈",
+    "file": "articles/2026-05-12 重资产再谈.md"
+   },
+   {
+    "mid": "2247484220",
+    "title": "123456789",
+    "file": "articles/2026-09-04 123456789.md"
+   },
+   {
+    "mid": "2247483685",
+    "title": "消费预测",
+    "file": "articles/2026-04-13 消费预测.md"
+   },
+   {
+    "mid": "2247483699",
+    "title": "lll",
+    "file": "articles/2026-04-13 lll.md"
+   },
+   {
+    "mid": "2247484044",
+    "title": "。。。。",
+    "file": "articles/2026-07-02 。。。。.md"
+   }
+  ],
+  "ext": [
+   "https://xhslink.cn/o/9VIeznxXCd0",
+   "https://xhslink.cn/o/8O3i948vSau",
+   "https://xhslink.cn/o/64puvkQtSda",
+   "https://xhslink.cn/o/AywpL2Nqp3f",
+   "https://xhslink.cn/o/5Z2yWCDODOy"
+  ],
+  "unresolved": []
  },
  "2247484283": {
   "title": "胡赛武装",
@@ -92,7 +165,11 @@
   "file": "articles/2026-09-11 胡赛武装.md",
   "imgs": 1,
   "chars": 1192,
-  "refs": []
+  "refs": [],
+  "ext": [
+   "https://www.zhihu.com/question/661729537/answer/3580254496?share_code=19MG25Gd97mrJ&utm_psn=2081549039254892689"
+  ],
+  "unresolved": []
  },
  "2247484251": {
   "title": "赌场时间到，给我o泡果奶嗷嗷嗷",
@@ -104,7 +181,9 @@
   "file": "articles/2026-09-10 赌场时间到，给我o泡果奶嗷嗷嗷.md",
   "imgs": 3,
   "chars": 1176,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247484241": {
   "title": "复苏可能拐点",
@@ -116,7 +195,9 @@
   "file": "articles/2026-09-09 复苏可能拐点.md",
   "imgs": 0,
   "chars": 1349,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247484229": {
   "title": "碎碎念",
@@ -128,7 +209,9 @@
   "file": "articles/2026-09-08 碎碎念.md",
   "imgs": 0,
   "chars": 1031,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247484225": {
   "title": "流动性利好",
@@ -140,7 +223,9 @@
   "file": "articles/2026-09-06 流动性利好.md",
   "imgs": 1,
   "chars": 826,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247484220": {
   "title": "123456789",
@@ -152,7 +237,11 @@
   "file": "articles/2026-09-04 123456789.md",
   "imgs": 0,
   "chars": 1351,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": [
+   "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247489268&idx=1"
+  ]
  },
  "2247484212": {
   "title": "虾写",
@@ -164,7 +253,9 @@
   "file": "articles/2026-09-04 虾写.md",
   "imgs": 0,
   "chars": 1030,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247484203": {
   "title": "脑洞",
@@ -176,7 +267,9 @@
   "file": "articles/2026-08-29 脑洞.md",
   "imgs": 18,
   "chars": 790,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247484177": {
   "title": "沃什发言",
@@ -188,7 +281,9 @@
   "file": "articles/2026-08-29 沃什发言.md",
   "imgs": 0,
   "chars": 2946,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247484173": {
   "title": "。。。。",
@@ -200,7 +295,9 @@
   "file": "articles/2026-08-26 。。。。.md",
   "imgs": 15,
   "chars": 658,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247484142": {
   "title": "随笔",
@@ -212,7 +309,9 @@
   "file": "articles/2026-08-21 随笔.md",
   "imgs": 1,
   "chars": 1854,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247484137": {
   "title": "又水一篇",
@@ -224,7 +323,9 @@
   "file": "articles/2026-08-20 又水一篇.md",
   "imgs": 0,
   "chars": 1225,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247484129": {
   "title": "。。。",
@@ -236,7 +337,9 @@
   "file": "articles/2026-08-18 。。。.md",
   "imgs": 4,
   "chars": 4730,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247484117": {
   "title": "水一篇",
@@ -248,7 +351,9 @@
   "file": "articles/2026-08-14 水一篇.md",
   "imgs": 0,
   "chars": 146,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247484113": {
   "title": "789",
@@ -260,7 +365,9 @@
   "file": "articles/2026-08-12 789.md",
   "imgs": 0,
   "chars": 1687,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247484109": {
   "title": "旅游中闲笔",
@@ -272,7 +379,9 @@
   "file": "articles/2026-08-06 旅游中闲笔.md",
   "imgs": 0,
   "chars": 1395,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247484105": {
   "title": "学习特朗普不内耗",
@@ -284,7 +393,9 @@
   "file": "articles/2026-08-02 学习特朗普不内耗.md",
   "imgs": 0,
   "chars": 2130,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247484100": {
   "title": "l",
@@ -296,7 +407,11 @@
   "file": "articles/2026-08-01 l.md",
   "imgs": 0,
   "chars": 3965,
-  "refs": []
+  "refs": [],
+  "ext": [
+   "https://zhuanlan.zhihu.com/p/26027538?share_code=1pi7TAG9sHf0R&utm_psn=2008541347523609486"
+  ],
+  "unresolved": []
  },
  "2247484084": {
   "title": "韩国股市几乎腰斩",
@@ -308,7 +423,9 @@
   "file": "articles/2026-07-29 韩国股市几乎腰斩.md",
   "imgs": 2,
   "chars": 924,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247484076": {
   "title": "闲谈",
@@ -320,7 +437,9 @@
   "file": "articles/2026-07-24 闲谈.md",
   "imgs": 3,
   "chars": 475,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247484069": {
   "title": "马杀鸡",
@@ -332,7 +451,9 @@
   "file": "articles/2026-07-18 马杀鸡.md",
   "imgs": 0,
   "chars": 1491,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247484065": {
   "title": "n",
@@ -344,7 +465,9 @@
   "file": "articles/2026-07-17 n.md",
   "imgs": 0,
   "chars": 508,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247484061": {
   "title": "谁规定的非得取标题",
@@ -356,7 +479,9 @@
   "file": "articles/2026-07-14 谁规定的非得取标题.md",
   "imgs": 0,
   "chars": 1142,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247484053": {
   "title": "abc",
@@ -368,7 +493,9 @@
   "file": "articles/2026-07-12 abc.md",
   "imgs": 0,
   "chars": 2660,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247484048": {
   "title": "预期管理",
@@ -380,7 +507,9 @@
   "file": "articles/2026-07-04 预期管理.md",
   "imgs": 0,
   "chars": 2743,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247484044": {
   "title": "。。。。",
@@ -392,7 +521,9 @@
   "file": "articles/2026-07-02 。。。。.md",
   "imgs": 0,
   "chars": 11326,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247484040": {
   "title": "随笔",
@@ -404,7 +535,9 @@
   "file": "articles/2026-06-29 随笔.md",
   "imgs": 0,
   "chars": 1899,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247484036": {
   "title": "按摩一下",
@@ -416,7 +549,9 @@
   "file": "articles/2026-06-26 按摩一下.md",
   "imgs": 0,
   "chars": 707,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247484032": {
   "title": "不起标题",
@@ -428,7 +563,9 @@
   "file": "articles/2026-06-22 不起标题.md",
   "imgs": 0,
   "chars": 2838,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247484027": {
   "title": "美伊协议",
@@ -440,7 +577,9 @@
   "file": "articles/2026-06-18 美伊协议.md",
   "imgs": 0,
   "chars": 932,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247484023": {
   "title": "日本加息",
@@ -452,7 +591,9 @@
   "file": "articles/2026-06-17 日本加息.md",
   "imgs": 0,
   "chars": 1382,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247484019": {
   "title": "旧文重温",
@@ -464,7 +605,9 @@
   "file": "articles/2026-06-15 旧文重温.md",
   "imgs": 1,
   "chars": 3072,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247484014": {
   "title": "懒人",
@@ -476,7 +619,9 @@
   "file": "articles/2026-06-15 懒人.md",
   "imgs": 2,
   "chars": 540,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247484002": {
   "title": "市场风格切换可能",
@@ -488,7 +633,9 @@
   "file": "articles/2026-06-05 市场风格切换可能.md",
   "imgs": 0,
   "chars": 817,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247483990": {
   "title": "水一篇",
@@ -500,7 +647,9 @@
   "file": "articles/2026-06-03 水一篇.md",
   "imgs": 0,
   "chars": 207,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247483986": {
   "title": "油运半场",
@@ -512,7 +661,9 @@
   "file": "articles/2026-05-30 油运半场.md",
   "imgs": 0,
   "chars": 1529,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247483973": {
   "title": "04091019",
@@ -524,7 +675,9 @@
   "file": "articles/2026-05-29 04091019.md",
   "imgs": 0,
   "chars": 2592,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247483969": {
   "title": "韭菜管够",
@@ -536,7 +689,9 @@
   "file": "articles/2026-05-27 韭菜管够.md",
   "imgs": 0,
   "chars": 1201,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247483965": {
   "title": "韭菜管够",
@@ -548,7 +703,9 @@
   "file": "articles/2026-05-27 韭菜管够 (2).md",
   "imgs": 0,
   "chars": 1093,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247483959": {
   "title": "智障也有春天",
@@ -560,7 +717,9 @@
   "file": "articles/2026-05-21 智障也有春天.md",
   "imgs": 0,
   "chars": 1199,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247483955": {
   "title": "无聊",
@@ -572,7 +731,9 @@
   "file": "articles/2026-05-21 无聊.md",
   "imgs": 1,
   "chars": 320,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247483949": {
   "title": "降息缩表",
@@ -584,7 +745,9 @@
   "file": "articles/2026-05-17 降息缩表.md",
   "imgs": 1,
   "chars": 3934,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247483937": {
   "title": "闲笔",
@@ -596,7 +759,9 @@
   "file": "articles/2026-05-15 闲笔.md",
   "imgs": 0,
   "chars": 1361,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247483933": {
   "title": "重资产再谈",
@@ -608,7 +773,9 @@
   "file": "articles/2026-05-12 重资产再谈.md",
   "imgs": 0,
   "chars": 1059,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247483929": {
   "title": "股票博主和基金经理",
@@ -620,7 +787,9 @@
   "file": "articles/2026-05-09 股票博主和基金经理.md",
   "imgs": 0,
   "chars": 1150,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247483915": {
   "title": "波奇酱卡哇伊",
@@ -632,7 +801,9 @@
   "file": "articles/2026-05-06 波奇酱卡哇伊.md",
   "imgs": 0,
   "chars": 696,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247483911": {
   "title": "中美对比",
@@ -644,7 +815,19 @@
   "file": "articles/2026-05-02 中美对比.md",
   "imgs": 1,
   "chars": 4632,
-  "refs": []
+  "refs": [
+   {
+    "mid": "2247483659",
+    "title": "美伊战争简单分析",
+    "file": "articles/2026-04-13 美伊战争简单分析.md"
+   }
+  ],
+  "ext": [
+   "http://xhslink.com/o/8GQtemIpBvb",
+   "https://www.zhihu.com/question/276471245/answer/2517484299?share_code=MGIQuyu2Vb0D&utm_psn=2033960818136584706",
+   "http://xhslink.com/o/2oye9VFDuSj"
+  ],
+  "unresolved": []
  },
  "2247483897": {
   "title": "闲笔",
@@ -656,7 +839,9 @@
   "file": "articles/2026-05-01 闲笔.md",
   "imgs": 0,
   "chars": 1216,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247483877": {
   "title": "证券行业公募基金仓位历史新低",
@@ -668,7 +853,9 @@
   "file": "articles/2026-04-27 证券行业公募基金仓位历史新低.md",
   "imgs": 0,
   "chars": 1083,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247483873": {
   "title": "黄仁勋访谈",
@@ -680,7 +867,9 @@
   "file": "articles/2026-04-26 黄仁勋访谈.md",
   "imgs": 0,
   "chars": 806,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247483869": {
   "title": "deepseek最新版本发布",
@@ -692,7 +881,9 @@
   "file": "articles/2026-04-24 deepseek最新版本发布.md",
   "imgs": 0,
   "chars": 1102,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247483864": {
   "title": "ai技术",
@@ -704,7 +895,9 @@
   "file": "articles/2026-04-22 ai技术.md",
   "imgs": 0,
   "chars": 3682,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247483859": {
   "title": "石油和粮食",
@@ -716,7 +909,11 @@
   "file": "articles/2026-04-21 石油和粮食.md",
   "imgs": 0,
   "chars": 8866,
-  "refs": []
+  "refs": [],
+  "ext": [
+   "https://zhuanlan.zhihu.com/p/26027538?share_code=1pi7TAG9sHf0R&utm_psn=2008541347523609486"
+  ],
+  "unresolved": []
  },
  "2247483843": {
   "title": "巴基斯坦中械军驻军沙特",
@@ -728,7 +925,9 @@
   "file": "articles/2026-04-21 巴基斯坦中械军驻军沙特.md",
   "imgs": 0,
   "chars": 1238,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247483829": {
   "title": "柯立芝",
@@ -740,7 +939,9 @@
   "file": "articles/2026-04-20 柯立芝.md",
   "imgs": 15,
   "chars": 6654,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247483808": {
   "title": "康波",
@@ -752,7 +953,9 @@
   "file": "articles/2026-04-20 康波.md",
   "imgs": 0,
   "chars": 2775,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247483799": {
   "title": "美债",
@@ -764,7 +967,9 @@
   "file": "articles/2026-04-20 美债.md",
   "imgs": 0,
   "chars": 2251,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247483795": {
   "title": "什么人适合投资？",
@@ -776,7 +981,9 @@
   "file": "articles/2026-04-20 什么人适合投资？.md",
   "imgs": 0,
   "chars": 1324,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247483783": {
   "title": "越南总书记访华",
@@ -788,7 +995,9 @@
   "file": "articles/2026-04-19 越南总书记访华.md",
   "imgs": 0,
   "chars": 1874,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247483779": {
   "title": "中国人口排行榜第三城市易主",
@@ -800,7 +1009,9 @@
   "file": "articles/2026-04-18 中国人口排行榜第三城市易主.md",
   "imgs": 0,
   "chars": 1126,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247483758": {
   "title": "重资产行业投资简要分析",
@@ -812,7 +1023,9 @@
   "file": "articles/2026-04-14 重资产行业投资简要分析.md",
   "imgs": 0,
   "chars": 3327,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247483727": {
   "title": "伊朗货币结算下",
@@ -824,7 +1037,9 @@
   "file": "articles/2026-04-14 伊朗货币结算下.md",
   "imgs": 0,
   "chars": 3055,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247483717": {
   "title": "伊朗货币结算上",
@@ -836,7 +1051,9 @@
   "file": "articles/2026-04-14 伊朗货币结算上.md",
   "imgs": 0,
   "chars": 4277,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247483699": {
   "title": "lll",
@@ -848,7 +1065,9 @@
   "file": "articles/2026-04-13 lll.md",
   "imgs": 0,
   "chars": 4804,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247483689": {
   "title": "复苏",
@@ -860,7 +1079,9 @@
   "file": "articles/2026-04-13 复苏.md",
   "imgs": 0,
   "chars": 11161,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247483685": {
   "title": "消费预测",
@@ -872,7 +1093,9 @@
   "file": "articles/2026-04-13 消费预测.md",
   "imgs": 0,
   "chars": 7203,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247483675": {
   "title": "。。。",
@@ -884,7 +1107,9 @@
   "file": "articles/2026-04-13 。。。.md",
   "imgs": 0,
   "chars": 2056,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247483671": {
   "title": "安全成本",
@@ -896,7 +1121,9 @@
   "file": "articles/2026-04-13 安全成本.md",
   "imgs": 0,
   "chars": 1131,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247483663": {
   "title": "美元周期",
@@ -908,7 +1135,9 @@
   "file": "articles/2026-04-13 美元周期.md",
   "imgs": 0,
   "chars": 11234,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247483659": {
   "title": "美伊战争简单分析",
@@ -920,7 +1149,9 @@
   "file": "articles/2026-04-13 美伊战争简单分析.md",
   "imgs": 1,
   "chars": 5817,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247484333": {
   "title": "。。",
@@ -932,7 +1163,9 @@
   "file": "articles/2026-09-24 。。.md",
   "imgs": 0,
   "chars": 415,
-  "refs": []
+  "refs": [],
+  "ext": [],
+  "unresolved": []
  },
  "2247484343": {
   "title": "1",
@@ -944,6 +1177,10 @@
   "file": "articles/2026-10-01 1.md",
   "imgs": 2,
   "chars": 2327,
-  "refs": []
+  "refs": [],
+  "ext": [
+   "https://xhslink.cn/o/96ZkZ61cX00"
+  ],
+  "unresolved": []
  }
 }
