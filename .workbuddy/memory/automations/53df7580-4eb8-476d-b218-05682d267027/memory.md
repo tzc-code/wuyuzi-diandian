@@ -314,4 +314,26 @@
 1. 早期：rect 296x388 + `is_logged_in=False` + `scan_wechat_docs()=0`（会与「最小化未渲染」混淆）。
 2. 09-29 起：唤醒后 walk 主窗 UIA 看有无 `发现/朋友圈/视频号`。
 3. **10-08 起：直接读主窗 ClassName —— `mmui::LoginWindow` = 掉登录，一步定案。**
+4. **10-09 起：ClassName = `mmui::MainWindow` + `is_logged_in=True` = 登录 OK；此时再看
+   `scan_wechat_docs()`：=0 ⇒ 模式 F（零 WebView，需人工开文章）；>0 但 biz 不符 ⇒ 模式 E（开错号）。**
+
+### 2026-10-09 22:00-22:04（harvest 失败 = **新模式 F：已登录但零 WebView 页面**；0 新增，登录态已恢复）
+- Weixin.exe 在跑（PID 31284，6 个子进程），未走跳过分支。
+- **先跑 `precheck.py <repo>` 定案**（最短流程）：`hwnd=8130550`（09-30~10-08 一直 4655272/43585906，
+  **UI 今日又重建**）、唤醒后 rect=811x782、`main window class = mmui::MainWindow`、
+  `is_logged_in=True` ⇒ **模式 D（掉登录）已解除，微信恢复登录态！**（09-30 以来首次）
+  但 `scan_wechat_docs()=0` ⇒ 微信内置浏览器里没有任何 WebView 页面。
+- 跑 **1 次** sync 留证（**未重试**：已登录 + scan=0 是硬证据，重跑无意义）：
+  `已唤醒微信主窗口 hwnd=8130550 (SW_RESTORE, 结束时会还原) → 扫描 25s 未发现 WeChatAppEx 渲染的页面
+  → 微信登录态: 已登录 → !! 找不到该号的 WebView`，收尾自动还原最小化。
+- ⚠️ **模式 F 与模式 E 的区别**（易混）：模式 E = 有 WebView 但开着**别家号**文章页
+  （`__biz` 不符）；模式 F = `scan_wechat_docs()` **直接 =0**，连别家号页面都没有，
+  微信内容窗口停在非文章态。**先看 scan 数量，再谈 biz。**
+- fetch 78/78 OK（无新增图片）、build 78 / skipped 0 / index 78。
+- git：commit `83313ac`（3 项：README 时间戳 + `.workbuddy/memory/2026-10-09.md` + d41bb672 memory）
+  push 成功；远端 `refs/heads/main` 用 `git ls-remote` 实测 = `83313ac`，工作树 clean。
+  属**失败副产物**，非「0 新增正常」。
+- 收尾已把微信主窗口还原为最小化。
+- 结果：**新增 0 篇**。最新仍是 2026-10-01「1」（mid=2247484343）。
+- **恢复动作（仅需人工一次，且无需再扫码）**：在微信里打开「无语子点点」主页或任意一篇文章。
 
