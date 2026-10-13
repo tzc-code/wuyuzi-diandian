@@ -404,3 +404,26 @@
 - 归档当前停在 **2026-10-01**；掉登录连续 5 轮（10-10 22:00 / 10-11 08:00 / 10-11 22:00 / 10-12 08:00 / 10-12 22:00），
   需优先在大王日常环境提示恢复登录。
 
+### 2026-10-13 22:00-22:05（harvest 失败 = **模式 D 连续第 7 次同签名**；0 新增；git 路径漂移第 2 天）
+- Weixin.exe 在跑（PID 31284），未走跳过分支。
+- **先跑 `precheck.py <repo>` 定案**（最短流程）：`hwnd=3344920`（08:00 是 6424108，**UI 今日再次重建**）、
+  唤醒后 rect `(811,325,1107,713)`=296x388、**`main window class = mmui::LoginWindow`**、`is_logged_in=False`、
+  `scan_wechat_docs()=0` ⇒ **模式 D（真掉登录）**，与 10-10 ~ 10-13 08:00 逐值同签名，**不自愈**。
+- 跑 **1 次** sync 留证（**未重试**：LoginWindow 类名是硬证据）：
+  `已唤醒 hwnd=3344920 (SW_RESTORE) → 扫描 25s 未发现 WeChatAppEx 渲染的页面
+  → 未登录(或仍在登录窗口) -> 需要人工扫码 → !! 找不到该号的 WebView`，收尾自动还原最小化。
+- fetch 78/78 OK、build 78 / skipped 0 / index 78（`articles.json` 78 == `index.json` 78 == `ls articles/*.md` 78，
+  images 73），**0 新增**，最大 mid 仍是 `2247484343`（2026-10-01「1」）。
+- ★ **git 路径漂移第 2 天**：sync.py 第 20 行 `GIT` 硬编码 `PortableGit\versions\1.2.0\...\git.exe`，
+  实际目录只有 `1.2.0.old.5424` / `1.3.0` ⇒ `git('add','-A')` 抛 `FileNotFoundError [WinError 2]`，
+  sync 的 commit/push 整体未执行（harvest/fetch/build 三段正常）。
+  - **本次处置**：未改脚本；改用 Bash `git`(2.55.0) 手动补齐
+    `git add -A && git commit -m "sync: 2026-10-13 22:00 (2 项变更)" && git push`
+    ⇒ commit **`ee66fe0`**（2 files：README 时间戳 + `.workbuddy/memory/2026-10-13.md`），
+    push 成功，`HEAD == origin/main == ee66fe0`，工作树 clean。
+  - **仍待大王决断**：是否把 sync.py 的 `GIT` 改为动态解析（`versions\current\...\git.exe` 或直接用 PATH 里的 git）。
+- 结果：**新增 0 篇**。
+- **恢复动作（仅需人工一次）**：登录窗点「进入微信」**扫码登录** → 再在微信里打开
+  「无语子点点」主页/任意一篇文章。
+- 归档当前停在 **2026-10-01**；掉登录连续 7 轮（10-10 22:00 起，含每日 08:00 轮），需优先提示恢复登录。
+
