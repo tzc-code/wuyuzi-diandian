@@ -7,6 +7,32 @@
 
 ## 执行历史
 
+### 2026-10-14 10:23-10:36（**成功：模式 D 解除，新增 4 篇，push 成功**）
+- Weixin.exe 在跑（**6 个进程**，主 31284）→ 未走「微信未启动」跳过分支。
+- ★ **模式 D 自愈**：precheck 报**新签名** —— hwnd=**12849196**、rect `(38,233,1381,1013)` = **1343x780 在屏内**
+  （正常登录尺寸，非 296x388 小窗）、类名 `Qt51514QWindowIcon`、`is_logged_in=False`、`scan=0`。
+  与模式 D（`mmui::LoginWindow` + 296x388 屏外）签名不同 ⇒ 判为「窗口状态已变」，直接跑 sync。
+- `tools/sync.py` 首次运行：**harvest 成功，但进程被 SIGTERM**（总耗时触顶 ~7min；harvest 单段 ~5.5min，
+  因 4 篇新文每篇点击 ~19s）⇒ fetch/build/git 未执行。
+  - harvest 成果**已落盘** articles.json：`incremental collected 82`（78 已知 + 4 新），点击链 idx0→4 全成功
+    （`click生效方式 = host`），停在 idx4「石油和粮食」mid=2247484330（已知）→ 增量结束。
+- 改**分步补跑**（绕开 sync 总时长瓶颈）：`fetch_articles.py` **82/82 OK** → `build_repo.py` built=82/skipped=0/index=82。
+  三处一致（articles.json 82 == index.json 82 == ls articles/*.md 82），images 73（新文无图）。
+- **本次新增 4 篇**：
+  | 标题 | 发表日期 | mid |
+  |---|---|---|
+  | 碎碎念 | 2026-10-14 01:44 | 2247484356 |
+  | 233 | 2026-10-09 02:22 | 2247484351 |
+  | 不起标题不行吗 | 2026-10-08 09:42 | 2247484347 |
+  | 不知道 | 2026-09-28 02:20 | 2247484337 |
+- 无非 README 构建抖动，未重跑 build。git 段**仍走 Bash `git`**（sync.py `GIT` 硬编码 `versions\1.2.0`
+  失效，实际目录为 `1.2.0.old.5424`/`1.3.0`/`current`）。commit **`8d128c1`**（8 files，+520/-3）push 成功，
+  `HEAD == origin/main == 8d128c1`，工作树 clean。
+- 归档从 2026-10-01 前进到 **2026-10-14**；阻塞项（历时 7+ 天）**已自愈，无需人工扫码**。
+- 教训：sync 全程 ~7min，自动化里跑**易触顶被 SIGTERM**；harvest 成功会先写 articles.json，中断后
+  **分步补 fetch+build+git** 即可（key 会话级、点击成本高，别重抓）。
+- **待大王决断（仍挂起）**：sync.py 的 `GIT` 是否改为动态解析，否则每日 cp 轮次 git 段必崩。
+
 ### 2026-10-14 08:00-08:05（**失败：模式 D 掉登录连续第 7 次**（跨 automation 计；本 automation 视角第 5 次），0 新增）
 - Weixin.exe 在跑（PID 31284，1 个）→ 未走「微信未启动」跳过分支。
 - **先跑 `precheck.py <repo>` 定案**：hwnd=**3344920**（新值）、唤醒后 rect `(811,325,1107,713)`
