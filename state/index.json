@@ -1230,5 +1230,66 @@
    }
   ],
   "unresolved": []
+ },
+ "2247484356": {
+  "title": "碎碎念",
+  "subtitle": "股市心路历程：从迷茫到自省，我的投资感悟与反思",
+  "subtitle_src": "llm",
+  "date": "2026-10-14",
+  "datetime": "2026-10-14 09:44",
+  "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247484356&idx=1&sn=a3886fe72ddc1dc3769cd9b47b3eb8e4&chksm=f117e4ede6376ca81fb893cac399b3c354168d51bf3b1125aef549296963fb5191e3d32f3ed3&scene=126",
+  "file": "articles/2026-10-14 碎碎念.md",
+  "imgs": 0,
+  "chars": 3297,
+  "refs": [],
+  "ext": [],
+  "unresolved": []
+ },
+ "2247484351": {
+  "title": "233",
+  "subtitle": "大蓝筹崛起，朱格拉周期下的A股复苏预期",
+  "subtitle_src": "llm",
+  "date": "2026-10-09",
+  "datetime": "2026-10-09 10:22",
+  "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247484351&idx=1&sn=40a2b794451d5c8486af3f6ab3cdc247&chksm=f1e9097fee6e10b88bec19b823e86d8fabcfeccac49e41e2a6390895027372ab262b2d17c2d8&scene=126",
+  "file": "articles/2026-10-09 233.md",
+  "imgs": 0,
+  "chars": 1236,
+  "refs": [],
+  "ext": [],
+  "unresolved": []
+ },
+ "2247484347": {
+  "title": "不起标题不行吗",
+  "subtitle": "美元贬值与全球影响解析",
+  "subtitle_src": "llm",
+  "date": "2026-10-08",
+  "datetime": "2026-10-08 17:42",
+  "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247484347&idx=1&sn=acb533b3d06949e6ea7863deed4c87f0&chksm=f1b6dd88398352adeaedfa9cc4c9a64a66e6d05ae469b7ec2ad8525adc7b485813f18190d812&scene=126",
+  "file": "articles/2026-10-08 不起标题不行吗.md",
+  "imgs": 0,
+  "chars": 1497,
+  "refs": [],
+  "ext": [],
+  "unresolved": []
+ },
+ "2247484337": {
+  "title": "不知道",
+  "subtitle": "石油黄金策略解析：美元霸权与市场波动预判",
+  "subtitle_src": "llm",
+  "date": "2026-09-28",
+  "datetime": "2026-09-28 10:20",
+  "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247484337&idx=1&sn=733face10af7da6f47f095c0ed6a68dc&chksm=f141493ce4533aebfd4d869496fa2abb386022cfa29b94fa356bdd64ba97908eb958807917bd&scene=126",
+  "file": "articles/2026-09-28 不知道.md",
+  "imgs": 0,
+  "chars": 890,
+  "refs": [],
+  "ext": [
+   {
+    "url": "https://www.zhihu.com/question/2087214676530525535/answer/2087505208460964429?share_code=10Ys3Q3up8Tr6&utm_psn=2087845942854796627",
+    "title": ""
+   }
+  ],
+  "unresolved": []
  }
 }

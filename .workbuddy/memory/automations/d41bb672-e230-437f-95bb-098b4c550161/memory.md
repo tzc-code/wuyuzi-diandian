@@ -7,6 +7,28 @@
 
 ## 执行历史
 
+### 2026-10-14 08:00-08:05（**失败：模式 D 掉登录连续第 7 次**（跨 automation 计；本 automation 视角第 5 次），0 新增）
+- Weixin.exe 在跑（PID 31284，1 个）→ 未走「微信未启动」跳过分支。
+- **先跑 `precheck.py <repo>` 定案**：hwnd=**3344920**（新值）、唤醒后 rect `(811,325,1107,713)`
+  （296x388）、类名 `mmui::LoginWindow`、`is_logged_in=False`、`scan_wechat_docs()=0` ⇒ **模式 D 确诊**
+  （签名与 10-11/10-12/10-13 一致，不自愈），收尾已自动还原最小化。
+- 跑 **1 次** sync 留证（未重试，类名硬判据）：08:00:30 harvest 起跑，harvest.log 末
+  `已唤醒微信主窗口 hwnd=3344920 (SW_RESTORE)` → `扫描 25s 未发现 WeChatAppEx 渲染的页面`
+  → `微信登录态: 未登录(或仍在登录窗口) -> 需要人工扫码` → `!! 找不到该号的 WebView`，已还原最小化。
+- fetch 78/78 全旧文 → build 78 / skipped 0 / index 78（articles.json 78 == index.json 78 == `ls articles/*.md` 78，
+  三处一致，unique mid 亦 78），images 73，**0 新增**，最新仍 **2026-10-01「1」**（mid=2247484343）。
+- ★ **git 路径漂移故障连续第 3 次复现**：sync.py 第 20 行 `GIT` 硬编码
+  `...\PortableGit\versions\1.2.0\mingw64\bin\git.exe`（目录已改名 `1.2.0.old.5424`）⇒ `git('add','-A')` 抛
+  `FileNotFoundError [WinError 2]`，commit/push 段未执行。**沿用既定处置：未改脚本**，用 Bash 的 `git` 手动补
+  `add -A / commit / push`。
+- **本次无构建抖动**（仅 README.md 1 处时间戳 diff，无非 README 意外 diff ⇒ 无需重跑 build_repo.py）。
+- commit `3d36116`（README 时间戳）push 成功，`HEAD == origin/main == 3d36116`，工作树 clean。
+  属**失败副产物**，非「0 新增正常」。本次未新增任何临时脚本（遵守「临时脚本禁落仓库」）。
+- **阻塞项待人工（连续第 7 天，跨 automation 计）**：① 登录窗点「进入微信」**扫码登录**；
+  ② 登录后手动打开一次「无语子点点」主页/任一文章页。归档已停更在 **2026-10-01**（13 天）。
+- **待大王决断（10-12 22:00 起挂起，已连续 3 天）：是否把 sync.py 的 `GIT` 改为动态解析
+  （`versions\current\mingw64\bin\git.exe` 或 PATH 里的 `git`），否则每日 cp 轮次的 sync 都会在 git 段崩。
+
 ### 2026-10-13 08:00-08:06（**失败：模式 D 掉登录连续第 6 次**（跨 automation 计；本 automation 视角第 4 次），0 新增；复用 10-12 22:00 的 git 漂移处置）
 - Weixin.exe 在跑（PID 31284）+ WeChatAppEx.exe 3 个残留（60152/57412/24324）→ 未走「微信未启动」跳过分支。
 - **先跑 `precheck.py <repo>` 定案**：hwnd=**6424108**（与 10-12 22:00 同值）、唤醒后 rect `(-1108,325,-812,713)`
