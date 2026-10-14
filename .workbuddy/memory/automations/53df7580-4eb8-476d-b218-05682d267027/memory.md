@@ -427,3 +427,29 @@
   「无语子点点」主页/任意一篇文章。
 - 归档当前停在 **2026-10-01**；掉登录连续 7 轮（10-10 22:00 起，含每日 08:00 轮），需优先提示恢复登录。
 
+### 2026-10-14 22:00-22:03（harvest 失败 = **模式 D 当日复发**；0 新增；★**git 路径漂移已修复**）
+- 背景：**当日 10:23 曾人工恢复登录并成功新增 4 篇**（2026-09-28「不知道」/10-08「不起标题不行吗」/
+  10-09「233」/10-14「碎碎念」，commit `8d128c1`），归档已追平到 **2026-10-14**。
+  另有 10:37~13:30 的表格修复 + `fix_tables.py` 新建 + sync.py 两项改造（`ba467c5`）。
+- 本轮 Weixin.exe 在跑（PID 31284），未走跳过分支。
+- **先跑 `precheck.py` 定案**：hwnd=**3475992**（08:00 是 3344920，**UI 今日再次重建**）、
+  唤醒后 rect `(-1108,325,-812,713)` 296x388、**`main window class = mmui::LoginWindow`**、
+  `is_logged_in=False`、`scan_wechat_docs()=0` ⇒ **模式 D（真掉登录）**。
+  ⚠️ 即**白天恢复登录、晚间又掉**；同日内 D ↔ E′ 会反复，**每轮必须重新读类名定案**。
+- 跑 **1 次** sync 留证（**未重试**：LoginWindow 类名是硬证据）：
+  `已唤醒 hwnd=3475992 (SW_RESTORE) → 扫描 25s 未发现 WeChatAppEx 渲染的页面
+  → 未登录(或仍在登录窗口) -> 需要人工扫码 → !! 找不到该号的 WebView`，收尾自动还原最小化。
+- fetch 82/82 OK、build 82 / skipped 0 / index 82（`articles.json` 82 == `index.json` 82 == `ls articles/*.md` 82，
+  images 73），**0 新增**，最新仍是 **2026-10-14「碎碎念」mid=2247484356**。
+- ★ **git 路径漂移故障已彻底消失**：13:25 的 `_resolve_git()` 改造落地（`versions/current` 指针 → 目录扫描 → PATH），
+  本轮 sync **自带 git 段正常执行**（1 file changed = README 时间戳），commit **`cc98fa1`** push 成功；
+  远端 `refs/heads/main` 用 `git ls-remote` 实测 = `cc98fa1` == 本地 HEAD，工作树 clean。
+  ⇒ **「每日手动补 commit/push」这条应急流程作废**，sync 全链路已自洽。
+- 收尾已把微信主窗口还原为最小化。
+- 结果：**新增 0 篇**（内容侧已追平当日）。
+- **恢复动作（仅需人工一次）**：登录窗点「进入微信」**扫码登录** → 再在微信里打开
+  「无语子点点」主页/任意一篇文章。
+- 模式速查（现行）：`mmui::LoginWindow` = D 掉登录；`mmui::MainWindow`/`Qt51514QWindowIcon` + `is_logged_in=True`
+  → 再看 `scan_wechat_docs()`：=0 ⇒ 模式 F（需人工开文章）；>0 但 `__biz` 不符 ⇒ 模式 E（开错号）。
+  三档都不满足 ⇒ 直接跑 sync。
+
