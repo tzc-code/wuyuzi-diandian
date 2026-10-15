@@ -7,6 +7,23 @@
 
 ## 执行历史
 
+### 2026-10-15 10:10-10:17（**成功：模式 D 已解除，新增 1 篇，push 成功**）
+- Weixin.exe 在跑（**6 进程**，主 31284）→ 未走「微信未启动」跳过分支。
+- 跑前 `precheck.py .` 定案：hwnd=24711220、唤醒后 rect `(-1691,119,-348,899)` = **1343x780 在屏内**
+  （正常尺寸，非 296x388 屏外小窗）、类名 `Qt51514QWindowIcon`（非 `mmui::LoginWindow`）、
+  `is_logged_in=False`（**最小化态误报，不可据此定案**）、**`scan_wechat_docs()=1` 且是本号主页**
+  （`SubscriptionProfile/profile.html?...userName=gh_63f74aa734f8&showName=无语子点点`）
+  ⇒ 判「存在本号 WebView，可直接跑」。**08:00 那次的模式 D 已解除**（大王侧已恢复登录 + 打开该号主页）。
+- 跑 1 次 sync **全程成功、未被 SIGTERM**（对比 10-14 触顶中断）：harvest 增量 → fetch → build → git commit/push 一次跑完。
+- **本次新增 1 篇**：`2025.10.15` — **2026-10-15 00:17**（副标题「2025年：中国经济韧性与货币自主权凸显」，mid=2247484364）。
+- build=83 / skipped=0 / index=83；**三处一致**：articles.json 83 == unique mid 83 == state/index.json 83
+  == `ls articles/*.md` 83。
+- commit **`20b796f`**（5 files：新文 md + README + index.json + 2 个 memory）**push 成功**，
+  `HEAD == origin/main == 20b796f`，工作树 clean。归档从 2026-10-14 前进到 **2026-10-15**（无积压）。
+- 教训：precheck 的 `is_logged_in` 在**最小化态**会误报 False；**硬判据是 `scan_wechat_docs()>0` 且 Value 含本号 `userName`**。
+- 遗留（仍挂起）：sync.py 第 20 行 `GIT` 硬编码 `versions\1.2.0\...`（该目录已改名 `1.2.0.old.5424`）——
+  本次 git 段**未报错**（疑已自愈/走 PATH），暂无需处理；若再现 `FileNotFoundError [WinError 2]` 则用 Bash `git` 手动补。
+
 ### 2026-10-15 08:00-08:06（**失败：模式 D 掉登录复发**，0 新增；git 段已自愈）
 - Weixin.exe 在跑（PID 31284，1 个）→ 未走「微信未启动」跳过分支。
 - 先跑 `precheck.py <repo>` 定案：hwnd=**3475992**（新值）、唤醒后 rect `(-1108,325,-812,713)`（296x388 屏外）、
