@@ -449,7 +449,26 @@
 - 结果：**新增 0 篇**（内容侧已追平当日）。
 - **恢复动作（仅需人工一次）**：登录窗点「进入微信」**扫码登录** → 再在微信里打开
   「无语子点点」主页/任意一篇文章。
-- 模式速查（现行）：`mmui::LoginWindow` = D 掉登录；`mmui::MainWindow`/`Qt51514QWindowIcon` + `is_logged_in=True`
-  → 再看 `scan_wechat_docs()`：=0 ⇒ 模式 F（需人工开文章）；>0 但 `__biz` 不符 ⇒ 模式 E（开错号）。
-  三档都不满足 ⇒ 直接跑 sync。
+### 2026-10-15 22:00-22:04（harvest 失败 = **模式 D 当日复发**；0 新增）
+- 背景：**当日 10:16 曾恢复登录并成功新增 1 篇**（「2025.10.15」，副标题「2025年：中国经济韧性与货币自主权凸显」，
+  mid=2247484364，commit `20b796f`），归档已追平到 **2026-10-15**。⇒ 本次 22:00 是**恢复后又掉登录**。
+- Weixin.exe 在跑（PID 31284），未走跳过分支。
+- **先跑 `precheck.py <repo>` 定案**（最短流程）：`hwnd=8066410`（10:10 是 24711220，**UI 今日再次重建**）、
+  唤醒后 rect `(-1108,325,-812,713)`=296x388 屏外、**`main window class = mmui::LoginWindow`**、
+  `is_logged_in=False`、`scan_wechat_docs()=0` ⇒ **模式 D（真掉登录）**。
+  ⚠️ 同日内 D ↔ 正常会反复（10-14、10-15 均已复现），**每轮必须重新读类名定案**。
+- 跑 **1 次** sync 留证（**未重试**：LoginWindow 类名是硬证据）：
+  `已唤醒 hwnd=8066410 (SW_RESTORE) → 扫描 25s 未发现 WeChatAppEx 渲染的页面
+  → 未登录(或仍在登录窗口) -> 需要人工扫码 → !! 找不到该号的 WebView`，收尾自动还原最小化（实测 IsIconic=1）。
+- fetch 83/83 OK、fix_tables 无扁平表格、build 83 / skipped 0 / index 83
+  （`ls articles/*.md` 83、images 73，四处一致），**0 新增**，最新仍是 2026-10-15「2025.10.15」mid=2247484364。
+- ★ **git 段正常**（10-14 的 `_resolve_git()` 改造持续生效，本次解析到 `versions\1.3.0\mingw64\bin\git.exe`），
+  commit **`c6df22d`**（1 file：README 时间戳）push 成功；远端 `refs/heads/main` 用 `git ls-remote` 实测
+  == 本地 HEAD == `c6df22d`，工作树 clean。属**失败副产物**，非「0 新增正常」。
+- 结果：**本夜新增 0 篇**。
+- **恢复动作（仅需人工一次）**：登录窗点「进入微信」**扫码登录** → 再在微信里打开
+  「无语子点点」主页/任意一篇文章。
+- 归档当前停在 **2026-10-15**。模式速查不变：`mmui::LoginWindow`=D；`mmui::MainWindow`/`Qt51514QWindowIcon`
+  + `is_logged_in=True` → 再看 `scan_wechat_docs()`：=0 ⇒ F（开文章）；>0 但 `__biz` 不符 ⇒ E（开错号）。
+
 
