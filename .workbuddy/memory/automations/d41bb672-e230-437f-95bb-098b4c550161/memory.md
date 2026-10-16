@@ -7,6 +7,22 @@
 
 ## 执行历史
 
+### 2026-10-16 09:07-09:12（**成功：0 新增（正常），push 成功**）
+- Weixin.exe 在跑（**6 进程**，主 27912）→ 未走「微信未启动」跳过分支。
+- 跑前 `precheck.py .`：hwnd=264686、唤醒后 rect `(-1535,147,-192,927)` = **1343x780 正常尺寸**（非 296x388 登录小窗）、
+  类名 `Qt51514QWindowIcon`、`is_logged_in=False`（最小化误报）、`scan_wechat_docs()=0` ⇒ **不确定，仍实跑留证**。
+  ★ **今日再次证明：precheck 的 `scan=0` 会误报**（实测 harvest 一跑就命中本号 profile 主页）⇒ **`scan=0` 不足以判死，别据此跳过**。
+- 跑 **1 次** sync，rc=0，09:09:31→09:11:52（≈2m21s），未被 SIGTERM。harvest 走**正常增量路径**：
+  `命中 WebView hwnd=393868 pid=29316` → 已在 `SubscriptionProfile/profile.html?...userName=gh_63f74aa734f8` 主页
+  → `增量模式: 已知 83 篇` → `[idx 0] '2025.10.15' y=752` → 重绑 hwnd=330170 → `click生效方式 = host`
+  → **`命中已知文章 mid=2247484364 -> 增量结束`** → `incremental collected 83`。
+- build=83 / skipped=0 / index=83；**三处一致**：articles.json 83 == state/index.json 83 == `ls articles/*.md` 83，images 73。
+  **本次新增 0 篇**，最新仍 **2026-10-15「2025.10.15」**（mid=2247484364）。无积压、无阻塞。
+- git 段正常（无 winerror2）：commit **`225a2c8`**（1 file：README 时间戳）**push 成功**，
+  `HEAD == origin/main == 225a2c8`，工作树 clean。README-only 本次属**正常噪声**（harvest 显式命中已知文章收敛）。
+- 遗留（仍挂起）：sync.py 第 20 行 `GIT` 硬编码 `versions\1.2.0\...`（目录已改名 `1.2.0.old.5424`）——
+  近三轮回次均未报错（走 PATH 自愈），暂无需处理。
+
 ### 2026-10-15 10:10-10:17（**成功：模式 D 已解除，新增 1 篇，push 成功**）
 - Weixin.exe 在跑（**6 进程**，主 31284）→ 未走「微信未启动」跳过分支。
 - 跑前 `precheck.py .` 定案：hwnd=24711220、唤醒后 rect `(-1691,119,-348,899)` = **1343x780 在屏内**
