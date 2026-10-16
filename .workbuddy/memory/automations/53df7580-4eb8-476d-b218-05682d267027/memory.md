@@ -472,3 +472,26 @@
   + `is_logged_in=True` → 再看 `scan_wechat_docs()`：=0 ⇒ F（开文章）；>0 但 `__biz` 不符 ⇒ E（开错号）。
 
 
+
+### 2026-10-16 22:00-22:03（harvest 失败 = **模式 D 当日复发**；0 新增）
+- 背景：当日 **09:07 那轮完全正常**（命中 WebView → 增量结束，commit `225a2c8`，0 新增），
+  说明微信当时登录良好；本次 22:00 已退回登录窗 ⇒ **同日内 D ↔ 正常反复**，再次印证。
+- Weixin.exe 在跑，**PID=27912**（历史一直记 31284 ⇒ 微信进程今日重启过，PID 也会漂，别硬编码）。
+- **先跑 `precheck.py <repo>` 定案**（最短流程）：`hwnd=134046`（09:07 是 264686，**UI 今日重建**）、
+  唤醒后 rect `(811,325,1107,713)`=296x388 屏外、**`main window class = mmui::LoginWindow`**、
+  `is_logged_in=False`、`scan_wechat_docs()=0` ⇒ **模式 D（真掉登录）**。
+- 跑 **1 次** sync 留证（**未重试**：LoginWindow 类名是硬证据）：
+  `已唤醒 hwnd=134046 (SW_RESTORE) → 扫描 25s 未发现 WeChatAppEx 渲染的页面
+  → 未登录(或仍在登录窗口) -> 需要人工扫码 → !! 找不到该号的 WebView`，收尾自动还原最小化。
+- fetch 83/83 OK（无新增图片）、build 83 / skipped 0 / index 83
+  （`articles.json` 83 == `ls articles/*.md` 83、images 73），**0 新增**，
+  最新仍是 2026-10-15「2025.10.15」mid=2247484364。
+- git：sync 自带 git 段正常（`_resolve_git()` 持续生效），commit **`ce0131d`**（1 file：README 时间戳）
+  push 成功；远端 `refs/heads/main` 用 `git ls-remote` 实测 == 本地 HEAD == `ce0131d`，工作树 clean。
+  属**失败副产物**，非「0 新增正常」。
+- 收尾已把微信主窗口还原为最小化。
+- 结果：**本夜新增 0 篇**。
+- **恢复动作（仅需人工一次）**：登录窗点「进入微信」**扫码登录** → 再在微信里打开
+  「无语子点点」主页/任意一篇文章。
+- 归档当前停在 **2026-10-15**。模式速查不变：`mmui::LoginWindow`=D；`mmui::MainWindow`/`Qt51514QWindowIcon`
+  + `is_logged_in=True` → 再看 `scan_wechat_docs()`：=0 ⇒ F（开文章）；>0 但 `__biz` 不符 ⇒ E（开错号）。
