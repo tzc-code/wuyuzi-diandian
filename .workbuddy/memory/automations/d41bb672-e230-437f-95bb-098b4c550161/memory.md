@@ -7,6 +7,14 @@
 
 ## 执行历史
 
+### 2026-10-19 09:13（**跳过：微信未启动**，0 新增，未 push）
+- `tasklist /FI "IMAGENAME eq Weixin.exe"` 报「没有运行的任务」；`Get-Process -Name Weixin` 返回 `NO_WEIXIN_PROCESS`
+  ⇒ 按规程第 1 步**直接跳过，未跑 sync.py**（不重试、不拉起客户端）。
+- 只读核对：`articles/*.md`=83、`state/index.json`=83、HEAD=`a5a010a`、`ls -t` 最新仍
+  「2026-10-15 2025.10.15」。**无 commit / 无 push**（与上轮「失败副产物 commit」不同，本轮根本未跑链路）。
+- 当日 09:12 另一条 automation `53df7580` 独立跑过、结论一致（Weixin 缺失，仅 `WeixinUpdate` PID 21408 在）。
+  ⇒ 两条 automation 为同一任务的两个入口，存在重复触发，建议大王合并保留一条。
+
 ### 2026-10-16 09:07-09:12（**成功：0 新增（正常），push 成功**）
 - Weixin.exe 在跑（**6 进程**，主 27912）→ 未走「微信未启动」跳过分支。
 - 跑前 `precheck.py .`：hwnd=264686、唤醒后 rect `(-1535,147,-192,927)` = **1343x780 正常尺寸**（非 296x388 登录小窗）、

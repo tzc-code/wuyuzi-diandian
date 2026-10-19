@@ -495,3 +495,15 @@
   「无语子点点」主页/任意一篇文章。
 - 归档当前停在 **2026-10-15**。模式速查不变：`mmui::LoginWindow`=D；`mmui::MainWindow`/`Qt51514QWindowIcon`
   + `is_logged_in=True` → 再看 `scan_wechat_docs()`：=0 ⇒ F（开文章）；>0 但 `__biz` 不符 ⇒ E（开错号）。
+
+### 2026-10-19 09:12（★首次出现「微信未启动」——按规程跳过，未跑 sync）
+- `Get-Process` 过滤 `Weixin|WeChat`：只有 `WeixinUpdate`（PID 21408，标题「weixin update」），
+  **Weixin.exe 主客户端未运行**；`tasklist /FI IMAGENAME eq Weixin.exe` 亦为空。
+- ⇒ 按规程第 1 步**直接判定跳过**，**未执行 sync.py**，无 harvest/fetch/build/git 任何动作。
+- 现状核对（只读）：`ls articles/*.md` = 83、`state/index.json` = 83 条、工作树 clean、
+  HEAD = `a5a010a`（10-16 22:00 memory 提交），归档最新仍是 2026-10-15「2025.10.15」mid=2247484364。
+- ⚠️ **新判据补正**：`state/index.json` 是 mid→文章 dict，**键序非时间序**；
+  首个键是 `2247484330`（09-18「石油和粮食」）而非最新一篇。别再用「首键标题」判断最新。
+- 与 09-22~10-16 的模式 D（Weixin.exe 在跑但掉登录）不同：**这次是进程根本没起**，
+  诊断顺序应改成「进程存在性 → 类名 → scan 数量」，少走两步。
+- 待人工：启动微信并登录 → 打开「无语子点点」主页/任一文章。
