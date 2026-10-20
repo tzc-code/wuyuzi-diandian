@@ -7,6 +7,23 @@
 
 ## 执行历史
 
+### 2026-10-20 08:00-08:05（**失败：模式 D 掉登录复发**，0 新增；push 成功但属失败副产物）
+- Weixin.exe 在跑（PID 20656，1 个）→ 未走「微信未启动」跳过分支。
+- 跑 1 次 sync（rc=0，08:02:02→08:04:31 ≈2m30s），**未重试**。harvest.log 末：
+  `已唤醒微信主窗口 hwnd=198986 (SW_RESTORE)` → `扫描 25s 未发现 WeChatAppEx 渲染的页面`
+  → `微信登录态: 未登录(或仍在登录窗口) -> 需要人工扫码` → `!! 找不到该号的 WebView`，已还原最小化。
+- 跑后 `precheck.py .` 定案 **模式 D**：hwnd=198986、唤醒后 rect `(-1108,325,-812,713)`（296x388 屏外）、
+  **类名 `mmui::LoginWindow`**（最硬判据）、`is_logged_in=False`、`scan_wechat_docs()=0` ⇒ 须人工扫码，跑 sync 无意义。
+- fetch 全旧文 → build **83** / skipped 0 / index **83**，`ls articles/*.md`=**83**（三处一致），images 73。
+  **本次新增 0 篇**，最新仍 **2026-10-15「2025.10.15」**。
+- commit **`5d92dde`**（2 files：README 时间戳 + **另一 automation `53df7580` 的 memory.md**——该文件上轮遗留未提交，
+  被 `git add -A` 一并扫入）**push 成功**，`HEAD == origin/main == 5d92dde`，工作树 clean。
+  属**失败副产物**，非「0 新增正常」。
+- 对比：10-19 09:13 是「微信未启动直接跳过」，10-19 22:00 与今日 08:00 均为「进程在但掉登录」⇒
+  **Weixin.exe 在跑 ≠ 可抓取**，掉登录是隔夜常态。
+- **阻塞项待人工（跨 automation 连续 2 天）**：① 登录窗点「进入微信」**扫码登录**；
+  ② 登录后在微信里手动打开一次「无语子点点」主页/任一文章页。脚本侧无解。
+
 ### 2026-10-19 09:13（**跳过：微信未启动**，0 新增，未 push）
 - `tasklist /FI "IMAGENAME eq Weixin.exe"` 报「没有运行的任务」；`Get-Process -Name Weixin` 返回 `NO_WEIXIN_PROCESS`
   ⇒ 按规程第 1 步**直接跳过，未跑 sync.py**（不重试、不拉起客户端）。
