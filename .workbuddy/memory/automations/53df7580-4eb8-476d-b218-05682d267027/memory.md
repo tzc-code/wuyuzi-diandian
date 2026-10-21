@@ -546,3 +546,24 @@
 - **恢复动作（仅需人工一次）**：主窗点「进入微信」**扫码登录** → 再在微信里打开「无语子点点」主页/任一文章。
 - 掉登录已连续 2 个夜间轮次（10-19 22:00 / 10-20 22:00），归档停在 **2026-10-15**。
 
+### 2026-10-21 22:00-22:04（微信在跑但 = **模式 D 掉登录第 4 轮**；0 新增）
+- Weixin.exe 在跑，**PID=20656**（10-19 起未重启）；未走跳过分支。
+- **先跑 `precheck.py <repo>` 定案**：hwnd=**2033478**（今晨 08:00 是 2556946，**UI 又重建**）、
+  唤醒后 rect `(811,325,1107,713)`=296x388 屏外、**`main window class = mmui::LoginWindow`**、
+  `is_logged_in=False`、`scan_wechat_docs()=0` ⇒ **模式 D（真掉登录）**；precheck 收尾已还原最小化。
+- 跑 **1 次** sync 留证（rc=0，2m31s，**未重试**：LoginWindow 类名是硬证据）：
+  `扫描 25s 未发现 WeChatAppEx 渲染的页面 → 未登录(或仍在登录窗口) -> 需要人工扫码
+  → !! 找不到该号的 WebView`，收尾自动还原最小化。
+- fetch 83/83 OK（其中 1 篇补下 2 张图，非新文章）、build 83 / skipped 0 / index 83
+  （`articles.json` 83 == `state/index.json` 83 == `ls articles/*.md` 83、images 73），
+  **0 新增**，最新仍是 2026-10-15「2025.10.15」mid=2247484364。
+- git：sync 自带 git 段正常，commit **`dc491af`**（3 files：README 时间戳 + `.workbuddy/memory/2026-10-21.md`
+  + d41bb672 memory）push 成功；`git ls-remote origin refs/heads/main` 实测 = `dc491af` == 本地 HEAD。
+  属**失败副产物**，非「0 新增正常」。
+- 结果：**本夜新增 0 篇**。
+- ★ 流程更正：`precheck.py` **不在仓库 `tools/` 下**，位于 skill 目录
+  `~/.workbuddy/skills/wechat-mp-archive-github/precheck.py`，调用需带 repo 路径参数。
+- **恢复动作（仅需人工一次）**：主窗点「进入微信」**扫码登录** → 再在微信里打开「无语子点点」主页/任一文章。
+- 掉登录已连续 3 个夜间轮次（10-19 22:00 / 10-20 22:00 / 10-21 22:00）＋今晨 08:00 轮，共 4 次同签名；
+  归档停在 **2026-10-15**，停更 6 天，需优先提示恢复。
+
