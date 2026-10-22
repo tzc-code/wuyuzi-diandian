@@ -567,3 +567,27 @@
 - 掉登录已连续 3 个夜间轮次（10-19 22:00 / 10-20 22:00 / 10-21 22:00）＋今晨 08:00 轮，共 4 次同签名；
   归档停在 **2026-10-15**，停更 6 天，需优先提示恢复。
 
+### 2026-10-22 22:00-22:04（★**登录态已恢复**，但 = **模式 F（已登录+零 WebView）**；0 新增；`is_logged_in()` 判据再失效）
+- Weixin.exe 在跑（PID 20656 等 5 个进程），未走跳过分支。
+- **先跑 `precheck.py <repo>` 定案**：`hwnd=3998954`（08:00 是别的值，**UI 又重建**）、唤醒后
+  rect **1141x780**（≠ 掉登录惯用的 296x388 屏外）、class `Qt51514QWindowIcon`、`is_logged_in=False`、
+  `scan_wechat_docs()=0`。precheck 仍会照旧文案判「模式 D」，**但这次是误报**。
+- ★★ **交叉验证翻案（关键）**：用 `uiautomation` walk 主窗，**29 条文本**含
+  `发现 / 朋友圈 / 视频号 / 搜一搜 / 小程序 / 问一问有5个赞` ⇒ **微信已登录**（08:00 还是 LoginWindow）。
+  ⇒ `is_logged_in()` 与 precheck 的结论**同一天内自相矛盾**，说明该函数依赖的工具栏为「导航」控件已漂移。
+  **新硬判据（最优先）：主窗 UIA 文本有 `发现/朋友圈/视频号` = 已登录；有 `进入微信` = 掉登录。**
+- 由此定案 **模式 F**：已登录，但 `scan_wechat_docs()=0`（内置浏览器无任何 WebView，停在聊天/资讯页）。
+- 跑 **1 次** sync 留证（rc=0，2m30s，**未重试**：scan=0 是硬证据）：
+  `已唤醒 hwnd=3998954 → 扫描 25s 未发现 WeChatAppEx 渲染的页面 → !! 找不到该号的 WebView`，收尾自动还原最小化。
+- fetch 83/83 OK（1 篇补 2 图，非新文）、build 83 / skipped 0 / index 83
+  （`articles/*.md` 83 == `articles.json` 83 == `state/index.json` 83、images 73），
+  **0 新增**，最新仍是 2026-10-15「2025.10.15」mid=2247484364。
+- git：sync 自带 git 段正常（`_resolve_git()` → `versions\1.3.0\...\git.exe`），commit **`a63d2f3`**
+  （3 files：README 时间戳 + `.workbuddy/memory/2026-10-22.md` + d41bb672 memory）push 成功；
+  `git ls-remote origin refs/heads/main` 实测 = `a63d2f3` == 本地 HEAD，工作树 clean。属**失败副产物**。
+- 结果：**本夜新增 0 篇**。
+- **恢复动作（仅一步，无需扫码）**：在微信里打开「无语子点点」主页或任意一篇文章。
+- 归档停在 **2026-10-15**（停更 7 天）。诊断顺序更新为：
+  **进程存在 → 主窗 UIA 文本（发现/朋友圈 vs 进入微信）→ scan 数量 → biz 比对**；`is_logged_in()` 只作参考。
+
+
