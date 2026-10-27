@@ -635,4 +635,27 @@
 - 状态提示：微信已连续 4 天（10-23~10-26）未启动，08:00 与 22:00 两轮全停；
   停更 11 天，需**优先**在大王日常环境提示开机自启/登录。
 
+### 2026-10-27 22:00-22:04（★微信进程回来了，但停在**登录窗 = 模式 D**；0 新增）
+- Weixin.exe **PID=22524**（历史 20656/31284，进程已重启）+ WeChatAppEx×3；未走跳过分支。
+  ⇒ 打破 10-23~10-27 上午连续「进程未起」的形态，但**恢复登录 ≠ 恢复抓取**。
+- **先跑 `precheck.py <repo>` 定案**：hwnd=**263426**（UI 又重建）、唤醒后 rect `(811,325,1107,713)`=296x388 屏外、
+  **`main window class = mmui::LoginWindow`**、`is_logged_in=False`、`scan_wechat_docs()=0` ⇒ 模式 D。
+- **UIA 交叉验证（照 10-22 教训，类名不再单独定案）**：主窗 8 条文本 =
+  `MMUIRenderSubWindowHW`/`当前登录用户长风⁶ᯤ`/`进入微信`/`切换账号`/`仅传输文件`/`关闭`/`微信`/`网络代理设置`，
+  **无 `发现/朋友圈/视频号`** ⇒ 与类名结论一致，确认真掉登录。`scan_docs=0`。
+- 跑 **1 次** sync 留证（rc=0，2m30s，**未重试**）：
+  `扫描 25s 未发现 WeChatAppEx 渲染的页面 → 微信登录态: 未登录(或仍在登录窗口) -> 需要人工扫码
+  → !! 找不到该号的 WebView`；harvest 用时 27s（未跑满 25s 扫描外的额外等待）。
+- fetch 83/83 OK、build 83 / skipped 0 / index 83
+  （`articles/*.md` 83 == `state/index.json` 83、images 73），**0 新增**，
+  最新仍是 2026-10-15「2025.10.15」mid=2247484364。
+- git：sync 自带 git 段正常（`_resolve_git()` → `versions\1.3.0\mingw64\bin\git.exe`），
+  commit **`13feda5`**（8 files：README 时间戳 + 10-23~10-27 daily memory + 两条 automation memory）
+  push 成功；`git ls-remote origin refs/heads/main` 实测 = `13feda5` == 本地 HEAD。属**失败副产物**。
+- 收尾已把微信主窗口还原为最小化（hwnd=263426, iconic=1）。
+- 结果：**本夜新增 0 篇**。
+- **恢复动作（需人工两步）**：① 登录窗点「进入微信」**扫码登录** ② 在微信里打开「无语子点点」主页/任一文章。
+- 归档停在 **2026-10-15**，停更 12 天。诊断顺序（已稳定 3 轮验证）：**进程存在 → class + UIA 文本双验 →
+  scan 数量 → biz**；`is_logged_in()` 仅作参考。
+
 
