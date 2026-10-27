@@ -590,4 +590,49 @@
 - 归档停在 **2026-10-15**（停更 7 天）。诊断顺序更新为：
   **进程存在 → 主窗 UIA 文本（发现/朋友圈 vs 进入微信）→ scan 数量 → biz 比对**；`is_logged_in()` 只作参考。
 
+### 2026-10-23 22:00（★**微信未启动 → 按规程跳过，未跑 sync**）
+- 双路复核均确认无微信进程：`tasklist /FI "IMAGENAME eq Weixin.exe"` 输出「没有运行的任务匹配指定标准」；
+  PowerShell `Get-Process`(过滤 `*Weixin*`/`*WeChat*`) 返回 `NO_WECHAT_PROCESS`（连 `WeixinUpdate` 都没起）。
+- ⇒ 按规程第 1 步**直接判定跳过**，**未执行 tools/sync.py**，无 harvest/fetch/build/git 任何动作。
+- 只读核对（未改动）：`articles/*.md` 83、`state/index.json` 83 键、`images/*.jpg` 73、
+  HEAD=`1f10483`（今晨 08:00 轮 commit），归档最新仍 **2026-10-15「2025.10.15」mid=2247484364**（停更 8 天）。
+- 与 10-19 09:12 同类（进程根本没起）；区别于 10-19~22 的「进程在但 WebView 缺失/掉登录」。
+- **恢复动作（需人工两步）**：① 启动微信并确认已登录（扫码）② 在微信里打开「无语子点点」主页/任一文章。
+
+### 2026-10-24 22:00（★**微信未启动第 2 天 → 按规程跳过，未跑 sync**）
+- 双路复核均确认无微信进程：`tasklist /FI "IMAGENAME eq Weixin.exe"` = 「没有运行的任务匹配指定标准」；
+  PowerShell `Get-Process`(过滤 `Weixin|WeChat`) = `NO_WECHAT_PROCESS`（连 `WeixinUpdate` 都没起）。
+- ⇒ 按规程第 1 步**直接判定跳过**，**未执行 tools/sync.py**，无 harvest/fetch/build/git 任何动作。
+- 只读核对（未改动）：`articles/*.md` 83、`state/index.json` 83 键、`images/*.jpg` 73、
+  HEAD=`1f10483` == 远端 `refs/heads/main`（`git ls-remote` 实测）；
+  工作树 3 项未提交且**全是 memory 文件**（两条 automation memory + `.workbuddy/memory/2026-10-23.md`），
+  **无内容侧变更**。归档最新仍 **2026-10-15「2025.10.15」mid=2247484364**（停更 9 天）。
+- 与 10-23 22:00、10-19 09:12 同类（进程根本没起）；区别于 10-19~22 的「进程在但 WebView 缺失/掉登录」。
+- **恢复动作（需人工两步）**：① 启动微信并确认已登录（扫码）② 在微信里打开「无语子点点」主页/任一文章。
+- 状态提示：微信连 2 天未启动，08:00 轮与 22:00 轮均停摆，需在大王日常环境提示开机自启/登录。
+
+### 2026-10-25 22:00（★**微信未启动第 3 天 → 按规程跳过，未跑 sync**）
+- 双路复核均确认无微信进程：PowerShell `Get-Process`(过滤 `Weixin|WeChat`) = `NO_WECHAT_PROCESS`；
+  `tasklist /FI "IMAGENAME eq Weixin.exe"` = 无匹配任务（连 `WeixinUpdate` 都没起）。
+- ⇒ 按规程第 1 步**直接判定跳过**，**未执行 tools/sync.py**，无 harvest/fetch/build/git 任何动作，无新 commit。
+- 只读核对：`articles/*.md` 83、`state/index.json` 83 键、`images/*.jpg` 73、HEAD=`1f10483`（10-23 08:05 commit）；
+  工作树仅 memory 文件变更，**无内容侧改动**。归档最新仍 **2026-10-15「2025.10.15」mid=2247484364**（停更 10 天）。
+- 与 10-23 / 10-24 / 10-25 08:00 同类（进程根本没起）；区别于 10-19~22 的「进程在但掉登录/零 WebView」。
+- **恢复动作（需人工两步）**：① 启动微信并确认已登录（扫码）② 在微信里打开「无语子点点」主页/任一文章。
+- 状态提示：微信已连续 3 个轮次未启动（10-24 22:00 / 10-25 08:00 / 10-25 22:00），
+  08:00 轮与 22:00 轮均停摆，需在大王日常环境提示开机自启/登录。
+
+### 2026-10-26 22:00（★**微信未启动第 4 天 → 按规程跳过，未跑 sync**）
+- 双路复核均确认无微信进程：Bash `tasklist | grep -i Weixin.exe` = `NOT_RUNNING`；
+  PowerShell `Get-Process`(过滤 `Weixin|WeChat`) = `NO_WECHAT_PROCESS`（连 `WeixinUpdate` 都没起）。
+- ⇒ 按规程第 1 步**直接判定跳过**，**未执行 tools/sync.py**，无 harvest/fetch/build/git 任何动作，无新 commit。
+- 只读核对：`articles/*.md` 83、`state/index.json` 83 键、`images/*.jpg` 73（三处一致），
+  HEAD=`1f10483` == 远端 `refs/heads/main`（`git ls-remote` 实测）；
+  工作树仅 memory 文件变更（2 条 automation memory + 10-23~10-26 daily），**无内容侧改动**。
+  归档最新仍 **2026-10-15「2025.10.15」mid=2247484364**（停更 11 天）。
+- 与 10-19 09:12 / 10-23~10-25 同类（进程根本没起）；区别于 10-19~22 的「进程在但掉登录/零 WebView」。
+- **恢复动作（需人工两步）**：① 启动微信并确认已登录（扫码）② 在微信里打开「无语子点点」主页/任一文章。
+- 状态提示：微信已连续 4 天（10-23~10-26）未启动，08:00 与 22:00 两轮全停；
+  停更 11 天，需**优先**在大王日常环境提示开机自启/登录。
+
 
