@@ -7,6 +7,26 @@
 
 ## 执行历史
 
+### 2026-10-28 08:00-08:06（**失败：模式 D 掉登录**，微信进程在跑，0 新增；push 成功含修正 commit）
+- 前置检查：`Get-Process -Name Weixin` → **PID 22524 在跑**（MainWindowTitle=微信）⇒ 未走「微信未启动」跳过分支。
+  但 `precheck.py .` 定案 **模式 D**：hwnd=263426、唤醒后 rect `(811,325,1107,713)`（296x388）、
+  **类名 `mmui::LoginWindow`**（最硬判据）、`is_logged_in=False`、`scan_wechat_docs()=0` ⇒ 须人工扫码。
+- 按规程跑 **1 次** sync（rc=0，08:02:39→08:05:08 ≈2m29s），**未重试**。harvest.log 末：
+  `已唤醒微信主窗口 hwnd=263426` → `扫描 25s 未发现 WeChatAppEx 渲染的页面`
+  → `微信登录态: 未登录(或仍在登录窗口) -> 需要人工扫码` → `!! 找不到该号的 WebView`，已还原最小化。
+- build=83 / skipped=0 / index=83；**三处一致**（articles.json 83 == index.json 83 == `ls articles/*.md` 83），images 73。
+  **本次新增 0 篇**，最新仍 **2026-10-15「2025.10.15」**（停更 13 天）。
+- ★ **新发现：build_repo.py 非幂等抖动加剧**，本轮连跑 3 次结果各不相同（现象为互链段随机增减）：
+  ① sync 内首次 build：`articles/2026-09-04 123456789.md` 丢 8 行「未归档链接」段 + index `unresolved` 被清空；
+  ② 重跑 build：上段恢复，但 `articles/2026-09-15 给你们看看我的新银行卡.md` **丢了 `lll` 互链一行**（真回归，更严重）；
+  ③ `git checkout --` 回退后再跑 build：两处**同时正确**（未归档段 +8、index unresolved=1、无互链丢失）。
+  ⇒ 处置固化：**build 后若见非 README 的意外 diff，先回退到 HEAD 再重跑一次 build**，取「零互链丢失 + 未归档段完整」的那一版；最多 1 次重试。
+- git：sync 自带 commit **`00523cd`**（3 files，含首次抖动的错误态）已 push；随后修正 commit **`cfb0aa7`**
+  （3 files，+13/-3，恢复未归档链接与 README「1 处未归档」计数）**push 成功**，
+  `HEAD == origin/main == cfb0aa7`（`00523cd..cfb0aa7`），工作树 clean。
+- **阻塞项待人工**：微信需**扫码登录**（登录窗在跑）；登录后还需手动打开一次「无语子点点」主页/任一文章页。
+  归档已停更在 **2026-10-15（13 天）**，阻塞形态由前 4 天的「客户端没启动」回到「进程在但掉登录」。
+
 ### 2026-10-27 08:00（**跳过：微信未启动**，0 新增，未跑 sync、未 push）
 - 前置检查：`tasklist /FI "IMAGENAME eq Weixin.exe"` → 「没有运行的任务匹配指定标准」；
   `Get-Process -Name Weixin` → **NO_WEIXIN_PROCESS**；全进程名正则 `weixin|wechat` → **NO_MATCH_ANY**
