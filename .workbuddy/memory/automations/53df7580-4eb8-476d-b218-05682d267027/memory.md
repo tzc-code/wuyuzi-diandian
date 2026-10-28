@@ -659,3 +659,25 @@
   scan 数量 → biz**；`is_logged_in()` 仅作参考。
 
 
+### 2026-10-28 22:00-22:04（微信在跑但 = **模式 D 掉登录连续第 2 轮**；0 新增）
+- Weixin.exe 在跑，**PID=22524**（与 08:00 同进程）；未走跳过分支。
+- **先跑 `precheck.py <repo>` 定案**：hwnd=**11866196**（08:00 是 263426，**UI 又重建**）、
+  唤醒后 rect `(811,325,1107,713)`=296x388 屏外、**`main window class = mmui::LoginWindow`**、
+  `is_logged_in=False`、`scan_wechat_docs()=0` ⇒ 模式 D；precheck 收尾已还原最小化。
+- **UIA 交叉验证（按 10-22 教训，类名不单独定案）**：主窗 11 条文本 =
+  `MMUIRenderSubWindowHW`/`当前登录用户长风⁶ᯤ`/`进入微信`×2/`切换账号`×2/`仅传输文件`×2/`关闭`/`微信`/`网络代理设置`，
+  **无 `发现/朋友圈/视频号`** ⇒ 确认真掉登录，`scan_docs=0`。与类名结论一致。
+- 跑 **1 次** sync 留证（rc=0，2m33s，**未重试**）：
+  `扫描 25s 未发现 WeChatAppEx 渲染的页面 → 微信登录态: 未登录(或仍在登录窗口) -> 需要人工扫码
+  → !! 找不到该号的 WebView`，收尾自动还原最小化。
+- fetch 83/83 OK、build 83 / skipped 0 / index 83（`articles/*.md` 83 == `state/index.json` 83、images 73），
+  **0 新增**，最新仍是 2026-10-15「2025.10.15」mid=2247484364。
+- git：sync 自带 git 段正常（`_resolve_git()` → `versions\1.3.0\mingw64\bin\git.exe`），
+  commit **`e4563fb`**（3 files：README 时间戳 + `.workbuddy/memory/2026-10-28.md` + d41bb672 memory）
+  push 成功；`git ls-remote origin refs/heads/main` 实测 = `e4563fb` == 本地 HEAD。属**失败副产物**。
+- 本次 **build 无抖动**（08:00 记录的 `build_repo.py` 非幂等抖动未复现；commit 仅 README + memory，零文章 diff）。
+- 结果：**本夜新增 0 篇**。
+- **恢复动作（需人工两步）**：① 登录窗点「进入微信」**扫码登录** ② 在微信里打开「无语子点点」主页/任一文章。
+- 归档停在 **2026-10-15**，停更 13 天；掉登录连续 10-27 22:00 / 10-28 08:00 / 10-28 22:00 三轮。
+- 诊断顺序稳定：**进程存在 → class + UIA 文本双验 → scan 数量 → biz**；`is_logged_in()` 仅参考。
+
