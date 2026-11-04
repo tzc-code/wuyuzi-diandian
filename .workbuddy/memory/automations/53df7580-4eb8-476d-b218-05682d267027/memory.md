@@ -811,3 +811,21 @@
 - **恢复动作（仅需一步，无需扫码）**：在微信里打开「无语子点点」主页/该号任一文章（关掉别家号页面）。
 - 模式轮转：10-27~11-02 = D（掉登录，8 轮）；11-03 = **E（已登录/开错号）**。
   ⇒ 每次都要独立判定，**不能沿用上轮结论**。诊断顺序（8 轮稳定）：进程 → class+UIA 双验 → scan 数 → biz。
+
+### 2026-11-04 22:00-22:03（**模式 E 连续第 2 轮：已登录/开错号**；0 新增）
+- Weixin.exe 在跑（PID 22524 + 多个子进程，WeChatAppEx 十余个）；未走跳过分支。
+- **precheck.py 一步定案**：hwnd=**1380716**（与 11-03 22:00 同值，**UI 连续 2 轮未重建**）、
+  唤醒后 rect **1207x780**、class `Qt51514QWindowIcon`、`is_logged_in=False`、`scan_wechat_docs()=1`。
+- **mode E**：唯一 WebView = 别家号《稳市场稳预期多项措施组合拳速览》，
+  `__biz=MjM5MDA1Njg0Ng==` ≠ 本号 `MzYzMTIxMjk4NQ==`（外来页 biz 每轮漂移：11-03 是 `Mzg5MzEyNzEwNQ==`）。
+- 跑 **1 次** sync 留证（rc=0，约 2m28s，**未重试**）：`命中 WebView hwnd=3086398 pid=38956`
+  → `>>> 回主页` → `!! 无法进入公众号主页, 退出`。`goto_profile()` 依赖页内本号名片，别家号页无该名片 ⇒ 脚本侧无解。
+- fetch 83/83 OK、build 83 / skipped 0 / index 83（`articles/*.md` 83、images 73），**0 新增**，
+  最新仍是 2026-10-15「2025.10.15」mid=2247484364（停更 20 天）。
+- git：sync 自带 git 段正常（`_resolve_git()`），commit **`c6bd094`**（2 files：README 时间戳 + d41bb672 memory）
+  push 成功；`git ls-remote origin refs/heads/main` 实测 = `c6bd094` == 本地 HEAD，工作树 clean。属**失败副产物**。
+- 收尾已把微信主窗口还原为最小化（hwnd=1380716, iconic=1 复验）。
+- 结果：**本夜新增 0 篇**。
+- **恢复动作（仅需一步，无需扫码）**：在微信里打开「无语子点点」主页/该号任一文章（关掉别家号页面）。
+- ⚠️ 模式 E 已连续 2 轮（11-03 / 11-04），且 `is_logged_in()` 持续误报 False（登录态其实正常），
+  定性时**只认 UIA 导航栏 + scan 数的 biz**，别被该函数带偏。
