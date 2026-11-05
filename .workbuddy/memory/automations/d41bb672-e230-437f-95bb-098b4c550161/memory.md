@@ -7,6 +7,23 @@
 
 ## 执行历史
 
+### 2026-11-05 08:03-08:09（**失败：模式 E 连续第 2 天（WebView 停在别家号文章页）**，0 新增；push 成功属失败副产物）
+- 前置：`tasklist | grep -i weixin` → **5 个 Weixin.exe**（主 22524，与 10-28~11-04 同 PID）+ **13 个 WeChatAppEx 残留**，未走跳过分支。
+- 跑前 `precheck.py .` 定案 **模式 E**：hwnd=**1380716**、唤醒后 rect `(308,230,1515,1010)`=1207x780 正常、类名 `Qt51514QWindowIcon`（**非** LoginWindow）、
+  `is_logged_in=False`（Qt 自绘误报）、`scan_wechat_docs()=1`，该页为**别家号** `biz=MjM5MDA1Njg0Ng==`
+  《稳市场稳预期多项措施组合拳速览》，本号 biz=`MzYzMTIxMjk4NQ==` ⇒ 登录正常、面板在，只是停错页。
+- 按规程跑 **1 次** sync（rc=0，08:06:04→08:08:31 ≈2m27s），**未重试**。harvest.log 末：
+  `已唤醒微信主窗口 hwnd=1380716` → `命中 WebView hwnd=3086398 pid=38956`（别家号 url）→ `>>> 回主页 ...`
+  → `!! 无法进入公众号主页, 退出`，已还原最小化。
+- fetch 83/83 OK；build=83 / skipped=0 / index=83；**三处一致**（`ls articles/*.md` 83 == index 83 == build 83），images 73。
+  **本次新增 0 篇**，最新仍 **2026-10-15「2025.10.15」**（停更 **21 天**）。
+- 本次**无构建抖动**（commit 仅 README.md 1 行时间戳，无非 README 意外 diff ⇒ 未重跑 build）。
+- git：commit **`507a312`**（1 file）**push 成功**，`HEAD == git ls-remote origin main == 507a312`，工作树 clean。
+  属**失败副产物**，非「0 新增正常」。
+- **阻塞项待人工（模式 E 连续 2 天）**：登录正常，只需**在微信里把内置浏览器切到「无语子点点」主页/任一文章页**
+  （顺手关掉别家号那篇），再跑一次即可自愈。脚本侧无解。
+- 观察：WeChatAppEx 残留进程从 3 个涨到 **13 个**，但可扫描 DocumentControl 仍只有 1 个 ⇒ 残留进程数不可作判据。
+
 ### 2026-11-04 08:07-08:15（**失败：模式 E（WebView 停在别家号文章页）**，0 新增；含构建抖动修正，最终 push 成功）
 - 前置：`tasklist /FI "IMAGENAME eq Weixin.exe"` → **5 个 Weixin.exe 进程在跑**（主 22524，与 10-28~11-03 同 PID），未走跳过分支。
 - 跑前 `precheck.py .` 定案 **模式 E**：hwnd=**1380716**、唤醒后 rect `(308,230,1515,1010)` = 1207x780 正常尺寸、
