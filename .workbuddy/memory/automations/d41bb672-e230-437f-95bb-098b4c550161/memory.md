@@ -7,6 +7,25 @@
 
 ## 执行历史
 
+### 2026-11-07 08:05-08:12（**失败：模式 D 掉登录复发（隔夜由 E′ 转 D）**，0 新增；含构建抖动修正，最终 push 成功）
+- 前置：`tasklist /FI "IMAGENAME eq Weixin.exe"` → **PID 22524**（与 10-28~11-06 同 PID），未走跳过分支。
+- 跑前 `precheck.py .` 定案 **模式 D**：hwnd=**594070**（新值）、唤醒后 rect `(811,325,1107,713)`=296x388、
+  **类名 `mmui::LoginWindow`**（最硬判据）、`is_logged_in=False`、`scan_wechat_docs()=0`。
+  与 11-04~11-06 的 E′（`Qt51514QWindowIcon` + 1207x780）不同 ⇒ **登录态掉了，回到 D**。
+- 按规程跑 **1 次** sync（rc=0，08:08:44→08:11:14 ≈2m30s），**未重试**。harvest.log 末：
+  `已唤醒微信主窗口 hwnd=594070` → `扫描 25s 未发现 WeChatAppEx 渲染的页面` → `微信登录态: 未登录 -> 需要人工扫码`
+  → `!! 找不到该号的 WebView`，已还原最小化。
+- **本次新增 0 篇**，最新仍 **2026-10-15「2025.10.15」**（停更 **23 天**）。
+- ★ **构建抖动第 3 次复现（丢失方向）**：sync 自发 commit `30a195b` 丢
+  `articles/2026-09-15 内陆运河，平陆运河建成.md` 的 1 条互链（2026-08-26 那篇）+ `state/index.json` refs 清空（-5 行），README 互链 12→11。
+  按既定处置 `git checkout HEAD~1 --` 两文件后**重跑 build_repo.py 一次即复原**（互链回 12、index 83、无未暂存 diff），
+  修正 commit **`aefdd8a`**（3 files，+13/-3）push 成功。
+- 三处一致：`ls articles/*.md` 83 == index 83 == build total 83，images 73。
+- 最终 HEAD = **`aefdd8a`** == `git ls-remote origin main`，工作树 clean。
+- **阻塞项待人工**：① 登录窗扫码登录（本轮窗口类名已明确是 LoginWindow）；② 登录后在微信里打开「无语子点点」主页/任一文章页。
+  脚本侧无解。
+- **建议：该号停更 23 天 + 连续 4 天不可达（11-04~07），强烈建议暂停本 automation 或人工处理后补跑。**
+
 ### 2026-11-06 08:00-08:05（**失败：模式 E′（面板整块丢失，WebView=0）**，0 新增；含构建抖动修正，最终 push 成功）
 - 前置：`tasklist | grep -i weixin` → **5 个 Weixin.exe**（主 22524，与 10-28~11-05 同 PID），未走跳过分支。
 - 跑前 `precheck.py .` 定案 **模式 E′**：hwnd=**1380716**、唤醒后 rect `(61,242,1268,1022)`=1207x780 正常、
