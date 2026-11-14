@@ -7,6 +7,22 @@
 
 ## 执行历史
 
+### 2026-11-14 10:10-10:13（**失败：模式 D 回归（无任何 WebView 页）**，0 新增；push 成功属失败副产物）
+- 前置：`tasklist | grep -i weixin` → **Weixin.exe 主 PID 19644**（与 11-11~11-13 同 PID）+ **3 个 WeChatAppEx**，未走跳过分支。
+- 跑前 `precheck.py .`：hwnd=**202128**、唤醒后 rect `(0,56,440,736)`=**440x680（新签名，非 160x28/296x388/1207x780）**、
+  类名 **`QWidget`（首次出现，既非 `mmui::LoginWindow` 也非 `Qt51514QWindowIcon`）**、`is_logged_in=False`、
+  `scan_wechat_docs()=0`。按 10-16 教训「scan=0 不足以判死」→ 实跑。
+- 按规程跑 **1 次** sync（rc=0，10:10:46→10:13:13 ≈2m27s），**未重试**。harvest.log 末：
+  `已唤醒微信主窗口 hwnd=202128 (SW_RESTORE)` → `扫描 25s 未发现 WeChatAppEx 渲染的页面`
+  → `微信登录态: 未登录(或仍在登录窗口) -> 需要人工扫码` → `!! 找不到该号的 WebView`，已还原最小化。
+- ⇒ 定性 **模式 D**（面板与登录两缺，比 11-13 的 E 更退化）⇒ **11-13 提出的人工处置未被执行**。
+- **本次新增 0 篇**，最新仍 **2026-10-15「2025.10.15」**（停更 **30 天**）。
+- **无构建抖动**：commit 仅 README.md 时间戳 + 本 memory（2 files，+20/-1）。
+- 三处一致：`ls articles/*.md`=83 == `state/index.json`=83 == build total 83，images 73。
+- git：commit **`1e8e585`** **push 成功**，`HEAD == git ls-remote origin main == 1e8e585`，工作树 clean。
+  属**失败副产物**，非「0 新增正常」。
+- **建议（第 11 次提出）：连续 11 天（11-04~11-14）抓取不可达 + 停更 30 天，强烈建议暂停本 automation，人工恢复后补跑。**
+
 ### 2026-11-13 10:20-10:23（**失败：模式 E 回归（WebView 停在别家号文章页）**，0 新增；push 成功属失败副产物）
 - 前置：`tasklist | grep -i weixin` → **Weixin.exe 主 PID 19644**（与 11-11/11-12 同 PID）+ 4 个 Weixin 子进程 + **14 个 WeChatAppEx**，未走跳过分支。
 - 跑前 `precheck.py .`：hwnd=**791316**、唤醒后 rect `(-32000,-32000,-31840,-31972)`=**160x28（还原失败/仍 iconic）**、
