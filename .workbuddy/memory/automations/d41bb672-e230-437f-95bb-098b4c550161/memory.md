@@ -7,6 +7,25 @@
 
 ## 执行历史
 
+### 2026-11-13 10:20-10:23（**失败：模式 E 回归（WebView 停在别家号文章页）**，0 新增；push 成功属失败副产物）
+- 前置：`tasklist | grep -i weixin` → **Weixin.exe 主 PID 19644**（与 11-11/11-12 同 PID）+ 4 个 Weixin 子进程 + **14 个 WeChatAppEx**，未走跳过分支。
+- 跑前 `precheck.py .`：hwnd=**791316**、唤醒后 rect `(-32000,-32000,-31840,-31972)`=**160x28（还原失败/仍 iconic）**、
+  类名 **`Qt51514QWindowIcon`**（**非** LoginWindow）、`is_logged_in=False`（Qt 自绘误报）、`scan_wechat_docs()=0`。
+  按 10-16 教训「scan=0 不足以判死」→ 实跑。
+- 按规程跑 **1 次** sync（rc=0，10:20:53→10:23:38 ≈2m45s），**未重试**。harvest.log：
+  `已唤醒微信主窗口 hwnd=791316` → `命中 WebView hwnd=2758154 pid=7656 cls=Chrome_RenderWidgetHostHWND`
+  → url `__biz=MzkwODM0MDQwNQ==&mid=2247491261`（**别家号**，本号 biz=`MzYzMTIxMjk4NQ==`）
+  → `>>> 回主页 ...` → `!! 无法进入公众号主页, 退出`，已还原最小化。
+- ⇒ **定性为模式 E**（登录态与窗口均较 11-11/12 的 D 好转：类名已非 LoginWindow、harvest 能命中可扫 WebView），
+  卡点从「掉登录」变成「WebView 停错页」。
+- **本次新增 0 篇**，最新仍 **2026-10-15「2025.10.15」**（停更 **29 天**）。
+- **无构建抖动**：commit 仅 README.md 时间戳 + 本 memory（2 files，+17/-1）。
+- 三处一致：`ls articles/*.md`=83 == `state/index.json`=83 == build total 83，images 73。
+- git：commit **`6cba68e`** **push 成功**，`HEAD == git ls-remote origin main == 6cba68e`，工作树 clean。
+  属**失败副产物**，非「0 新增正常」。
+- **阻塞项待人工**：在微信里把内置浏览器切到「无语子点点」主页或任一文章页（关掉别家号那篇），再跑一次即可自愈。脚本侧无解。
+- **建议（第 10 次提出）：停更 29 天 + 连续 10 天不可达，建议暂停本 automation，人工恢复后补跑。**
+
 ### 2026-11-12 08:09-08:14（**失败：模式 D 掉登录连续第 9 天**，0 新增；push 成功属失败副产物）
 - 前置：`tasklist /FI "IMAGENAME eq Weixin.exe"` → **PID 19644**（与 11-11 同 PID），未走跳过分支。
 - 跑前 `precheck.py .` 定案 **模式 D**（签名与 11-11 一致）：hwnd=**198022**、唤醒后 rect `(811,325,1107,713)`=296x388、
