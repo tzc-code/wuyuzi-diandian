@@ -1005,3 +1005,11 @@
   - commit `5b2ff7c` 已 push；跑两次幂等（仅 README 时间戳变）。
   - SKILL.md 新增 §12.1 / §12.2；`.gitignore` 加 `state/ext_titles.json`。
 - 下次执行同步时：正常走 harvest → fetch → build → push 流程即可；`build_repo.py` 已稳定。
+
+## 2026-11-18 10:14 自动化执行（模式E 别家号页面，0 新增）
+- Weixin.exe 在跑（pid 19644，11/11 启动），但第 1 次 harvest 报「25s 未发现 WebView → 判未登录」；
+  重试第 2 次命中 WebView，页面 biz=`MzI1MTU1NjczMg==`，**非目标号**（目标 biz=`MzYzMTIxMjk4NQ==`，84 篇全部一致），
+  停在别家号文章 mid=2247494974 → 「无法进入公众号主页」退出。与 11-16 同一失败模式。
+- 结论：0 新增。sync 正常走完 fetch/build/push，commit `9879e21` 仅 README 时间戳 + 本 memory（无实质文章变更）。
+- 未再重试（已达 2 次上限）。**判据固化**：harvest.log 里 url 的 `__biz` ≠ `MzYzMTIxMjk4NQ==` 即判「别家号页面」，
+  可直接结论为抓取前置条件不满足，不必再看 is_good/空壳报错。
