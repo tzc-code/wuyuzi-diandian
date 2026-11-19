@@ -1013,3 +1013,10 @@
 - 结论：0 新增。sync 正常走完 fetch/build/push，commit `9879e21` 仅 README 时间戳 + 本 memory（无实质文章变更）。
 - 未再重试（已达 2 次上限）。**判据固化**：harvest.log 里 url 的 `__biz` ≠ `MzYzMTIxMjk4NQ==` 即判「别家号页面」，
   可直接结论为抓取前置条件不满足，不必再看 is_good/空壳报错。
+
+## 2026-11-19 10:23 自动化执行（0 新增，模式E 复现）
+- Weixin.exe 在跑（主窗口 hwnd=334262）。第 1 次 harvest：25s 未发现 WebView，但「登录态: 已登录」→ 属②「该号 WebView 面板没开」。
+- 第 2 次 harvest：命中 WebView（hwnd=399680 pid=46056），url 的 `__biz=MzkwMDg3NTkzOQ==` ≠ 目标 `MzYzMTIxMjk4NQ==`，属**别家号文章页** → 「无法进入公众号主页」退出。
+- 同 11-16/11-18 同一失败模式（连续 3 次）：微信停留在别家号文章页，名片点击回主页失效。
+- 结果：0 新增，index 仍 84 篇。sync 照常走完 build/commit/push；commit `a4d4fb2`（第 1 次 `a493b32`）均只含 README 时间戳，origin/main 已同步。
+- 未再重试（达 2 次上限）。结论：抓取前置条件不满足，需人工把微信切到「无语子点点」主页/文章页。
