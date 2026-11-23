@@ -1035,3 +1035,10 @@
 - 2 次尝试（sync.py 全流程 + 单跑 harvest_list.py）均为：`扫描 25s 未发现 WeChatAppEx 渲染的页面` + 登录态判未登录，日志无「已唤醒主窗口」。
 - 结果：0 新增，index 仍 84；fetch 84/84 OK；build 84；commit `255ea57`（README 时间戳 + 本 memory）已 push，HEAD==origin/main。
 - 达 2 次上限即停，未再试。**连续 5 天（11-16~11-21）零新增**，前 3 天是「别家号 WebView」，近 2 天是「一个 WebView 都没有」→ 指向微信侧未登录/面板全关，非脚本问题。
+
+## 2026-11-22 10:11 自动化执行（0 新增；「无任何 WebView」连续第 3 天）
+- Weixin.exe PID 19644（仍为 11-11 启动的同一进程），WeChatAppEx 仅 3 个进程、无一可读渲染页面（同 11-21）。
+- 2 次尝试（sync.py 全流程 10:08 + 单跑 harvest_list.py 10:11）结果一致：
+  `扫描 25s 未发现 WeChatAppEx 渲染的页面` + 登录态判「未登录(或仍在登录窗口)」，无「已唤醒主窗口」日志。
+- 结果：0 新增，index 仍 84；fetch 84/84 OK；build 84 skipped 0；commit `5730ad0`（README 时间戳 + 本 memory）已 push，HEAD==origin/main。
+- 达 2 次上限即停。**连续 6 天（11-16~11-22）零新增**。需人工：确认微信是否已扫码登录，登录后手动打开一次「无语子点点」主页并保持面板不关。
