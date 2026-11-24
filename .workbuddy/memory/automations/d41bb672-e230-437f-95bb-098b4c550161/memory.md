@@ -1042,3 +1042,16 @@
   `扫描 25s 未发现 WeChatAppEx 渲染的页面` + 登录态判「未登录(或仍在登录窗口)」，无「已唤醒主窗口」日志。
 - 结果：0 新增，index 仍 84；fetch 84/84 OK；build 84 skipped 0；commit `5730ad0`（README 时间戳 + 本 memory）已 push，HEAD==origin/main。
 - 达 2 次上限即停。**连续 6 天（11-16~11-22）零新增**。需人工：确认微信是否已扫码登录，登录后手动打开一次「无语子点点」主页并保持面板不关。
+
+## 2026-11-23 10:16 自动化执行（0 新增；首次查明「微信已登录但面板未开」，且确认确有漏抓）
+- 微信今早 9:10 重启：Weixin 主进程仍是 PID 19644（11-11 启动）+ 4 个 9:10 子进程；WeChatAppEx 由前几日的 3 个增至 **7 个**（仍无 DocumentControl）。
+- 2 次尝试（sync.py 全流程 10:16 + 单跑 harvest_list.py 10:20）均：`扫描 25s 未发现 WeChatAppEx 渲染的页面` + 登录态判「未登录」。
+- **关键新证据**：置前截图（SetWindowPos HWND_TOPMOST，SetForegroundWindow 在本机抛 error 0 不可用）显示微信**实为已登录**，
+  聊天列表正常（文件传输助手/公众号/多个群）→ 脚本的 `is_logged_in`（找 ToolBarControl '导航'）在此版本是**假阴性**，不能作为判据。
+- UIA 探测主窗口：整棵树只有 2 个节点（PaneControl 'Weixin' + 'MMUIRenderSubWindowHW'），**完全自绘、读不到也点不到**聊天列表 → 无法自动打开公众号面板。
+  WeChatAppEx 侧仅 6 个窗口，唯一有尺寸的 Chrome_WidgetWin_0(26,26,1466,779) 是 hidden，无任何可恢复的文章页。
+- **证实有漏抓**：WebSearch 命中该 biz(MzYzMTIxMjk4NQ==) 的 `mid=2247484389`（> 库内最新 2247484330），
+  HTTP 直取得 200 / 3.8MB，标题「2026.11.22」、ct=1795337455 → 日期 2026-11-22，非空壳。即**至少 1 篇待补**。
+- 结果：0 新增，index 仍 84（最新 2026-11-09「半夜睡不着瞎写」）；fetch 84/84 OK；build 84；commit `00b21e9` 仅 README 时间戳 + 本 memory，已 push，HEAD==origin/main。
+- 达 2 次上限即停。**连续 7 天（11-16~11-23）零新增**。处置：人工在微信打开「无语子点点」主页并保持面板不关；
+  另建议把 `is_logged_in` 判据从 ToolBarControl 改为「主窗口存在且非登录态窗口」，避免后续日志误导。
