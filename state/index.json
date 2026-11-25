@@ -1319,5 +1319,30 @@
   "refs": [],
   "ext": [],
   "unresolved": []
+ },
+ "2247484389": {
+  "title": "2026.11.22",
+  "subtitle": "银行股红利不再低估，股市长牛与二次冲击并存",
+  "subtitle_src": "llm",
+  "date": "2026-11-22",
+  "datetime": "2026-11-22 16:50",
+  "url": "https://mp.weixin.qq.com/s?__biz=MzYzMTIxMjk4NQ==&mid=2247484389&idx=1&sn=f3613c0913c75069252bd51e4789e00d&chksm=f1d6859d84131157f3655aab9de74adc41e9b23b0aae375582ea97cac4c42e7b0c897b5c4d90",
+  "file": "articles/2026-11-22 2026.11.22.md",
+  "imgs": 5,
+  "chars": 2017,
+  "refs": [
+   {
+    "mid": "2247483663",
+    "title": "美元周期",
+    "file": "articles/2026-04-13 美元周期.md"
+   }
+  ],
+  "ext": [
+   {
+    "url": "https://www.zhihu.com/question/2106680675231339228/answer/2107404368609808740?share_code=c70wJRrlhlUW&utm_psn=2107876341982950124",
+    "title": ""
+   }
+  ],
+  "unresolved": []
  }
 }
